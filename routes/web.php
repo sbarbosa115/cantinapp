@@ -11,5 +11,8 @@
 |
 */
 
-Route::get('/', 'Restaurant\HomeController@index');
+Route::get('/restaurant', 'Restaurant\HomeController@index')->name('restaurant.index');
+Route::get('/restaurant/create', 'Restaurant\HomeController@create')->name('restaurant.create');
+Route::post('/restaurant/create', 'Restaurant\HomeController@store')->name('restaurant.store');
+
 Route::get('/api/candidates', 'HomeController@getCandidates');
