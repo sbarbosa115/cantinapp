@@ -8,9 +8,10 @@ window._ = require('lodash');
  */
 
 try {
-    window.$ = window.jQuery = require('jquery');
-    require('bootstrap');
+    //window.$ = window.jQuery = require('jquery');
+    require('bootstrap/dist/js/bootstrap.bundle');
     require('startbootstrap-sb-admin/js/sb-admin');
+    //require('startbootstrap-sb-admin/js/sb-admin-datatables');
 } catch (e) {}
 
 /**

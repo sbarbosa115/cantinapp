@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="shortcut icon" href="images/favicon.ico">
     <link rel="stylesheet" href="{{ asset("css/app.css") }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
@@ -19,9 +20,21 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav navbar-sidenav">
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Create Products">
-                <a class="nav-link" href="{{ route("restaurant.index") }}">
+                <a class="nav-link" href="{{ route("restaurant.product.index") }}">
                     <i class="fa fa-fw fa-shopping-basket"></i>
                     <span class="nav-link-text">Products</span>
+                </a>
+            </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Create Products">
+                <a class="nav-link" href="{{ route("restaurant.orders.index") }}">
+                    <i class="fa fa-fw fa-list"></i>
+                    <span class="nav-link-text">Orders</span>
+                </a>
+            </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Create Products">
+                <a class="nav-link" href="{{ route("restaurant.orders.index") }}">
+                    <i class="fa fa-fw fa-money"></i>
+                    <span class="nav-link-text">Recharge</span>
                 </a>
             </li>
         </ul>
@@ -46,8 +59,12 @@
 </a>
 
 
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+
 <script src="{{ asset("js/app.js") }}"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 @yield('javascript')
 </body>
 </html>
