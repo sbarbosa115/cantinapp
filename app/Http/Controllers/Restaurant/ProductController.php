@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Restaurant;
 
 use App\Product;
-use App\Restaurant;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Validator;
 
@@ -54,7 +52,7 @@ class ProductController extends Controller
         $validator = $this->validator($request->all());
 
         if ($validator->fails()){
-            return redirect()->back()->withErrors($validator->errors());
+            return redirect()->back()->withInput()->withErrors($validator->errors());
         }
 
         $image = $this->uploadImage($request);
@@ -91,11 +89,7 @@ class ProductController extends Controller
      * @return $this
      */
     public function update(Request $request, $id){
-        $product = Product::find($id);
-
-        if(!$product){
-            abort(404);
-        }
+        $product = Product::findOrFail($id);
 
         $validator = $this->validator($request->all());
 
@@ -106,18 +100,18 @@ class ProductController extends Controller
         $product->update($request->all());
 
         $request->session()->flash('success', 'The action was completed successfully.');
+
         return redirect()->route("restaurant.product.index");
     }
 
     /**
-     * Remove
+     * Remove product from available products.
+     * @param Request $request Request object.
+     * @param $id Product id.
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request, $id){
-        $product = Product::find($id);
-
-        if(!$product){
-            abort(404);
-        }
+        $product = Product::findOrFail($id);
 
         $product->delete();
 

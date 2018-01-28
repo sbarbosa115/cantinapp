@@ -19,20 +19,26 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav navbar-sidenav">
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Create Products">
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="View Products">
                 <a class="nav-link" href="{{ route("restaurant.product.index") }}">
                     <i class="fa fa-fw fa-shopping-basket"></i>
                     <span class="nav-link-text">Products</span>
                 </a>
             </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Create Products">
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="View Orders">
                 <a class="nav-link" href="{{ route("restaurant.orders.index") }}">
                     <i class="fa fa-fw fa-list"></i>
                     <span class="nav-link-text">Orders</span>
                 </a>
             </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Create Products">
-                <a class="nav-link" href="{{ route("restaurant.orders.index") }}">
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="View Employees">
+                <a class="nav-link" href="{{ route("restaurant.employee.index") }}">
+                    <i class="fa fa-fw fa-user"></i>
+                    <span class="nav-link-text">Employee</span>
+                </a>
+            </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="View Orders">
+                <a class="nav-link" href="{{ route("restaurant.balance.index") }}">
                     <i class="fa fa-fw fa-money"></i>
                     <span class="nav-link-text">Recharge</span>
                 </a>
@@ -48,7 +54,7 @@
 <footer class="sticky-footer">
     <div class="container">
         <div class="text-center">
-            <small>Copyright © Your Website 2017</small>
+            <small>Copyright © Cantinapp 2018</small>
         </div>
     </div>
 </footer>

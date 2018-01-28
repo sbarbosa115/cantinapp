@@ -5,10 +5,7 @@
 
     <div class="content-wrapper">
         <div class="container-fluid">
-            <form method="post">
-                {!! csrf_field() !!}
-                @yield("form")
-            </form>
+            @yield("form")
         </div>
     </div>
 

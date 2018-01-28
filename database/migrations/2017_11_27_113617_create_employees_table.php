@@ -18,8 +18,8 @@ class CreateEmployeesTable extends Migration
             $table->timestamps();
             $table->string("name", 255);
             $table->string("username", 255);
-            $table->date("birth_date");
-            $table->string("email", "255");
+            $table->date("birth_date")->nullable();
+            $table->string("email", "255")->nullable();
             $table->string("identification", 255);
             $table->string("password", 255);
 

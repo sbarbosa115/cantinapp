@@ -11,21 +11,40 @@
 |
 */
 
-Route::group(['prefix' => 'restaurant', 'as' => 'restaurant.'], function () {
-    Route::get('/login', 'Restaurant\LoginController@index')->name('index.index');
-    Route::post('/login', 'Restaurant\LoginController@login')->name('index.login');
 
-    Route::get('/product', 'Restaurant\ProductController@index')->name('product.index');
-    Route::get('/product/create', 'Restaurant\ProductController@create')->name('product.create');
-    Route::post('/product/create', 'Restaurant\ProductController@store')->name('product.store');
-    Route::get('/product/edit/{id}', 'Restaurant\ProductController@edit')->name('product.edit');
-    Route::post('/product/edit/{id}', 'Restaurant\ProductController@update')->name('product.update');
-    Route::delete('/product/delete/{id}', 'Restaurant\ProductController@destroy')->name('product.delete');
+Route::group(['prefix' => 'restaurant', 'as' => 'restaurant.', 'namespace' => 'Restaurant'], function () {
+
+    Route::get('/product', 'ProductController@index')->name('product.index');
+    Route::get('/product/create', 'ProductController@create')->name('product.create');
+    Route::post('/product/create', 'ProductController@store')->name('product.store');
+    Route::get('/product/edit/{id}', 'ProductController@edit')->name('product.edit');
+    Route::post('/product/edit/{id}', 'ProductController@update')->name('product.update');
+    Route::delete('/product/delete/{id}', 'ProductController@destroy')->name('product.delete');
     
 
-    Route::get('/order', 'Restaurant\OrdersController@index')->name('orders.index');
-    Route::get('/order/detail/{id}', 'Restaurant\OrdersController@detail')->name('orders.detail');
-    Route::post('/order/status/{id}', 'Restaurant\OrdersController@status')->name('orders.status');
-    Route::get('/order/change/{id}/{status}', 'Restaurant\OrdersController@change')->name('orders.change');
+    Route::get('/order', 'OrdersController@index')->name('orders.index');
+    Route::get('/order/detail/{id}', 'OrdersController@detail')->name('orders.detail');
+    Route::post('/order/status/{id}', 'OrdersController@status')->name('orders.status');
+    Route::get('/order/change/{id}/{status}', 'OrdersController@change')->name('orders.change');
 
+
+    Route::get('/employee', 'EmployeeController@index')->name('employee.index');
+    Route::get('/employee/create', 'EmployeeController@create')->name('employee.create');
+    Route::post('/employee/create', 'EmployeeController@store')->name('employee.store');
+    Route::get('/employee/edit/{id}', 'EmployeeController@edit')->name('employee.edit');
+    Route::patch('/employee/edit/{id}', 'EmployeeController@update')->name('employee.update');
+    Route::delete('/employee/delete/{id}', 'EmployeeController@destroy')->name('employee.delete');
 });
+
+Auth::routes();
+
+Route::group(['prefix' => 'restaurant', 'as' => 'restaurant.', 'namespace' => 'Restaurant\Auth'], function() {
+    Route::get('/login', 'LoginController@showLoginForm')->name('login');
+    Route::post('/login', 'LoginController@login')->name('login.submit');
+    Route::get('logout/', 'LoginController@logout')->name('logout');
+    Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    Route::post('password/reset', 'ForgotPasswordController@reset')->name('password.request.reset');
+    Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.request');
+    Route::get('password/reset/{token}', 'ForgotPasswordController@showResetForm')->name('password.reset');
+});
+
