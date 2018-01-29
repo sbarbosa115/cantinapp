@@ -22,4 +22,12 @@ class Order extends Model
     public function products(){
         return $this->belongsToMany(Product::class)->withPivot('product_id', 'order_id', 'quantity', 'comment');
     }
+
+    /**
+    * Return the quantity order total items required.
+    */
+    public function getTotalQuantityOrder(){
+        $result = $this->belongsToMany(Product::class)->withPivot('quantity')->pluck("quantity");
+        return array_sum($result->toArray());
+    }
 }

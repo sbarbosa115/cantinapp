@@ -34,6 +34,10 @@ Route::group(['prefix' => 'restaurant', 'as' => 'restaurant.', 'namespace' => 'R
     Route::get('/employee/edit/{id}', 'EmployeeController@edit')->name('employee.edit');
     Route::patch('/employee/edit/{id}', 'EmployeeController@update')->name('employee.update');
     Route::delete('/employee/delete/{id}', 'EmployeeController@destroy')->name('employee.delete');
+
+    Route::get('/balance', 'BalanceController@index')->name('balance.index');
+    Route::get('/balance/create/{id}', 'BalanceController@create')->name('balance.create');
+    Route::post('/balance/store', 'BalanceController@store')->name('balance.store');
 });
 
 Auth::routes();

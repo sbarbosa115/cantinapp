@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Model\Balance;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -26,4 +27,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Return the current balance relationship.
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function balance(){
+        return $this->hasMany(Balance::class);
+    }
 }

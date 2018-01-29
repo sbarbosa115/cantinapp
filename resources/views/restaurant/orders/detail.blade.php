@@ -10,16 +10,16 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>Dish</th>
                     <th>Quantity</th>
+                    <th>Dish</th>
                     <th>Customer Comment</th>
                 </tr>
                 </thead>
                 <tbody>
                     @foreach($order->products()->get() as $product)
                         <tr>
+                            <td class="text-center">{{ $product->pivot->quantity }}</td>
                             <td>{{ $product->name  }}</td>
-                            <td>{{ $product->pivot->quantity }}</td>
                             <td>{{ $product->pivot->comment }}</td>
                         </tr>
                     @endforeach
@@ -28,7 +28,6 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
         </div>
     </div>
 </div>

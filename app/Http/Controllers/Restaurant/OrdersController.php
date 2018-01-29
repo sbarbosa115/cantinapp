@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Restaurant;
 
 use Illuminate\Http\Request;
 use App\Order;
+use App\Utils\Orders;
 use Validator;
 
 class OrdersController extends Controller
@@ -65,16 +66,19 @@ class OrdersController extends Controller
             return redirect()->back()->withErrors($validator->errors());
         }
 
-        $order = Order::find($id);
-        if(!$order){
-            abort(404, "The request orders doesn't exists.");
+        $order = Order::findOrFail($id);
+        $data = $request->all();
+
+        if($order->status === "cooking" && $data["status"] === "delivery"){
+            (new Orders())->crossBalanceAndOrder($order);
         }
 
-        $data = $request->all();
         $order->status = $data["status"];
         $order->save();
 
         $request->session()->flash('success', "The order was changed to {$order->status} successfully.");
         return redirect()->route("restaurant.orders.index");
     }
+
+
 }

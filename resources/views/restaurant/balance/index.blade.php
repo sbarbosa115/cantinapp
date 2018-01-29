@@ -5,24 +5,12 @@
 
     <div class="content-wrapper">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-xl-3 col-sm-6 mb-3">
-                    <div class="card text-white bg-primary o-hidden h-100">
-                        <a class="card-footer text-white clearfix small z-1" href="{{ route("restaurant.employee.create") }}" id="create-item">
-                            <span class="float-left">Create new employee</span>
-                            <span class="float-right">
-                            <i class="fa fa-user"></i>
-                          </span>
-                        </a>
-                    </div>
-                </div>
-            </div>
 
             @include('restaurant.partials._flash')
 
             <div class="card mb-3">
                 <div class="card-header">
-                    All products stored
+                    Recharge user's balance
                 </div>
                 <div class="card-body">
 
@@ -30,8 +18,8 @@
                         <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Username</th>
                             <th>Email</th>
+                            <th>Balance</th>
                             <th>Options</th>
                         </tr>
                         </thead>
@@ -39,16 +27,12 @@
                         @foreach($items as $item)
                             <tr>
                                 <td>{{$item->name}}</td>
-                                <td>{{$item->username}}</td>
                                 <td>{{$item->email}}</td>
+                                <td>{{$item->balance()->count()}}</td>
                                 <td>
-                                    <a class="btn btn-primary btn-sm" href="{{ route("restaurant.employee.edit", ["id" => $item->id]) }}">Edit</a>
-
-                                    <form action="{{ route("restaurant.employee.delete", ["id" => $item->id]) }}" method="post" style="display: inline;">
-                                        {{ method_field('DELETE') }}
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-danger btn-sm" value="Delete">
-                                    </form>
+                                    <a class="btn btn-primary btn-sm" href="{{ route("restaurant.employee.edit", ["id" => $item->id]) }}">Ver</a>
+                                    <a class="btn btn-success btn-sm load-balance" href="{{ route("restaurant.balance.create", ["id" => $item->id]) }}">Load</a>
+                                    <a class="btn btn-primary btn-sm" href="{{ route("restaurant.employee.edit", ["id" => $item->id]) }}">Entregar</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -66,7 +50,22 @@
 @section('javascript')
     <script>
         $(document).ready( function () {
+            $('#entities').DataTable();
 
+            $('.load-balance').click(function(e) {
+                e.preventDefault();
+                console.log("event prevet");
+                var url = $(this).attr('href');
+                if (url.indexOf('#') == 0) {
+                    $(url).modal('open');
+                } else {
+                    $.get(url, function(data) {
+                        $('<div class="modal hide fade">' + data + '</div>').modal();
+                    });
+                }
+            });
         });
+
+
     </script>
 @endsection('javascript')
