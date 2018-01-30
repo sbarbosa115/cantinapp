@@ -30,7 +30,7 @@
                                 <td>{{$item->email}}</td>
                                 <td>{{$item->balance()->count()}}</td>
                                 <td>
-                                    <a class="btn btn-primary btn-sm" href="{{ route("restaurant.employee.edit", ["id" => $item->id]) }}">Ver</a>
+                                    <a class="btn btn-info btn-sm view-log" href="{{ route("restaurant.balance.log", ["id" => $item->id]) }}">Ver</a>
                                     <a class="btn btn-success btn-sm load-balance" href="{{ route("restaurant.balance.create", ["id" => $item->id]) }}">Load</a>
                                     <a class="btn btn-primary btn-sm" href="{{ route("restaurant.employee.edit", ["id" => $item->id]) }}">Entregar</a>
                                 </td>
@@ -54,7 +54,18 @@
 
             $('.load-balance').click(function(e) {
                 e.preventDefault();
-                console.log("event prevet");
+                var url = $(this).attr('href');
+                if (url.indexOf('#') == 0) {
+                    $(url).modal('open');
+                } else {
+                    $.get(url, function(data) {
+                        $('<div class="modal hide fade">' + data + '</div>').modal();
+                    });
+                }
+            });
+
+            $('.view-log').click(function(e) {
+                e.preventDefault();
                 var url = $(this).attr('href');
                 if (url.indexOf('#') == 0) {
                     $(url).modal('open');

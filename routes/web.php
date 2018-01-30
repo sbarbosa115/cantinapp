@@ -38,6 +38,7 @@ Route::group(['prefix' => 'restaurant', 'as' => 'restaurant.', 'namespace' => 'R
     Route::get('/balance', 'BalanceController@index')->name('balance.index');
     Route::get('/balance/create/{id}', 'BalanceController@create')->name('balance.create');
     Route::post('/balance/store', 'BalanceController@store')->name('balance.store');
+    Route::get('/balance/log/{id}', 'BalanceController@log')->name('balance.log');
 });
 
 Auth::routes();

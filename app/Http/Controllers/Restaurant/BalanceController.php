@@ -54,4 +54,13 @@ class BalanceController extends Controller
         $request->session()->flash('success', "The user {$user->name} now has a new account balance.");
         return redirect()->route("restaurant.balance.index");
     }
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function log($id){
+        $items = Balance::where("user_id", "=", $id)->where("status", "=", "spent")->orderBy("id", "asc")->get();
+        $user = User::find($id);
+        return view("restaurant.balance.log", ["items" => $items, "user" => $user]);
+    }
 }
