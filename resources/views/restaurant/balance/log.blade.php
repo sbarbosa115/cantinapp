@@ -10,23 +10,23 @@
             <h5>Current Balance: {{ $user->balance()->count() }}</h5>
             <table class="table">
                 @if($items->count())
-                <thead>
-                    <caption>Dishes taken</caption>
-                    <tr>
-                        <th>Dish</th>
-                        <th>Date Created</th>
-                        <th>Date Taken</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($items as $item)
+                    <thead>
+                        <caption>Dishes taken</caption>
                         <tr>
-                            <td class="text-center">{{ $item->getProductAttribute("name") }}</td>
-                            <td>{{ $item->created_at->toFormattedDateString() }}</td>
-                            <td>{{ $item->updated_at->toFormattedDateString()  }}</td>
+                            <th>Dish</th>
+                            <th>Date Created</th>
+                            <th>Date Taken</th>
                         </tr>
-                    @endforeach
-                </tbody>
+                    </thead>
+                    <tbody>
+                        @foreach($items as $item)
+                            <tr>
+                                <td class="text-center">{{ $item->getProductAttribute("name") }}</td>
+                                <td>{{ $item->created_at->toFormattedDateString() }}</td>
+                                <td>{{ $item->updated_at->toFormattedDateString()  }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                 @else
                     <h5>This user has not yet ordered.</h5>
                 @endif

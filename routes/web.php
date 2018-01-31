@@ -14,6 +14,7 @@
 
 Route::group(['prefix' => 'restaurant', 'as' => 'restaurant.', 'namespace' => 'Restaurant'], function () {
 
+    Route::get('/', 'ProductController@index')->name('product.index');
     Route::get('/product', 'ProductController@index')->name('product.index');
     Route::get('/product/create', 'ProductController@create')->name('product.create');
     Route::post('/product/create', 'ProductController@store')->name('product.store');
