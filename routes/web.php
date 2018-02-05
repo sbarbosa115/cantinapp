@@ -11,7 +11,6 @@
 |
 */
 
-
 Route::group(['prefix' => 'restaurant', 'as' => 'restaurant.', 'namespace' => 'Restaurant'], function () {
 
     Route::get('/', 'ProductController@index')->name('product.index');
@@ -21,13 +20,11 @@ Route::group(['prefix' => 'restaurant', 'as' => 'restaurant.', 'namespace' => 'R
     Route::get('/product/edit/{id}', 'ProductController@edit')->name('product.edit');
     Route::post('/product/edit/{id}', 'ProductController@update')->name('product.update');
     Route::delete('/product/delete/{id}', 'ProductController@destroy')->name('product.delete');
-    
 
     Route::get('/order', 'OrdersController@index')->name('orders.index');
     Route::get('/order/detail/{id}', 'OrdersController@detail')->name('orders.detail');
     Route::post('/order/status/{id}', 'OrdersController@status')->name('orders.status');
     Route::get('/order/change/{id}/{status}', 'OrdersController@change')->name('orders.change');
-
 
     Route::get('/employee', 'EmployeeController@index')->name('employee.index');
     Route::get('/employee/create', 'EmployeeController@create')->name('employee.create');
@@ -40,17 +37,35 @@ Route::group(['prefix' => 'restaurant', 'as' => 'restaurant.', 'namespace' => 'R
     Route::get('/balance/create/{id}', 'BalanceController@create')->name('balance.create');
     Route::post('/balance/store', 'BalanceController@store')->name('balance.store');
     Route::get('/balance/log/{id}', 'BalanceController@log')->name('balance.log');
+
+    Auth::routes();
+
+    Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
+    Route::post('/login', 'Auth\LoginController@login')->name('login.submit');
+    Route::get('logout/', 'Auth\LoginController@logout')->name('logout');
+    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    Route::post('password/reset', 'Auth\ForgotPasswordController@reset')->name('password.request.reset');
+    Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+    Route::get('password/reset/{token}', 'Auth\ForgotPasswordController@showResetForm')->name('password.reset');
 });
 
-Auth::routes();
 
-Route::group(['prefix' => 'restaurant', 'as' => 'restaurant.', 'namespace' => 'Restaurant\Auth'], function() {
-    Route::get('/login', 'LoginController@showLoginForm')->name('login');
-    Route::post('/login', 'LoginController@login')->name('login.submit');
-    Route::get('logout/', 'LoginController@logout')->name('logout');
-    Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-    Route::post('password/reset', 'ForgotPasswordController@reset')->name('password.request.reset');
-    Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.request');
-    Route::get('password/reset/{token}', 'ForgotPasswordController@showResetForm')->name('password.reset');
+Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
+    Route::get('/profile', 'HomeController@profile')->name('home.profile');
+
+    Auth::routes();
+
+    Route::get('/', 'HomeController@index')->name('home.index');
+
+
+    Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
+    Route::post('/login', 'Auth\LoginController@login')->name('login.submit');
+    Route::get('logout/', 'Auth\LoginController@logout')->name('logout');
+    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    Route::post('password/reset', 'Auth\ForgotPasswordController@reset')->name('password.request.reset');
+    Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+    Route::get('password/reset/{token}', 'Auth\ForgotPasswordController@showResetForm')->name('password.reset');
 });
+
+
 

@@ -31,8 +31,6 @@
                         @endif
                     </div>
 
-                    {{ dump($errors) }}
-
                     <div class="form-group">
                         <div class="form-check">
                             <label>
@@ -58,18 +56,14 @@
 @section('javascript')
     <script>
         $(document).ready( function () {
-
             $('.nav-tabs a').click(function(e){
                 var _option = $(e.currentTarget).html();
                 if(_option === "Products"){
                     $('#entities').DataTable();
                     console.log("Opening datatables");
-                }0
+                }
                 $(this).tab('show');
             })
-
         });
-
-
     </script>
 @endsection('javascript')

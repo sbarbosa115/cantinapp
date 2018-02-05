@@ -63,8 +63,11 @@ class Handler extends ExceptionHandler
             case 'employee':
                 $login = 'restaurant.login';
                 break;
+            case 'user':
+                $login = 'frontend.login';
+                break;
             default:
-                $login = 'login';
+                $login = 'frontend.login';
                 break;
         }
         return redirect()->guest(route($login));
