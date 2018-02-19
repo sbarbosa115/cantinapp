@@ -31,4 +31,16 @@ mix.combine([
     'resources/assets/frontend/js/jquery.touchSwipe.min.js',
     'resources/assets/frontend/js/jquery.fancybox.js',
 ], 'public/frontend/js/app.js')
-.combine(['resources/assets/frontend/css/*.css'], 'public/frontend/css/app.css');
+.combine([
+    'resources/assets/frontend/css/bootstrap.min.css',
+    'resources/assets/frontend/css/fonts.googleapis.css',
+    'resources/assets/frontend/css/font-awesome.min.css',
+    'resources/assets/frontend/css/icon-font.min.css',
+    'resources/assets/frontend/css/cs.styles.css',
+    'resources/assets/frontend/css/font-icon.css',
+    'resources/assets/frontend/css/spr.css',
+    'resources/assets/frontend/css/slideshow-fade.css',
+    'resources/assets/frontend/css/cs.animate.css',
+    'resources/assets/frontend/css/themepunch.revolution.css',
+    'resources/assets/frontend/css/jquery.fancybox.css',
+], 'public/frontend/css/app.css');

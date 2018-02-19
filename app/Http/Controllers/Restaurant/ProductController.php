@@ -97,6 +97,9 @@ class ProductController extends Controller
             return redirect()->back()->withErrors($validator->errors());
         }
 
+
+        $this->uploadImage($request);
+
         $product->update($request->all());
 
         $request->session()->flash('success', 'The action was completed successfully.');

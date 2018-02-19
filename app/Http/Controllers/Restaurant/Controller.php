@@ -23,14 +23,18 @@ class Controller extends BaseController
      * @param string $path Optional location where the image will be.
      * @return string URI image with name.
      */
-    public function uploadImage(Request $request, $path = '/uploads'){
+    public function uploadImage(Request &$request, $path = '/uploads'){
+        $return = null;
 
-        $image = $request->file('image');
-        $name = md5(time() . rand(0,9999)).'.'.$image->getClientOriginalExtension();
-        $destinationPath = public_path($path);
-        $image->move($destinationPath, $name);
+        if($request->file('image')){
+            $image = $request->file('image');
+            $name = md5(time() . rand(0,9999)).'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path($path);
+            $image->move($destinationPath, $name);
 
-        return "{$path}/{$name}";
+            $request->request->add(['image_path' => "{$path}/{$name}"]);
+        }
+
     }
 
 

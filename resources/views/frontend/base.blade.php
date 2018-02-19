@@ -6,25 +6,19 @@
     <link rel="canonical" href="/" />
     <meta name="theme-color" content="#7796A8">
     <meta name="description" content="" />
-    <title>
-        Fast Food
-    </title>
+    <title> Fast Food</title>
 
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Playball:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Bitter:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-    <link href="{{  asset('frontend/css/app.css') }}" rel="stylesheet" type="text/css" media="all">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">
-
+    <link href="{{  asset('frontend/css/app.css') }}" rel="stylesheet" type="text/css" media="all">
 
     <script type="text/javascript" src="{{ asset('frontend/js/app.js') }}"></script>
-
 </head>
 
-
-
-<body class="fastfood_1" >
+<body class="fastfood_1 @yield('body_class')">
 
 <!--Header-->
 <header id="top" class="header clearfix">
@@ -416,7 +410,13 @@
 <div class="fix-sticky"></div>
 
 <!-- Main Content -->
-@yield('content')
+<div class="page-container" id="PageContainer">
+    <main class="main-content" id="MainContent" role="main">
+
+        @yield('content')
+
+    </main>
+</div>
 
 <!-- Footer -->
 <footer class="footer">

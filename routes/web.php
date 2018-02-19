@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['prefix' => 'restaurant', 'as' => 'restaurant.', 'namespace' => 'Restaurant'], function () {
+Route::group(['prefix' => '99', 'as' => 'restaurant.', 'namespace' => 'Restaurant'], function () {
 
     Route::get('/', 'ProductController@index')->name('product.index');
     Route::get('/product', 'ProductController@index')->name('product.index');
@@ -57,14 +57,17 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
 
     Route::get('/', 'HomeController@index')->name('home.index');
 
-
     Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
     Route::post('/login', 'Auth\LoginController@login')->name('login.submit');
+    Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+    Route::post('/register', 'Auth\RegisterController@register')->name('register.create');
     Route::get('logout/', 'Auth\LoginController@logout')->name('logout');
     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
     Route::post('password/reset', 'Auth\ForgotPasswordController@reset')->name('password.request.reset');
     Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
     Route::get('password/reset/{token}', 'Auth\ForgotPasswordController@showResetForm')->name('password.reset');
+
+
 });
 
 

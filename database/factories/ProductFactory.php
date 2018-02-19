@@ -13,14 +13,12 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
-    static $password;
-
+$factory->define(App\Product::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'username' => $faker->userName,
-        'password' => $password ?: $password = bcrypt('secret'),
-        'remember_token' => str_random(10),
+        'description' => $faker->text(200),
+        'image_path' =>  "/uploads/67bead9a4203c3fa8a93e7342d5cf73c.jpg",
+        'price' => mt_rand(7, 20),
     ];
 });
+
