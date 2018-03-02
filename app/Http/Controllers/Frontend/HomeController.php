@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Model\Taxonomy;
+use App\Utils\Orders;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Frontend\Controller;
 
@@ -15,7 +16,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except('index');
+        $this->middleware('auth')->except(['index']);
     }
 
     /**
@@ -23,11 +24,9 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(){
-        $categories = Taxonomy::where("type", "=", "category")->get();
-        $tags = Taxonomy::where("type", "=", "tags")->get();
-
-        return view("frontend.home.index", ["categories" => $categories, "tags" => $tags]);
+        return view("frontend.home.index");
     }
+
 
 
 }

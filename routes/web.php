@@ -56,7 +56,6 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
     Auth::routes();
 
     Route::get('/', 'HomeController@index')->name('home.index');
-
     Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
     Route::post('/login', 'Auth\LoginController@login')->name('login.submit');
     Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('register');
@@ -67,7 +66,11 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
     Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
     Route::get('password/reset/{token}', 'Auth\ForgotPasswordController@showResetForm')->name('password.reset');
 
-
+    Route::get('api/categories', 'TaxonomyController@categories')->name('taxonomies.categories');
+    Route::get('order/add/{id}', 'OrderController@product')->name('order.add');
+    Route::post('order/add/product', 'OrderController@addProduct')->name('order.add.product');
+    Route::get('order/new', 'OrderController@create')->name('order.get.product');
+    Route::get('order/confirm', 'OrderController@confirmTime')->name('order.confirm');
 });
 
 

@@ -54,4 +54,15 @@ class Product extends Model
         return "$ " . number_format($this->price, 2);
     }
 
+    /**
+     * Return the total order by product
+     */
+    public function getTotalProductOrder(){
+        $result = 0;
+        if(isset($this->quantity)){
+            $result  = $this->quantity * $this->price;
+        }
+        return $result;
+    }
+
 }

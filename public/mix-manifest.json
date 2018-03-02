@@ -1,6 +1,8 @@
 {
+    "/frontend/js/custom.js": "/frontend/js/custom.js",
     "/restaurant/js/app.js": "/restaurant/js/app.js",
     "/restaurant/css/app.css": "/restaurant/css/app.css",
+    "/frontend/css/custom.css": "/frontend/css/custom.css",
     "/frontend/js/app.js": "/frontend/js/app.js",
     "/frontend/css/app.css": "/frontend/css/app.css"
 }

@@ -11,8 +11,6 @@
                         <div id="login" class="customers">
                             <h2>Login</h2>
 
-                            {{ dump($errors) }}
-
                             <form method="post" action="{{ route('frontend.login') }}" accept-charset="UTF-8">
                                 {{ csrf_field() }}
                                 <div class="clearfix large_form form-item">
