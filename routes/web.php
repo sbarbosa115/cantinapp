@@ -66,11 +66,17 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
     Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
     Route::get('password/reset/{token}', 'Auth\ForgotPasswordController@showResetForm')->name('password.reset');
 
-    Route::get('api/categories', 'TaxonomyController@categories')->name('taxonomies.categories');
+
+    Route::get('order', 'OrderController@show')->name('order.show');
+    Route::post('order', 'OrderController@store')->name('order.store');
     Route::get('order/add/{id}', 'OrderController@product')->name('order.add');
     Route::post('order/add/product', 'OrderController@addProduct')->name('order.add.product');
-    Route::get('order/new', 'OrderController@create')->name('order.get.product');
     Route::get('order/confirm', 'OrderController@confirmTime')->name('order.confirm');
+    Route::get('order/check/balance/{id}', 'OrderController@checkBalance')->name('order.check.balance');
+
+
+    Route::get('api/categories', 'TaxonomyController@categories')->name('taxonomies.categories');
+    Route::get('api/order/products', 'OrderController@products')->name('order.products');
 });
 
 

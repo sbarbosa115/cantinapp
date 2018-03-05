@@ -7,7 +7,7 @@
             </button>
         </div>
         <div class="modal-body">
-            <h5>Current Balance: {{ $user->balance()->count() }}</h5>
+            <h5>Current Balance: {{ $user->balances()->count() }}</h5>
             <table class="table">
                 @if($items->count())
                     <thead>

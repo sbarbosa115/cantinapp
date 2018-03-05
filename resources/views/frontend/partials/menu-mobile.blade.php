@@ -114,9 +114,12 @@
                             <a href="{{ url('/') }}">
                                 Home
                             </a>
-                            <a href="{{ route("frontend.order.get.product") }}">
-                                My Current Order
-                            </a>
+
+                            @if(Auth::user())
+                                <a href="{{ route("frontend.order.show") }}">
+                                    My Current Order
+                                </a>
+                            @endif
                         </li>
                     </ul>
                 </div>

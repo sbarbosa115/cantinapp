@@ -14,7 +14,7 @@ class OrdersController extends Controller
      * Show all entities and their options.
      */
     public function index(){
-        $orders = Order::whereIn("status", ["created", "cooking", "delivery"])->get();
+        $orders = Order::whereNotIn("status", ["archived"])->orderBy("pickup_at", "desc")->get();
 
         return view('restaurant.orders.index', ['orders' => $orders]);
     }
@@ -47,7 +47,7 @@ class OrdersController extends Controller
      */
     public function validator(array $form){
         $validator = Validator::make($form, [
-            'status' => 'required|in:created,cooking,delivery,archived'
+            'status' => 'required|in:created,cooking,cooked,delivered,archived'
         ]);
 
         return $validator;
@@ -69,14 +69,20 @@ class OrdersController extends Controller
         $order = Order::findOrFail($id);
         $data = $request->all();
 
-        if($order->status === "cooking" && $data["status"] === "delivery"){
-            (new Orders())->crossBalanceAndOrder($order);
+        $result = true;
+        if($order->status === "cooked" && $data["status"] === "delivered" && $order->payment_method === 'cantina'){
+            $result = (new Orders())->crossBalanceAndOrder($order);
         }
 
-        $order->status = $data["status"];
-        $order->save();
+        if($result === true){
+            $order->status = $data["status"];
+            $order->save();
+            $request->session()->flash('success', "The order was changed to {$order->status} successfully.");
+        } else {
+            $request->session()->flash('error', $result);
+        }
 
-        $request->session()->flash('success', "The order was changed to {$order->status} successfully.");
+
         return redirect()->route("restaurant.orders.index");
     }
 

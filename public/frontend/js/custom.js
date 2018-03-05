@@ -12088,8 +12088,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 __WEBPACK_IMPORTED_MODULE_0_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Category__["a" /* default */], null), document.getElementById('root'));
 
-console.log("OK Loaded");
-
 /***/ }),
 /* 137 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -22234,7 +22232,7 @@ var Product = function (_Component) {
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 "div",
                                 { className: "hoverBorderWrapper" },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("img", { src: this.state.product.image_path, className: "img-responsive front" }),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("img", { src: "/" + this.state.product.image_path, className: "img-responsive front" }),
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", { className: "mask" })
                             )
                         ),
@@ -22247,50 +22245,6 @@ var Product = function (_Component) {
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                     "div",
                                     { className: "inner-mask" },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "div",
-                                        { className: "group-actionbutton" },
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                            "ul",
-                                            { className: "quickview-wishlist-wrapper" },
-                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                "li",
-                                                { className: "wishlist" },
-                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                    "a",
-                                                    { title: "Add To Wishlist", className: "wishlist wishlist-juice-ice-tea", "data-wishlisthandle": "juice-ice-tea" },
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("span", { className: "cs-icon icon-heart" })
-                                                )
-                                            ),
-                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                "li",
-                                                { className: "quickview hidden-xs hidden-sm" },
-                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                    "div",
-                                                    { className: "product-ajax-cart" },
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("span", { className: "overlay_mask" }),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        "div",
-                                                        { "data-handle": "juice-ice-tea", "data-target": "#quick-shop-modal", className: "quick_shop", "data-toggle": "modal" },
-                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                            "a",
-                                                            null,
-                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("span", { className: "cs-icon icon-eye" })
-                                                        )
-                                                    )
-                                                )
-                                            ),
-                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                "li",
-                                                { className: "compare" },
-                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                    "a",
-                                                    { title: "Add To Compare", className: "compare compare-juice-ice-tea", "data-comparehandle": "juice-ice-tea" },
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("span", { className: "cs-icon icon-retweet2" })
-                                                )
-                                            )
-                                        )
-                                    ),
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         "form",
                                         { action: "./cart.html", method: "post" },
@@ -22329,32 +22283,10 @@ var Product = function (_Component) {
                         { className: "row-right animMix" },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             "div",
-                            { className: "rating-star" },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "span",
-                                { className: "spr-badge", "data-rating": "0.0" },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    "span",
-                                    { className: "spr-starrating spr-badge-starrating" },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "spr-icon spr-icon-star-empty" }),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "spr-icon spr-icon-star-empty" }),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "spr-icon spr-icon-star-empty" }),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "spr-icon spr-icon-star-empty" }),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "spr-icon spr-icon-star-empty" })
-                                ),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    "span",
-                                    { className: "spr-badge-caption" },
-                                    "No reviews"
-                                )
-                            )
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            "div",
                             { className: "product-title" },
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 "a",
-                                { className: "title-5", href: "./product.html" },
+                                { className: "title-5", href: "#" },
                                 this.state.product.name
                             )
                         ),

@@ -32,7 +32,7 @@ class User extends Authenticatable
      * Return the current balance relationship.
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function balance(){
-        return $this->hasMany(Balance::class);
+    public function balances(){
+        return $this->hasMany(Balance::class)->where("status", "=", "available");
     }
 }

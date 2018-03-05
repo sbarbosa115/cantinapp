@@ -29,8 +29,12 @@
                         <div class="row">
                             <div class="main-header-inner">
                                 <div class="nav-logo">
-                                    <a href="./index.html"><img src="{{ asset("/frontend/images/170x177.png") }}" alt="" title="Cantinapp" /></a>
-                                    <h1 style="display:none"><a href="/">Cantinapp </a></h1>
+                                    <a href="{{ url("/") }}">
+                                        <img src="http://via.placeholder.com/170x101" alt="" title="Cantinapp" />
+                                    </a>
+                                    <h1 style="display:none">
+                                        <a href="/">Cantinapp </a>
+                                    </h1>
                                 </div>
 
                                 @include('frontend.partials.menu-desktop')

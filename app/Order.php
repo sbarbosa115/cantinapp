@@ -8,6 +8,17 @@ use App\Product;
 
 class Order extends Model
 {
+
+    /**
+    * The attributes that are mass assignable.
+    * @var array
+    */
+    protected $fillable = ['pickup_at', 'status', 'image_path', 'user_id', 'payment_method'];
+
+    protected $dates = [
+        'pickup_at','created_at','updated_at '
+    ];
+
    /**
     * Return user's (customer) information.
     */

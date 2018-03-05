@@ -8,6 +8,7 @@ use App\User;
 use App\Order;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class Orders
@@ -20,9 +21,10 @@ class Orders
      */
     public function crossBalanceAndOrder(Order $order)
     {
-        $user = User::findOrFail($order->user_id);
+        $user = User::find($order->user_id);
         $result = [];
-        if ($user->balance()->count() > $order->getTotalQuantityOrder()) {
+
+        if ($user->balances()->count() > $order->getTotalQuantityOrder()) {
             $products = $order->products()->get();
 
             foreach ($products as $product) {
@@ -38,12 +40,12 @@ class Orders
                     $balance->status = "spent";
                     $balance->save();
 
-                    $result = ["status" => "ok", "message" => "The user balance was updated successfully."];
+                    $result = true;
                 }
             }
 
         } else {
-            $result = ["status" => "error", "message" => "The user balance is less than the request balance"];
+            $result = "The user balance is less than the request balance";
         }
 
         return $result;
@@ -80,25 +82,55 @@ class Orders
 
 
     /**
-     * @param Request $request
-     * @param Product $product
-     * @param int $quantity
+     * Add given product to current order.
+     * @param Request $request Request object.
+     * @param Product $product Product to add.
+     * @param int $quantity Quantity.
+     * Sergio Barbosa <sbarbosa115@gmail.com>
      */
     public function addProductToOrder(Request $request, Product $product, int $quantity)
     {
         $order = $this->checkCurrentUser($request);
 
-        $product->quantity = $quantity;
+        $currentQuantity = $this->currentQuantities($order, $product);
+
+        $product->quantity = $quantity + $currentQuantity;
+        $product->comment = $request->get("comment");
+
+        $order = $order->reject(function($element) use ($product) {
+            return $element->id === $product->id;
+        });
 
         $order->push($product);
 
         $this->syncCurrentUserOrder($request, $order);
     }
 
+    /**
+     * Check if there are quantities with the current product.
+     * @param Collection $order User order.
+     * @param Product $product Product to check if there are quantities.
+     * @return mixed 0 If current quantities are equal to 0 otherwise integer with current quantities.
+     */
+    public function currentQuantities(Collection $order, Product $product)
+    {
+        $currentProducts = $order->where("id", $product->id);
+
+        $quantity = 0;
+
+        foreach ($currentProducts as $currentProduct){
+            $quantity = $quantity + $currentProduct->quantity;
+        }
+
+        return $quantity;
+    }
+
 
     /**
-     * @param Request $request
-     * @return array
+     * Return the total order, it includes the taxes if there are.
+     * @param Request $request Request object.
+     * @return array Array with the total and taxes if there is.
+     * @author Sergio Barbosa <sbarbosa115@gmail.com>
      */
     public function totalOrder(Request $request)
     {
@@ -117,6 +149,40 @@ class Orders
         }
 
         return ["tax" => $tax, "total" => $total];
+    }
+
+    /**
+     * Create a order and store it.
+     * @param Collection $products
+     * @param array $details
+     */
+    public function createOrder(Collection $products, array $details){
+
+        $order = Order::create([
+            "status" => "created",
+            "pickup_at" => $details["pickup_at"],
+            "payment_method" => $details["payment_method"],
+            "user_id" => Auth::user()->id,
+        ]);
+
+        foreach ($products as $product){
+            $comment = isset($product->comment) ? $product->comment : "N/A";
+            $order->products()->attach([$product->id], ["quantity" => $product->quantity, "comment" => $comment]);
+        }
+    }
+
+    /**
+     * Return the total order quantity products.
+     * @param Collection $order Collection with all products.
+     * @return int Number of products in given order.
+     */
+    public function totalOrderProducts(Collection $order){
+        $quantity = 0;
+        foreach ($order as $item){
+            $quantity = $item->quantity  + $quantity;
+        }
+
+        return $quantity;
     }
 
 }

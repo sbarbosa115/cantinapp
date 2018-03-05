@@ -6,6 +6,7 @@
     <div class="page-container" id="PageContainer">
         <main class="main-content" id="MainContent" role="main">
             <section class="heading-content">
+
                 <div class="heading-wrapper">
                     <div class="container">
                         <div class="row">
@@ -23,6 +24,11 @@
                     <div class="container">
                         <div class="row">
                             <div class="order-inner">
+
+                                @include('restaurant.partials._flash')
+
+                                {{dump($errors)}}
+
                                 <div class="order-content">
                                     <div class="order-id">
                                         <h2>Order #1002</h2>
@@ -49,8 +55,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @else
-
                                     @endif
 
                                     <div class="order-info">

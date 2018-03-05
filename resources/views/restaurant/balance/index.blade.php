@@ -28,7 +28,7 @@
                             <tr>
                                 <td>{{$item->name}}</td>
                                 <td>{{$item->email}}</td>
-                                <td>{{$item->balance()->count()}}</td>
+                                <td>{{$item->balances()->count()}}</td>
                                 <td>
                                     <a class="btn btn-info btn-sm view-log" href="{{ route("restaurant.balance.log", ["id" => $item->id]) }}"><i class="fa fa-eye" aria-hidden="true"></i> Log</a>
                                     <a class="btn btn-success btn-sm load-balance" href="{{ route("restaurant.balance.create", ["id" => $item->id]) }}"><i class="fa fa-credit-card" aria-hidden="true"></i> Load</a>

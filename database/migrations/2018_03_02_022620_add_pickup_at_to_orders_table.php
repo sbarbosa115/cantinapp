@@ -14,7 +14,7 @@ class AddPickupAtToOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->dateTime("pickup_at")->nullable()->after('updated_at');
+            $table->timestamp("pickup_at")->nullable()->after('updated_at');
         });
     }
 
