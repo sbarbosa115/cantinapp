@@ -16,7 +16,7 @@ class LoginController extends Controller
      * Where to redirect users after login.
      * @var string
      */
-    protected $redirectTo = '/restaurant/order';
+    protected $redirectTo = '/99/order';
 
 
     /**
