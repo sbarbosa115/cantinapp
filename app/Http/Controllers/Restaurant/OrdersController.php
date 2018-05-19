@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Restaurant;
 
 use Illuminate\Http\Request;
-use App\Order;
+use App\Model\Order;
 use App\Utils\Orders;
 use Validator;
 

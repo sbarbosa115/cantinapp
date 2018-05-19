@@ -82,7 +82,7 @@ return [
 
         'employees' => [
              'driver' => 'eloquent',
-             'model' => App\Employee::class,
+             'model' => App\Model\Employee::class,
         ],
     ],
 

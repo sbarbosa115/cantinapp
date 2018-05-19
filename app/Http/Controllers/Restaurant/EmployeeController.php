@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Restaurant;
 
-use App\Employee;
+use App\Model\Employee;
 use Illuminate\Http\Request;
 use Validator;
 

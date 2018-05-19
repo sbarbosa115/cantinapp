@@ -3,29 +3,25 @@
 namespace App\Notifications;
 
 use App\User;
-use App\Model\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class OrderCreated extends Notification
+class Register extends Notification
 {
     use Queueable;
 
     private $user;
 
-    private $order;
-
     /**
      * Create a new notification instance.
-     *
-     * @return void
+     * Register constructor.
+     * @param User $user
      */
-    public function __construct(User $user, Order $order)
+    public function __construct(User $user)
     {
-        $this->user;
-        $this->order;
+        $this->user = $user;
     }
 
     /**
@@ -48,10 +44,14 @@ class OrderCreated extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject("Order Recibida")
-            ->line("Hola {$this->user->name} tu orden esta confirmada y empezaremos a prepararla.")
-            ->line('Te enviaremos un email cuando este lista para recoger.');
+            ->subject('Bienvenido a Cantinapp')
+            ->line("{$this->user->name}, gracias por registrarte.")
+            ->line('Desde ahora vas a poder ordenar tus comidas favoritas con anticipación y recogerlas en el momento que mas te convenga utilizando nuestra nueva e ingeniosa aplicación')
+            ->line('No lineas, no esperas, solo has tu selección y te notificaremos cuando tu pedido este listo.')
+            ->action('¿EMPEZAMOS?', config("app.url"))
+            ->line('Estas a uno pocos clicks de tu comida.');
     }
+
 
     /**
      * Get the array representation of the notification.

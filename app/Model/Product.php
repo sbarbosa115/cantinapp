@@ -1,8 +1,7 @@
 <?php
 
-namespace App;
+namespace App\Model;
 
-use App\Model\Taxonomy;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
@@ -11,7 +10,7 @@ class Product extends Model
      * The attributes that are mass assignable.
      * @var array
      */
-    protected $fillable = ['name', 'description', 'image_path', 'price', 'slug'];
+    protected $fillable = ['name', 'description', 'image_path', 'price', 'slug', 'product_id'];
 
 
     /**
@@ -43,7 +42,7 @@ class Product extends Model
      * Return all product tags.
      */
     public function tags(){
-        return $this->belongsToMany(Taxonomy::class)->where("type", "=","tags");
+        return $this->belongsToMany(Taxonomy::class)->where("type", "=","tag")->groupBy("taxonomies.slug");
     }
 
     /**

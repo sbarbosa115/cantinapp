@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Product;
+use App\Model\Product;
 use App\User;
 use App\Utils\Orders;
 use Carbon\Carbon;

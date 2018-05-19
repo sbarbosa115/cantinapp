@@ -31,7 +31,7 @@
                     </form>
                 </div>
                 <div class="tab-pane account-item-content " id="account-register">
-                    <form method="post" action="{{ route('frontend.register') }}" id="create_customer" accept-charset="UTF-8">
+                    <form method="POST" action="{{ route('frontend.register') }}" id="create_customer" accept-charset="UTF-8">
                         {{ csrf_field() }}
                         <div class="clearfix large_form form-item">
                             <input placeholder="First Name" value="" name="name" id="first_name" class="text" size="30" type="text">
@@ -41,6 +41,10 @@
                         </div>
                         <div class="clearfix large_form form-password form-item">
                             <input placeholder="Password" value="" name="password" id="password" class="password text" size="30" type="password">
+                            <span class="cs-icon icon-eye"></span>
+                        </div>
+                        <div class="clearfix large_form form-password form-item">
+                            <input placeholder="Confirm Password" value="" name="password_confirmation" id="password_confirmation" class="password text" size="30" type="password">
                             <span class="cs-icon icon-eye"></span>
                         </div>
                         <div class="action_bottom">

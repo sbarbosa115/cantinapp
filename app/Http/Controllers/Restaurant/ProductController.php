@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Restaurant;
 
-use App\Product;
+use App\Model\Product;
+use App\Model\Taxonomy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Validator;
@@ -20,7 +21,7 @@ class ProductController extends Controller
             'name' => 'required',
             'description' => 'required',
             'price' => 'required|numeric',
-            'image' => 'image'
+            'image' => 'image',
         ]);
 
         return $validator;

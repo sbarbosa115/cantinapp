@@ -2,8 +2,7 @@
 
 namespace App\Model;
 
-use App\Product;
-use App\Order;
+use App\Model\Order;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 

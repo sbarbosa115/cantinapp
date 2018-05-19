@@ -1,14 +1,14 @@
 <?php
 
-namespace App;
+namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Log extends Model
+class Restaurant extends Model
 {
     /**
      * The attributes that are mass assignable.
      * @var array
      */
-    protected $fillable = ['event'];
+    protected $fillable = ['name', 'phone', 'lat', 'lon', 'address'];
 }

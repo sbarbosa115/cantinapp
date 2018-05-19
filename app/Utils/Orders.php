@@ -3,9 +3,9 @@
 namespace App\Utils;
 
 use App\Model\Balance;
-use App\Product;
+use App\ModelProduct;
 use App\User;
-use App\Order;
+use App\Model\Order;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
