@@ -31,19 +31,18 @@ class Product extends Model
     }
 
 
-    /**
-     * Return all product categories.
-     */
     public function categories(){
         return $this->belongsToMany(Taxonomy::class)->where("type", "=","category");
     }
 
-    /**
-     * Return all product tags.
-     */
     public function tags(){
         return $this->belongsToMany(Taxonomy::class)->where("type", "=","tag")->groupBy("taxonomies.slug");
     }
+
+    public function sides(){
+        return $this->belongsToMany(Taxonomy::class)->where("type", "=","side");
+    }
+
 
     /**
      * Return the currency in USD format.

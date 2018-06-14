@@ -21,21 +21,13 @@ class OrderController extends Controller
         $this->middleware('auth')->except(['product', 'addProduct', 'getProducts', 'products']);
     }
 
-    /**
-     * Create view to add products to order.
-     * @param $id Product id.
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
+
     public function product($id){
         $product = Product::findOrFail($id);
+
         return view("frontend.order.add", ["product" => $product]);
     }
 
-    /**
-     * Add products to order.
-     * @param Request $request
-     * @return $this|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
     public function addProduct(Request $request){
         $validator = Validator::make($request->all(), [
             'quantity' => 'required|integer',
@@ -104,9 +96,7 @@ class OrderController extends Controller
      * @return $this
      */
     public function store(Request $request){
-        $now = Carbon::now()->addMinutes(15);
         $validator = Validator::make($request->all(), [
-            //'pickup_at' => 'required|date_format:Y-m-d H:i:s|after:'.$now->toDateTimeString(),
             'pickup_at' => 'required|date_format:Y-m-d H:i:s',
             'payment_method' => 'required',
         ]);

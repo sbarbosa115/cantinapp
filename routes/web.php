@@ -20,6 +20,7 @@ Route::group(['prefix' => '99', 'as' => 'restaurant.', 'namespace' => 'Restauran
     Route::get('/product/edit/{id}', 'ProductController@edit')->name('product.edit');
     Route::post('/product/edit/{id}', 'ProductController@update')->name('product.update');
     Route::delete('/product/delete/{id}', 'ProductController@destroy')->name('product.delete');
+    Route::get('/product/sides/{product}', 'ProductController@sides')->name('product.sides');
 
     Route::get('/order', 'OrdersController@index')->name('orders.index');
     Route::get('/order/detail/{id}', 'OrdersController@detail')->name('orders.detail');

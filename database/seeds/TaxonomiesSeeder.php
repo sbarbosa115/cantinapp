@@ -16,6 +16,7 @@ class TaxonomiesSeeder extends Seeder
     {
         $this->createTaxonomies();
         $this->createTags();
+        $this->createTaxonomiesSides();
     }
 
     /**
@@ -36,14 +37,14 @@ class TaxonomiesSeeder extends Seeder
         $taxonomy = null;
 
         foreach ($dishes as $key => $dish){
-            $dish = factory(\App\Product::class)->create([
+            $dish = factory(\App\Model\Product::class)->create([
                 "name" => $dishes[$key]["name"],
                 "image_path" => "uploads/" . $dishes[$key]["image_path"]
             ]);
 
             if($taxonomy === null){
                 $taxonomy = factory(\App\Model\Taxonomy::class)->create([
-                    "name" => "Meals",
+                    "name" => "meals",
                     "type" => "category"
                 ]);
             }
@@ -51,7 +52,6 @@ class TaxonomiesSeeder extends Seeder
             $dish->taxonomies()->save($taxonomy);
             $this->dishes[] = $dish;
         }
-
     }
 
     /**
@@ -104,25 +104,84 @@ class TaxonomiesSeeder extends Seeder
 
         ];
 
-        foreach ($this->dishes as $dish){
+        foreach ($this->dishes as $key => $dish){
+            foreach ($tags[$key] as $item){
+                $taxonomy = \App\Model\Taxonomy::where('name', '=', $item['name'])
+                    ->where('type', '=', $item['type'])
+                    ->first();
 
-            foreach ($tags as $tag){
-
-                foreach ($tag as $item){
-
+                if(!$taxonomy){
                     $taxonomy = factory(\App\Model\Taxonomy::class)->create([
                         "name" => $item["name"],
                         "type" => $item["type"]
                     ]);
-
-                    $dish->taxonomies()->save($taxonomy);
-
                 }
 
+                $dish->taxonomies()->save($taxonomy);
             }
-
         }
+    }
 
+    /**
+     * Test products with taxonomies.
+     */
+    public function createTaxonomiesSides(){
 
+        $dishes =[
+            ['name' => 'Mango juice', 'image_path' => '67bead9a4203c3fa8a93e7342d5cf73c.jpg', 'category' => [
+                    'name' => 'juice',
+                    'type' => 'side'
+                ]
+            ],
+            ['name' => 'Pineapple juice', 'image_path' => '67bead9a4203c3fa8a93e7342d5cf73c.jpg', 'category' => [
+                    'name' => 'juice',
+                    'type' => 'side'
+                ]
+            ],
+            ['name' => 'Guava juice', 'image_path' => '67bead9a4203c3fa8a93e7342d5cf73c.jpg', 'category' => [
+                    'name' => 'juice',
+                    'type' => 'side'
+                ]
+            ],
+            ['name' => 'White rice', 'image_path' => '67bead9a4203c3fa8a93e7342d5cf73c.jpg', 'category' => [
+                    'name' => 'meals',
+                    'type' => 'side'
+                ]
+            ],
+            ['name' => 'French fries', 'image_path' => '67bead9a4203c3fa8a93e7342d5cf73c.jpg', 'category' => [
+                    'name' => 'meals',
+                    'type' => 'side'
+                ]
+            ],
+            ['name' => 'Rice milk', 'image_path' => '67bead9a4203c3fa8a93e7342d5cf73c.jpg', 'category' => [
+                    'name' => 'dessert',
+                    'type' => 'side'
+                ]
+            ],
+            ['name' => 'Banana split', 'image_path' => '67bead9a4203c3fa8a93e7342d5cf73c.jpg', 'category' => [
+                    'name' => 'dessert',
+                    'type' => 'side'
+                ]
+            ],
+        ];
+
+        foreach ($dishes as $key => $item){
+            $dish = factory(\App\Model\Product::class)->create([
+                "name" => $dishes[$key]["name"],
+                "image_path" => "uploads/" . $dishes[$key]["image_path"]
+            ]);
+
+            $taxonomy = \App\Model\Taxonomy::where('name', '=', $item['category']['name'])
+                ->where('type', '=', $item['category']['type'])
+                ->first();
+
+            if(!$taxonomy){
+                $taxonomy = factory(\App\Model\Taxonomy::class)->create([
+                    "name" => $item['category']['name'],
+                    "type" => $item['category']['type']
+                ]);
+            }
+            $dish->taxonomies()->save($taxonomy);
+        }
     }
 }

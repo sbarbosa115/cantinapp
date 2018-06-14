@@ -123,5 +123,8 @@ class ProductController extends Controller
         return redirect()->route("restaurant.product.index");
     }
 
-
+    public function sides(Product $product){
+        $sides = $product->sides()->get();
+        dd($sides);
+    }
 }

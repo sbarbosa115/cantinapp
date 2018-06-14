@@ -6,7 +6,5 @@
 
 require('react');
 
-
-
 require('./components/Index');
 

@@ -151,13 +151,8 @@ class Orders
         return ["tax" => $tax, "total" => $total];
     }
 
-    /**
-     * Create a order and store it.
-     * @param Collection $products
-     * @param array $details
-     */
-    public function createOrder(Collection $products, array $details){
-
+    public function createOrder(Collection $products, array $details): void
+    {
         $order = Order::create([
             "status" => "created",
             "pickup_at" => $details["pickup_at"],
