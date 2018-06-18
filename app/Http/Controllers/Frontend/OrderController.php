@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Facades\OrderService;
 use App\Model\Product;
 use App\User;
-use App\Utils\Orders;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\View\View;
 use Validator;
 
 class OrderController extends Controller
@@ -21,17 +22,19 @@ class OrderController extends Controller
         $this->middleware('auth')->except(['product', 'addProduct', 'getProducts', 'products']);
     }
 
-
     public function product($id){
         $product = Product::findOrFail($id);
 
         return view("frontend.order.add", ["product" => $product]);
     }
 
-    public function addProduct(Request $request){
-        $validator = Validator::make($request->all(), [
+    public function addProduct(Request $request): View
+    {
+        $data = $request->all();
+        $validator = Validator::make($data, [
             'quantity' => 'required|integer',
-            'product_id' => 'required|integer'
+            'product_id' => 'required|integer',
+            'side.*' => 'required'
         ]);
 
         $product = Product::findOrFail($request->get('product_id'));
@@ -41,19 +44,14 @@ class OrderController extends Controller
             return view("frontend.order.add", ["product" => $product])->withErrors($validator->errors());
         }
 
-        (new Orders())->addProductToOrder($request, $product, $request->get('quantity'));
+        OrderService::addProductToCurrentOrder($data, $product, $request->get('quantity'));
 
         $request->session()->flash('success', 'Item added successfully.');
         return view("frontend.order.add", ["product" => $product]);
     }
 
-    /**
-     * Show the current order and their products.
-     * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
     public function show(Request $request){
-        $orderDetail = (new Orders())->totalOrder($request);
+        $orderDetail = OrderService::totalOrder();
 
         if($orderDetail["total"] > 0){
             return view("frontend.order.show", ["orderDetail" => $orderDetail]);
@@ -63,20 +61,10 @@ class OrderController extends Controller
         return redirect()->route("frontend.home.index");
     }
 
-
-    /**
-     * Show the view to confirm the pick-up order time.
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
     public function confirmTime(){
         return view("frontend.order.confirm");
     }
 
-    /**
-     * Return all products in JSON format
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function products(Request $request){
         $products = $request->session()->get("order");
 
@@ -90,13 +78,9 @@ class OrderController extends Controller
     }
 
 
-    /**
-     * Store a order in database.
-     * @param Request $request
-     * @return $this
-     */
     public function store(Request $request){
-        $validator = Validator::make($request->all(), [
+        $data = $request->all();
+        $validator = Validator::make($data, [
             'pickup_at' => 'required|date_format:Y-m-d H:i:s',
             'payment_method' => 'required',
         ]);
@@ -106,8 +90,7 @@ class OrderController extends Controller
             return redirect()->route("frontend.home.index")->withErrors($validator->errors());
         }
 
-        $products = $request->session()->pull('order');
-        (new Orders())->createOrder($products, $request->all());
+        OrderService::createOrder($data);
 
         $pickUpTime = Carbon::createFromFormat("Y-m-d H:i:s", $request->get("pickup_at"));
         $request->session()->flash('success', "Your order will be ready to pick up in {$pickUpTime->diffForHumans()}");
@@ -115,11 +98,6 @@ class OrderController extends Controller
     }
 
 
-    /**
-     * This method determines if the user has the enough balance to complete the order.
-     * @param $id User ID.
-     * @return \Illuminate\Http\JsonResponse Result true if the user has enough balance false otherwise.
-     */
     public function checkBalance($id){
         $user = User::find($id);
         $result = true;

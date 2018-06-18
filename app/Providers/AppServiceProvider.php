@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\OrderService;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +25,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        App::bind('orderService', function()
+        {
+            return new OrderService();
+        });
     }
 }

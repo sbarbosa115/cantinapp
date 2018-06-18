@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Model\Taxonomy;
-use App\Utils\Orders;
+use App\Services\Orders;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Frontend\Controller;
 

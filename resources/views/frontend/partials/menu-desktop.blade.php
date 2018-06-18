@@ -50,31 +50,35 @@
                             @endif
                         </div>
                         @php($total = 0)
+                        @php($products = collect([]))
                         @if(Session::has('order'))
                             <div class="items control-container">
                                 @foreach(Session::get('order') as $product)
-                                    <div class="group_cart_item">
-                                        <div class="cart-left">
-                                            <a class="cart-image" href="./product.html">
-                                                <img src="{{ asset($product->image_path) }}">
-                                            </a>
-                                        </div>
-                                        <div class="cart-right">
-                                            <div class="cart-title">
-                                                <a href="#">{{  $product->name }}</a>
-                                            </div>
-                                            <div class="cart-price">
-                                                <span class="money">${{ $product->price * $product->quantity }}</span>
-                                            </div>
-                                            <div class="cart-qty">
-                                                <span class="quantity">Qty: {{ $product->quantity }}</span>
-                                                <a class="cart-close" title="Remove" href="javascript:void(0);">
-                                                    <span class="cs-icon icon-bin"></span>
+                                    @if(!$products->contains('name', $product->name))
+                                        <?php $products->push($product); ?>
+                                        <div class="group_cart_item">
+                                            <div class="cart-left">
+                                                <a class="cart-image" href="#">
+                                                    <img src="{{ asset($product->image_path) }}">
                                                 </a>
                                             </div>
+                                            <div class="cart-right">
+                                                <div class="cart-title">
+                                                    <a href="#">{{  $product->name }}</a>
+                                                </div>
+                                                <div class="cart-price">
+                                                    <span class="money">${{ $product->price * $product->quantity }}</span>
+                                                </div>
+                                                <div class="cart-qty">
+                                                    <span class="quantity">Qty: {{ $product->quantity }}</span>
+                                                    <a class="cart-close" title="Remove" href="javascript:void(0);">
+                                                        <span class="cs-icon icon-bin"></span>
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    @php($total = $total  + ($product->price * $product->quantity))
+                                        @php($total = $total  + ($product->price * $product->quantity))
+                                    @endif
                                 @endforeach
                             </div>
                             <div class="subtotal">
@@ -104,7 +108,7 @@
                     @include('frontend.partials._menu-desktop-login')
                 @endif
 
-                </div>
+                </div
             </div>
         </div>
     </div>

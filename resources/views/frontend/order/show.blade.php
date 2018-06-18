@@ -24,11 +24,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="order-inner">
-
                                 @include('restaurant.partials._flash')
-
-                                {{dump($errors)}}
-
                                 <div class="order-content">
                                     <div class="order-id">
                                         <h2>Order #1002</h2>
@@ -76,8 +72,8 @@
                                                                     <a href="./product.html" title="">{{$product->name}}</a>
                                                                 </td>
                                                                 <td class="money"><span class="money">{{ $product->getCurrency() }}</span></td>
-                                                                <td class="quantity ">{{ $product->quantity }}</td>
-                                                                <td class="total"><span class="money">$ {{ $product->getTotalProductOrder() }}</span></td>
+                                                                <td class="quantity ">1</td>
+                                                                <td class="total"><span class="money">$ {{ number_format($product->price, 2) }}</span></td>
                                                             </tr>
                                                         @endforeach
                                                     @endif
@@ -86,7 +82,7 @@
                                                     @if(Session::has('order'))
                                                         <tr class="order_summary note">
                                                             <td class="td-label" colspan="3">Subtotal</td>
-                                                            <td class="subtotal"><span class="money">{{ $orderDetail['total'] }}</span></td>
+                                                            <td class="subtotal"><span class="money">$ {{ $orderDetail['total'] }}</span></td>
                                                         </tr>
                                                         @if(config('customer.tax'))
                                                             <tr class="order_summary note">
@@ -117,10 +113,10 @@
 
 @section('javascript')
     <script>
-        $(document).off("click", "#proceed-to-order").on("click", "#proceed-to-order", function (e) {
+        $(document).off("click", "#proceed-to-order").on("click", "#proceed-to-order", (e) => {
             e.preventDefault();
 
-            $.get("{{ route('frontend.order.confirm') }}", function (data) {
+            $.get("{{ route('frontend.order.confirm') }}", (data) => {
                 $("#modal-messages").html(data).modal();
             });
         });

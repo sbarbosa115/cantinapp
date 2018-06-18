@@ -75,7 +75,7 @@
             Object.keys(productSides).forEach((items, index) => {
                 contentContainer.push([`<div class="form-group col-md-12">
                     <label for="dish-quantity">Dish ${i} ${items} side</label>
-                    <select name="side[${index}]" class="form-control">
+                    <select name="side[${i}][]" class="form-control">
                     <option value="" selected>Select Side</option>`]);
 
                 let _item = [];

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Restaurant;
 
 use Illuminate\Http\Request;
 use App\Model\Order;
-use App\Utils\Orders;
+use App\Services\Orders;
 use Validator;
 
 class OrdersController extends Controller
