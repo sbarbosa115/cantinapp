@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class Product extends Component {
+class Product extends Component {
 
     constructor(props) {
         super(props);
@@ -20,12 +20,16 @@ export default class Product extends Component {
         });
     }
 
+    showProduct() {
+        console.log('showing product')
+    }
+
     render() {
         return (
             <div className="content_product col-sm-3 fadeInUp animated" data-animate="fadeInUp" data-delay="100">
                 <div className="row-container product list-unstyled clearfix product-circle">
                     <div className="row-left">
-                        <a href="./product.html" className="hoverBorder container_item">
+                        <a onClick={this.showProduct()} className="hoverBorder container_item">
                             <div className="hoverBorderWrapper">
                                 <img src={"/" + this.state.product.image_path} className="img-responsive front"/>
                                 <div className="mask"></div>
@@ -64,4 +68,6 @@ export default class Product extends Component {
         );
     }
 }
+
+export default Product;
 

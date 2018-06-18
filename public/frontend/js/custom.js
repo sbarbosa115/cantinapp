@@ -22087,7 +22087,7 @@ var Category = function (_Component) {
             items: [],
             isLoaded: false,
             styles: {
-                backgroundImage: "url(http://via.placeholder.com/1170x182)"
+                backgroundImage: "url(/frontend/images/2.jpg)"
             }
         };
         return _this;
@@ -22130,6 +22130,17 @@ var Category = function (_Component) {
                         { className: "row" },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             "div",
+                            { className: "home-product-inner" },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "div",
+                                { className: "home-product-content" },
+                                category.products.map(function (product, index) {
+                                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Product__["a" /* default */], { key: index, product: product });
+                                })
+                            )
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "div",
                             { className: "banner-product-title fadeInUp animated", "data-animate": "fadeInUp", "data-delay": "200", style: _this3.state.styles },
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 "div",
@@ -22139,17 +22150,6 @@ var Category = function (_Component) {
                                     null,
                                     category.name
                                 )
-                            )
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            "div",
-                            { className: "home-product-inner" },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "div",
-                                { className: "home-product-content" },
-                                category.products.map(function (product, index) {
-                                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Product__["a" /* default */], { key: index, product: product });
-                                })
                             )
                         )
                     )
@@ -22168,7 +22168,6 @@ var Category = function (_Component) {
 }(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
 /* harmony default export */ __webpack_exports__["a"] = (Category);
-;
 
 /***/ }),
 /* 224 */
@@ -22213,6 +22212,11 @@ var Product = function (_Component) {
             });
         }
     }, {
+        key: "showProduct",
+        value: function showProduct() {
+            console.log('showing product');
+        }
+    }, {
         key: "render",
         value: function render() {
             var _this2 = this;
@@ -22228,7 +22232,7 @@ var Product = function (_Component) {
                         { className: "row-left" },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             "a",
-                            { href: "./product.html", className: "hoverBorder container_item" },
+                            { onClick: this.showProduct(), className: "hoverBorder container_item" },
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 "div",
                                 { className: "hoverBorderWrapper" },

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Product from "./Product";
 
-export default class Category extends Component {
+class Category extends Component {
 
     constructor(props) {
         super(props);
@@ -10,7 +10,7 @@ export default class Category extends Component {
             items: [],
             isLoaded : false,
             styles : {
-                backgroundImage : "url(http://via.placeholder.com/1170x182)"
+                backgroundImage : "url(/frontend/images/2.jpg)"
             }
         };
     }
@@ -40,16 +40,18 @@ export default class Category extends Component {
             (
                 <div className="container" key={category.id}>
                     <div className="row">
-                        <div className="banner-product-title fadeInUp animated" data-animate="fadeInUp" data-delay="200" style={this.state.styles}>
-                            <div className="title-content">
-                                <h2>{category.name}</h2>
-                            </div>
-                        </div>
+
                         <div className="home-product-inner">
                             <div className="home-product-content">
                                 {category.products.map((product, index) =>
                                     <Product key={index} product={product}/>
                                 )}
+                            </div>
+                        </div>
+
+                        <div className="banner-product-title fadeInUp animated" data-animate="fadeInUp" data-delay="200" style={this.state.styles}>
+                            <div className="title-content">
+                                <h2>{category.name}</h2>
                             </div>
                         </div>
                     </div>
@@ -61,5 +63,7 @@ export default class Category extends Component {
             <div>{categories}</div>
         );
     }
-};
+}
+
+export default Category;
 
