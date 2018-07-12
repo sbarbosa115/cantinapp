@@ -4,9 +4,9 @@ namespace App\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class OrderService extends Facade
+class BalanceService extends Facade
 {
     protected static function getFacadeAccessor() {
-        return 'orderService';
+        return 'balanceService';
     }
 }

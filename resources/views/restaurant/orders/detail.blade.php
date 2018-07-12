@@ -12,6 +12,7 @@
                 <tr>
                     <th>Quantity</th>
                     <th>Dish</th>
+                    <th>Sides</th>
                     <th>Customer Comment</th>
                 </tr>
                 </thead>
@@ -19,7 +20,8 @@
                     @foreach($order->products()->get() as $product)
                         <tr>
                             <td class="text-center">{{ $product->pivot->quantity }}</td>
-                            <td>{{ $product->name  }}</td>
+                            <td>{{ $product->name }}</td>
+                            <td>{{ $product-> }}</td>
                             <td>{{ $product->pivot->comment }}</td>
                         </tr>
                     @endforeach

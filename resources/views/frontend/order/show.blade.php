@@ -6,7 +6,6 @@
     <div class="page-container" id="PageContainer">
         <main class="main-content" id="MainContent" role="main">
             <section class="heading-content">
-
                 <div class="heading-wrapper">
                     <div class="container">
                         <div class="row">
@@ -52,7 +51,6 @@
                                             </div>
                                         </div>
                                     @endif
-
                                     <div class="order-info">
                                         <div class="order-info-inner">
                                             <table id="order_details">
@@ -60,8 +58,7 @@
                                                     <tr>
                                                         <th>Product</th>
                                                         <th>Price</th>
-                                                        <th class="center">Quantity</th>
-                                                        <th class="total">Total</th>
+                                                        <th class="text-center">Quantity</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -69,33 +66,14 @@
                                                         @foreach(Session::get('order') as $product)
                                                             <tr id="10324769618" class="odd">
                                                                 <td class="td-product">
-                                                                    <a href="./product.html" title="">{{$product->name}}</a>
+                                                                    <a href="#" title="">{{$product->name}}</a>
                                                                 </td>
-                                                                <td class="money"><span class="money">{{ $product->getCurrency() }}</span></td>
-                                                                <td class="quantity ">1</td>
-                                                                <td class="total"><span class="money">$ {{ number_format($product->price, 2) }}</span></td>
+                                                                <td class="money"><span class="money">1 Credit</span></td>
+                                                                <td class="quantity text-center">1</td>
                                                             </tr>
                                                         @endforeach
                                                     @endif
                                                 </tbody>
-                                                <tfoot>
-                                                    @if(Session::has('order'))
-                                                        <tr class="order_summary note">
-                                                            <td class="td-label" colspan="3">Subtotal</td>
-                                                            <td class="subtotal"><span class="money">$ {{ $orderDetail['total'] }}</span></td>
-                                                        </tr>
-                                                        @if(config('customer.tax'))
-                                                            <tr class="order_summary note">
-                                                                <td class="td-label" colspan="3">Tax {{ config('customer.tax') }}%:</td>
-                                                                <td class="vat"><span class="money">$ {{ $orderDetail['tax'] }}</span></td>
-                                                            </tr>
-                                                        @endif
-                                                        <tr class="order_summary order_total">
-                                                            <td class="td-label" colspan="3">Total</td>
-                                                            <td class="total"><span class="money">$ {{ $orderDetail['total'] + $orderDetail['tax'] }}</span></td>
-                                                        </tr>
-                                                    @endif
-                                                </tfoot>
                                             </table>
                                             <br />
                                             <buttom class="btn btn-success col-md-12" id="proceed-to-order">Proceed to Order</buttom>
@@ -115,7 +93,6 @@
     <script>
         $(document).off("click", "#proceed-to-order").on("click", "#proceed-to-order", (e) => {
             e.preventDefault();
-
             $.get("{{ route('frontend.order.confirm') }}", (data) => {
                 $("#modal-messages").html(data).modal();
             });

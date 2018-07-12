@@ -32,6 +32,7 @@
                             <th>Name</th>
                             <th>Description</th>
                             <th>Price</th>
+                            <th>Type</th>
                             <th>Options</th>
                         </tr>
                         </thead>
@@ -41,9 +42,9 @@
                                 <td>{{$product->name}}</td>
                                 <td>{{$product->description}}</td>
                                 <td>{{$product->price}}</td>
+                                <td>@if($product->categories()->count()) {{$product->categories()->first()->name}} @endif</td>
                                 <td>
                                     <a class="btn btn-primary btn-sm" href="{{ route("restaurant.product.edit", ["id" => $product->id]) }}">Edit</a>
-
                                     <form action="{{ route("restaurant.product.delete", ["id" => $product->id]) }}" method="post" style="display: inline;">
                                         {{ method_field('DELETE') }}
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">

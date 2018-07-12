@@ -2,27 +2,61 @@
 
 namespace Tests\Feature;
 
+use App\Facades\BalanceService;
 use App\Facades\OrderService;
 use App\Model\Product;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
 
 class OrderTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
+
     public function testAddProductTest()
     {
         $data = [
-            'quantity' => '3',
+            'quantity' => '1',
             'product_id' => '2',
             'side' => [
-                0 => '10',
-                1 => '12',
-                2 => '14',
+                ['10', '12', '14']
+            ],
+            'comment' => null
+        ];
+        $product = Product::find($data['product_id']);
+        if($product){
+            OrderService::addProductToCurrentOrder($data, $product);
+            /** @var $order Collection */
+            $order = OrderService::getCurrentSessionOrder();
+            $this->assertEquals(1, $order->count());
+        }
+    }
+
+    public function testAddTwoProductsTest()
+    {
+        $data = [
+            'quantity' => '1',
+            'product_id' => '2',
+            'side' => [
+                ['10', '12', '14'], ['10', '12', '14'],
+            ],
+            'comment' => null
+        ];
+        $product = Product::find($data['product_id']);
+        if($product){
+            OrderService::addProductToCurrentOrder($data, $product);
+            /** @var $order Collection */
+            $order = OrderService::getCurrentSessionOrder();
+            $this->assertEquals(2, $order->count());
+        }
+    }
+
+    public function testCreateOrderTest(){
+        $data = [
+            'quantity' => '2',
+            'product_id' => '2',
+            'side' => [
+                ['10', '12', '14'], ['10', '12', '14'],
             ],
             'comment' => null
         ];
@@ -32,24 +66,32 @@ class OrderTest extends TestCase
             OrderService::addProductToCurrentOrder($data, $product);
             /** @var $order Collection */
             $order = OrderService::getCurrentSessionOrder();
+            $this->assertEquals(2, $order->count());
+            $now = Carbon::now()->addMinutes(15);
+            $details = [
+                'payment_method' => 'cantina',
+                'pickup_at' => $now->format('Y-m-d H:i:s')
+            ];
 
-            $this->assertEquals(1, $order->count());
-            foreach ($order as $productOrder) {
-                $this->assertEquals(3, $productOrder->orderProductSides->count());
-                $this->assertEquals(3, $productOrder->quantity);
-                $this->assertEmpty($product->comment);
+            //this user is get from users table after run the seeders.
+            $user = User::where('email', '=', 'juanlopez@example.com')->first();
+            $this->assertNotNull($user);
+            if($user){
+                $this->be($user);
+                BalanceService::addUserBalance($user, 2);
+                $order = OrderService::createOrder($details);
+                $this->assertEquals(2, $order->products()->count());
+                $this->assertEquals('paid', $order->payment_status);
             }
         }
     }
 
-    public function testMergeTwoSameProductsTest(){
+    public function testCreateOrderPendingBalanceTest(){
         $data = [
-            'quantity' => '3',
+            'quantity' => '2',
             'product_id' => '2',
             'side' => [
-                0 => '10',
-                1 => '12',
-                2 => '14',
+                ['10', '12', '14'], ['10', '12', '14'],
             ],
             'comment' => null
         ];
@@ -57,17 +99,94 @@ class OrderTest extends TestCase
         $product = Product::find($data['product_id']);
         if($product){
             OrderService::addProductToCurrentOrder($data, $product);
+            /** @var $order Collection */
+            $order = OrderService::getCurrentSessionOrder();
+            $this->assertEquals(2, $order->count());
+            $now = Carbon::now()->addMinutes(15);
+            $details = [
+                'payment_method' => 'cantina',
+                'pickup_at' => $now->format('Y-m-d H:i:s')
+            ];
+
+            //this user is get from users table after run the seeders.
+            $user = User::where('email', '=', 'juanlopez@example.com')->first();
+            $this->assertNotNull($user);
+            if($user){
+                $this->be($user);
+                $order = OrderService::createOrder($details);
+                $this->assertEquals(2, $order->products()->count());
+                $this->assertEquals('pending', $order->payment_status);
+            }
+        }
+    }
+
+    public function testCreateOrderIncompleteBalanceTest(){
+        $data = [
+            'quantity' => '2',
+            'product_id' => '2',
+            'side' => [
+                ['10', '12', '14'], ['10', '12', '14'],['10', '12', '14'],
+            ],
+            'comment' => null
+        ];
+
+        $product = Product::find($data['product_id']);
+        if($product){
             OrderService::addProductToCurrentOrder($data, $product);
             /** @var $order Collection */
             $order = OrderService::getCurrentSessionOrder();
+            $this->assertEquals(3, $order->count());
+            $now = Carbon::now()->addMinutes(15);
+            $details = [
+                'payment_method' => 'cantina',
+                'pickup_at' => $now->format('Y-m-d H:i:s')
+            ];
 
-            $this->assertEquals(2, $order->count());
-            foreach ($order as $productOrder){
-                $this->assertEquals(3, $productOrder->orderProductSides->count());
-                $this->assertEquals(3, $productOrder->quantity);
-                $this->assertEmpty($product->comment);
+            //this user is get from users table after run the seeders.
+            $user = User::where('email', '=', 'juanlopez@example.com')->first();
+            $this->assertNotNull($user);
+            if($user){
+                $this->be($user);
+                BalanceService::addUserBalance($user, 2);
+                $order = OrderService::createOrder($details);
+                $this->assertEquals(3, $order->products()->count());
+                $this->assertEquals('incomplete', $order->payment_status);
             }
+        }
+    }
 
+    public function testCreateOrderIncompleteOneDishBalanceTest(){
+        $data = [
+            'quantity' => '2',
+            'product_id' => '2',
+            'side' => [
+                ['10', '12', '14'], ['10', '12', '14']
+            ],
+            'comment' => null
+        ];
+
+        $product = Product::find($data['product_id']);
+        if($product){
+            OrderService::addProductToCurrentOrder($data, $product);
+            /** @var $order Collection */
+            $order = OrderService::getCurrentSessionOrder();
+            $this->assertEquals(2, $order->count());
+            $now = Carbon::now()->addMinutes(15);
+            $details = [
+                'payment_method' => 'cantina',
+                'pickup_at' => $now->format('Y-m-d H:i:s')
+            ];
+
+            //this user is get from users table after run the seeders.
+            $user = User::where('email', '=', 'juanlopez@example.com')->first();
+            $this->assertNotNull($user);
+            if($user){
+                $this->be($user);
+                BalanceService::addUserBalance($user, 1);
+                $order = OrderService::createOrder($details);
+                $this->assertEquals(2, $order->products()->count());
+                $this->assertEquals('incomplete', $order->payment_status);
+            }
         }
     }
 }

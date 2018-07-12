@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\BalanceService;
 use App\Services\OrderService;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
@@ -29,6 +30,11 @@ class AppServiceProvider extends ServiceProvider
         App::bind('orderService', function()
         {
             return new OrderService();
+        });
+
+        App::bind('balanceService', function()
+        {
+            return new BalanceService();
         });
     }
 }

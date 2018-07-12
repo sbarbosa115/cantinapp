@@ -18,7 +18,6 @@
                         <tr>
                             <th>Created</th>
                             <th>Pick Up Time</th>
-                            <th>Payment</th>
                             <th>Current Status</th>
                             <th>Customer</th>
                             <th>Balance</th>
@@ -30,7 +29,6 @@
                             <tr>
                                 <td>{{$order->created_at->diffForHumans()}}</td>
                                 <td>{{$order->pickup_at->diffForHumans()}}</td>
-                                <td>{{$order->payment_method}}</td>
                                 <td>{{$order->status}}</td>
                                 <td>{{$order->user->name}}</td>
                                 <td>
@@ -47,17 +45,14 @@
                                     @elseif($order->status === "cooking")
                                         <a class="btn btn-success btn-sm" href="{{ route("restaurant.orders.change", ["id" => $order->id, "status" => "cooked"]) }}" data-toggle="change">Cooked</a>
                                     @elseif($order->status === "cooked")
-
                                         @if($order->user->balances()->count() < $order->getTotalQuantityOrder() && $order->payment_method == 'cantina')
                                             <a class="btn btn-success btn-sm disabled" href="#" data-toggle="change">Re Charge</a>
                                         @else
                                             <a class="btn btn-success btn-sm" href="{{ route("restaurant.orders.change", ["id" => $order->id, "status" => "delivered"]) }}" data-toggle="change">Delivered</a>
                                         @endif
-
                                     @else
                                         <a class="btn btn-default btn-sm disabled" data-toggle="change">Pending to Archive</a>
                                     @endif
-
                                     @if($order->user->balances()->count() < $order->getTotalQuantityOrder() && $order->payment_method == 'cantina')
                                         <a class="btn btn-success btn-sm load-balance" href="{{ route("restaurant.balance.create", ["id" => $order->user_id]) }}"><i class="fa fa-credit-card" aria-hidden="true"></i> Load</a>
                                     @endif

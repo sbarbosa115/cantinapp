@@ -6,26 +6,22 @@ use App\Model\Balance;
 use App\Model\Product;
 use App\Model\Side;
 use App\ModelProduct;
-use App\User;
 use App\Model\Order;
+use App\Facades\BalanceService;
 use Illuminate\Support\Collection;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
 class OrderService
 {
-
     public function addProductToCurrentOrder(array $userOrder, Product $product): void
     {
         $order = $this->getCurrentSessionOrder();
-
-        foreach ($userOrder['side'] as $sides) {
+        foreach ($userOrder['side'] as $side) {
             $sideProduct = clone $product;
-            $this->addProductDetails($sides, $userOrder, $sideProduct);
+            $this->addProductDetails($side, $userOrder, $sideProduct);
             $order->push($sideProduct);
         }
-
         $this->syncCurrentUserOrder($order);
     }
 
@@ -71,7 +67,6 @@ class OrderService
         session()->put('order', $products);
     }
 
-
     public function addSidesToProduct(array $sides, Product &$product): void
     {
         $collection = new Collection();
@@ -84,13 +79,10 @@ class OrderService
         $product->orderProductSides = $collection;
     }
 
-
-
     public function totalOrder()
     {
         $total = 0;
         $tax = 0;
-
         $products = $this->getCurrentSessionOrder();
         if ($products->count() > 0) {
 
@@ -104,68 +96,62 @@ class OrderService
         return ["tax" => $tax, "total" => number_format($total, 2)];
     }
 
-    public function createOrder(array $details): void
+    public function createOrder(array $details): Order
     {
         $products = $this->getCurrentSessionOrder();
+        $user = Auth::user();
         $order = Order::create([
             "status" => "created",
             "pickup_at" => $details["pickup_at"],
             "payment_method" => $details["payment_method"],
-            "user_id" => Auth::user()->id,
+            "user_id" => $user->id,
         ]);
+
+        $orderStatus = [];
         foreach ($products as $product){
             $comment = isset($product->comment) ? $product->comment : "N/A";
-            $order->products()->sync([$product->id => ["quantity" => 1, "comment" => $comment]]);
+            $order->products()->attach([$product->id => ["quantity" => 1, "comment" => $comment]]);
 
-            $orderProduct = $order->products()->where('product_id', $product->id)->withPivot('product_id', 'order_id', 'quantity', 'comment')->first();
-
+            $orderProducts = $order->products()->withPivot('id')->get();
             foreach ($product->orderProductSides as $productSide){
                 Side::create([
-                    'order_product_id' => $orderProduct->pivot->order_id,
+                    'order_product_id' => $orderProducts->last()->pivot->id,
                     'product_id' => $productSide->id,
                     'quantity' => 1,
                     'order_id' => $order->id
                 ]);
             }
+            $orderStatus[] = BalanceService::removeUserBalance($user, $product, $order);
         }
-
+        $order->payment_status = $this->calculateStatus($orderStatus);
+        $order->save();
         $this->flushCurrentSessionOrder();
+        return $order;
     }
 
-    public function totalOrderProducts(Collection $order): int
-    {
-        $quantity = 0;
-        foreach ($order as $item){
-            $quantity = $item->quantity  + $quantity;
-        }
-        return $quantity;
-    }
-
-    public function crossBalanceAndOrder(Order $order): array
-    {
-        $user = User::find($order->user_id);
-        $result = [];
-        if ($user->balances()->count() > $order->getTotalQuantityOrder()) {
-            $products = $order->products()->get();
-            foreach ($products as $product) {
-                for ($i = 0; $i < $product->pivot->quantity; $i++) {
-                    $balance = Balance::where("user_id", "=", $user->id)
-                        ->where("status", "=", "available")
-                        ->orderBy('id', 'asc')
-                        ->first();
-
-                    $balance->product_id = $product->id;
-                    $balance->order_id = $order->id;
-                    $balance->status = "spent";
-                    $balance->save();
-
-                    $result = true;
-                }
+    protected function calculateStatus(array $orderStatus){
+        $null = 0;
+        $balance = 0;
+        foreach ($orderStatus as $status){
+            if($status === null){
+                $null++;
             }
-        } else {
-            $result = "The user balance is less than the request balance";
+            if($status instanceof Balance){
+                $balance++;
+            }
         }
-        return $result;
+
+        if($null === count($orderStatus)){
+            return 'pending';
+        } else if($balance === count($orderStatus)){
+            return 'paid';
+        } else {
+            return 'incomplete';
+        }
     }
 
+    public function totalOrderProducts(): int
+    {
+        $this->getCurrentSessionOrder()->count();
+    }
 }

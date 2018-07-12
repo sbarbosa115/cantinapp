@@ -19,7 +19,6 @@
     @endif
 </div>
 
-
 <div class="form-group">
     <label for="message-text" class="form-control-label">Description:</label>
     <textarea class="form-control" name="description" placeholder="Place here the better description about your product">{{ old('description', $product->description) }}</textarea>
@@ -37,20 +36,7 @@
         @endforeach
     </select>
     @if($errors->first('category'))
-        <div class="form-control-feedback">{{$errors->first('description')}}</div>
-    @endif
-</div>
-
-<div class="form-group">
-    <label for="message-text" class="form-control-label">Tags:</label>
-    <select class="form-control" name="tags" multiple>
-        <option>Choose tags to this product.</option>
-        @foreach($product->tags()->get() as $tags)
-            <option value="{{$tags->id}}">{{$tags->name}}</option>
-        @endforeach
-    </select>
-    @if($errors->first('category'))
-        <div class="form-control-feedback">{{$errors->first('description')}}</div>
+        <div class="form-control-feedback">{{$errors->first('category')}}</div>
     @endif
 </div>
 
