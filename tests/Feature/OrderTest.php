@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Facades\BalanceService;
 use App\Facades\OrderService;
 use App\Model\Product;
+use App\Model\Order;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
@@ -24,7 +25,7 @@ class OrderTest extends TestCase
             'comment' => null
         ];
         $product = Product::find($data['product_id']);
-        if($product){
+        if ($product) {
             OrderService::addProductToCurrentOrder($data, $product);
             /** @var $order Collection */
             $order = OrderService::getCurrentSessionOrder();
@@ -43,7 +44,7 @@ class OrderTest extends TestCase
             'comment' => null
         ];
         $product = Product::find($data['product_id']);
-        if($product){
+        if ($product) {
             OrderService::addProductToCurrentOrder($data, $product);
             /** @var $order Collection */
             $order = OrderService::getCurrentSessionOrder();
@@ -51,7 +52,8 @@ class OrderTest extends TestCase
         }
     }
 
-    public function testCreateOrderTest(){
+    public function testCreateOrderTest()
+    {
         $data = [
             'quantity' => '2',
             'product_id' => '2',
@@ -62,7 +64,7 @@ class OrderTest extends TestCase
         ];
 
         $product = Product::find($data['product_id']);
-        if($product){
+        if ($product) {
             OrderService::addProductToCurrentOrder($data, $product);
             /** @var $order Collection */
             $order = OrderService::getCurrentSessionOrder();
@@ -76,7 +78,7 @@ class OrderTest extends TestCase
             //this user is get from users table after run the seeders.
             $user = User::where('email', '=', 'juanlopez@example.com')->first();
             $this->assertNotNull($user);
-            if($user){
+            if ($user) {
                 $this->be($user);
                 BalanceService::addUserBalance($user, 2);
                 $order = OrderService::createOrder($details);
@@ -86,7 +88,8 @@ class OrderTest extends TestCase
         }
     }
 
-    public function testCreateOrderPendingBalanceTest(){
+    public function testCreateOrderPendingBalanceTest()
+    {
         $data = [
             'quantity' => '2',
             'product_id' => '2',
@@ -97,7 +100,7 @@ class OrderTest extends TestCase
         ];
 
         $product = Product::find($data['product_id']);
-        if($product){
+        if ($product) {
             OrderService::addProductToCurrentOrder($data, $product);
             /** @var $order Collection */
             $order = OrderService::getCurrentSessionOrder();
@@ -111,7 +114,7 @@ class OrderTest extends TestCase
             //this user is get from users table after run the seeders.
             $user = User::where('email', '=', 'juanlopez@example.com')->first();
             $this->assertNotNull($user);
-            if($user){
+            if ($user) {
                 $this->be($user);
                 $order = OrderService::createOrder($details);
                 $this->assertEquals(2, $order->products()->count());
@@ -120,18 +123,19 @@ class OrderTest extends TestCase
         }
     }
 
-    public function testCreateOrderIncompleteBalanceTest(){
+    public function testCreateOrderIncompleteBalanceTest()
+    {
         $data = [
             'quantity' => '2',
             'product_id' => '2',
             'side' => [
-                ['10', '12', '14'], ['10', '12', '14'],['10', '12', '14'],
+                ['10', '12', '14'], ['10', '12', '14'], ['10', '12', '14'],
             ],
             'comment' => null
         ];
 
         $product = Product::find($data['product_id']);
-        if($product){
+        if ($product) {
             OrderService::addProductToCurrentOrder($data, $product);
             /** @var $order Collection */
             $order = OrderService::getCurrentSessionOrder();
@@ -145,7 +149,7 @@ class OrderTest extends TestCase
             //this user is get from users table after run the seeders.
             $user = User::where('email', '=', 'juanlopez@example.com')->first();
             $this->assertNotNull($user);
-            if($user){
+            if ($user) {
                 $this->be($user);
                 BalanceService::addUserBalance($user, 2);
                 $order = OrderService::createOrder($details);
@@ -155,7 +159,8 @@ class OrderTest extends TestCase
         }
     }
 
-    public function testCreateOrderIncompleteOneDishBalanceTest(){
+    public function testCreateOrderIncompleteOneDishBalanceTest()
+    {
         $data = [
             'quantity' => '2',
             'product_id' => '2',
@@ -166,7 +171,7 @@ class OrderTest extends TestCase
         ];
 
         $product = Product::find($data['product_id']);
-        if($product){
+        if ($product) {
             OrderService::addProductToCurrentOrder($data, $product);
             /** @var $order Collection */
             $order = OrderService::getCurrentSessionOrder();
@@ -180,7 +185,7 @@ class OrderTest extends TestCase
             //this user is get from users table after run the seeders.
             $user = User::where('email', '=', 'juanlopez@example.com')->first();
             $this->assertNotNull($user);
-            if($user){
+            if ($user) {
                 $this->be($user);
                 BalanceService::addUserBalance($user, 1);
                 $order = OrderService::createOrder($details);

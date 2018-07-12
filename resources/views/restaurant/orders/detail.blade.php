@@ -13,16 +13,16 @@
                     <th>Quantity</th>
                     <th>Dish</th>
                     <th>Sides</th>
-                    <th>Customer Comment</th>
+                    <th>Coment</th>
                 </tr>
                 </thead>
                 <tbody>
-                    @foreach($order->products()->get() as $product)
+                    @foreach($order->productsOrder() as $product)
                         <tr>
-                            <td class="text-center">{{ $product->pivot->quantity }}</td>
-                            <td>{{ $product->name }}</td>
-                            <td>{{ $product-> }}</td>
-                            <td>{{ $product->pivot->comment }}</td>
+                            <td class="text-center">{{ $product->quantity }}</td>
+                            <td>{{ $product->product()->name }}</td>
+                            <td>{{ $product->sidesAsString()  }}</td>
+                            <td>{{ $product->product()->comment }}</td>
                         </tr>
                     @endforeach
                 </tbody>
