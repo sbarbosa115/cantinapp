@@ -1329,7 +1329,7 @@ body ol {
 
 body svg.icon:not(.icon--full-color) circle,body svg.icon:not(.icon--full-color) ellipse,body svg.icon:not(.icon--full-color) g,body svg.icon:not(.icon--full-color) line,body svg.icon:not(.icon--full-color) path,body svg.icon:not(.icon--full-color) polygon,body svg.icon:not(.icon--full-color) polyline,body svg.icon:not(.icon--full-color) rect,body symbol.icon:not(.icon--full-color) circle,body symbol.icon:not(.icon--full-color) ellipse,body symbol.icon:not(.icon--full-color) g,body symbol.icon:not(.icon--full-color) line,body symbol.icon:not(.icon--full-color) path,body symbol.icon:not(.icon--full-color) polygon,body symbol.icon:not(.icon--full-color) polyline,body symbol.icon:not(.icon--full-color) rect {
     fill: inherit;
-    stroke: inherit
+    stroke: inherit;
 }
 
 body .rte img {

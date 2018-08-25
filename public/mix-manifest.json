@@ -1,8 +1,10 @@
 {
-    "/frontend/js/custom.js": "/frontend/js/custom.js",
-    "/restaurant/js/app.js": "/restaurant/js/app.js",
-    "/restaurant/css/app.css": "/restaurant/css/app.css",
-    "/frontend/css/custom.css": "/frontend/css/custom.css",
-    "/frontend/js/app.js": "/frontend/js/app.js",
-    "/frontend/css/app.css": "/frontend/css/app.css"
+    "/dist/frontend/js/app.js": "/dist/frontend/js/app.js",
+    "/dist/frontend/js/app.js.map": "/dist/frontend/js/app.js.map",
+    "/dist/restaurant/js/app.js": "/dist/restaurant/js/app.js",
+    "/dist/restaurant/css/app.css": "/dist/restaurant/css/app.css",
+    "/dist/frontend/css/app.css": "/dist/frontend/css/app.css",
+    "/dist/restaurant/js/app.js.map": "/dist/restaurant/js/app.js.map",
+    "/dist/restaurant/css/app.css.map": "/dist/restaurant/css/app.css.map",
+    "/dist/frontend/css/app.css.map": "/dist/frontend/css/app.css.map"
 }

@@ -1,10 +1,29 @@
-/**
- * Next, we will create a fresh React component instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+window.$ = window.jQuery = require('./lib/jquery.min');
 
-require('react');
+require('hammerjs');
+require('./lib/classie');
+require('./lib/bootstrap.min')
+require('./lib/application-appear');
+require('./lib/jquery.themepunch.plugins');
+require('./lib/jquery.themepunch.revolution.min');
+require('./lib/cs.script');
+require('./lib/jquery.currencies.min');
+require('./lib/linkOptionSelectors');
+require('./lib/owl.carousel.min.js');
+require('./lib/scripts');
+require('./lib/social-buttons');
+require('./lib/jquery.touchSwipe.min');
+require('./lib/jquery.fancybox');
+
+
+window.axios = require('axios');
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+let token = document.head.querySelector('meta[name="csrf-token"]');
+if (token) {
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+} else {
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
 
 require('./components/Index');
-

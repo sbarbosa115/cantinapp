@@ -3,18 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="canonical" href="/" />
     <meta name="theme-color" content="#7796A8">
-    <meta name="description" content="" />
     <title> Fast Food</title>
-
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Playball:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Bitter:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">
-    <link href="{{  asset('frontend/css/app.css') }}" rel="stylesheet" type="text/css" media="all">
-    <link href="{{  asset('frontend/css/custom.css') }}" rel="stylesheet" type="text/css" media="all">
+    <link href="{{  asset('dist/frontend/css/app.css') }}" rel="stylesheet" type="text/css" media="all">
 </head>
 
 <body class="fastfood_1 @yield('body_class')">
@@ -96,22 +92,12 @@
                                 <h5 class="footer-title"> Follow Us</h5>
                                 <div class="social-content">
                                     <div class="social-caption">
-                                        <a href="https://www.facebook.com/shopify" title="Fast Food on Facebook" class="icon-social facebook"><i class="fa fa-facebook"></i></a>
-                                        <a href="https://twitter.com/shopify" title="Fast Food on Twitter" class="icon-social twitter"><i class="fa fa-twitter"></i></a>
-                                        <a href="https://plus.google.com/+shopify" title="Fast Food on Google+" class="icon-social google-plus"><i class="fa fa-google-plus"></i></a>
-                                        <a href="https://www.pinterest.com/shopify" title="Fast Food on Pinterest" class="icon-social pinterest"><i class="fa fa-pinterest"></i></a>
-                                        <a href="https://instagram.com/shopify" title="Fast Food on Instagram" class="icon-social instagram"><i class="fa fa-instagram"></i></a>
-                                        <a href="https://www.youtube.com/user/shopify" title="Fast Food on Youtube" class="icon-social youtube"><i class="fa fa-youtube"></i></a>
-                                    </div>
-                                </div>
-                                <div class="payment-content ">
-                                    <h5 class="footer-title">Payment Methods</h5>
-                                    <div class="payment-caption">
-                                        <span class="icon-cc icon-cc-discover" title="Discover"></span>
-                                        <span class="icon-cc icon-cc-american" title="Amex"></span>
-                                        <span class="icon-cc icon-cc-western" title="Western Union"></span>
-                                        <span class="icon-cc icon-cc-paypal" title="PayPal"></span>
-                                        <span class="icon-cc icon-cc-moneybookers" title="MoneyBookers"></span>
+                                        <a href="https://www.facebook.com/#" title="Fast Food on Facebook" class="icon-social facebook"><i class="fa fa-facebook"></i></a>
+                                        <a href="https://twitter.com/#" title="Fast Food on Twitter" class="icon-social twitter"><i class="fa fa-twitter"></i></a>
+                                        <a href="https://plus.google.com/+#" title="Fast Food on Google+" class="icon-social google-plus"><i class="fa fa-google-plus"></i></a>
+                                        <a href="https://www.pinterest.com/#" title="Fast Food on Pinterest" class="icon-social pinterest"><i class="fa fa-pinterest"></i></a>
+                                        <a href="https://instagram.com/#" title="Fast Food on Instagram" class="icon-social instagram"><i class="fa fa-instagram"></i></a>
+                                        <a href="https://www.youtube.com/user/#" title="Fast Food on Youtube" class="icon-social youtube"><i class="fa fa-youtube"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -123,21 +109,7 @@
         <section class="copy-right clearfix">
             <div class="copy-right-wrapper">
                 <div class="copy-right-inner">
-                    <div class="footer_links">
-                        <ul>
-                            <li><a href="./index.html" title="Home">Home</a></li>
-                            <li><a href="./collections.html" title="Pizza">Pizza</a></li>
-                            <li><a href="./collections.html" title="Hamburger">Hamburger</a></li>
-                            <li><a href="./collections.html" title="Fast food">Fast food</a></li>
-                            <li><a href="./collections.html" title="Drinks">Drinks</a></li>
-                            <li><a href="./collections.html" title="Combo buy">Combo buy</a></li>
-                            <li><a href="./contact.html" title="Contact">Contact</a></li>
-                            <li><a href="./wish-list.html" title="Wishlist">Wishlist</a></li>
-                            <li><a href="./account.html" title="My account">My account</a></li>
-                            <li><a href="./login.html" title="Login">Login</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer_copyright">Copyright &copy; 2017 <a href="./index.html" title="">Fast Food</a>. All Rights Reserved</div>
+                    <div class="footer_copyright">Copyright &copy; 2018 <a href="/" title="">Cantinapp</a>. All Rights Reserved</div>
                 </div>
             </div>
         </section>
@@ -146,8 +118,7 @@
 
 <div class="modal fade" id="modal-messages"></div>
 
-<script type="text/javascript" src="{{ asset('frontend/js/app.js') }}"></script>
-<script type="text/javascript" src="{{ asset('frontend/js/custom.js') }}"></script>
+<script type="text/javascript" src="{{ asset('dist/frontend/js/app.js') }}"></script>
 @yield('javascript')
 
 </body>

@@ -8,6 +8,7 @@ class Product extends Component {
         this.state = {
             product: props.product,
         };
+        this.showProduct = this.showProduct.bind(this);
     }
 
     addToOrder(e, product) {
@@ -21,7 +22,7 @@ class Product extends Component {
     }
 
     showProduct() {
-        console.log('showing product')
+        //console.log('showing product')
     }
 
     render() {
