@@ -10,7 +10,7 @@ class Category extends Component {
             items: [],
             isLoaded : false,
             styles : {
-                backgroundImage : "url(/frontend/images/2.jpg)"
+                backgroundImage : `url(images/${Math.floor((Math.random() + 1 * 9))}.jpg)`
             }
         };
     }
@@ -23,9 +23,6 @@ class Category extends Component {
                     items: result
                 });
             },
-            // Note: it's important to handle errors here
-            // instead of a catch() block so that we don't swallow
-            // exceptions from actual bugs in components.
             (error) => {
                 this.setState({
                     isLoaded: true,
@@ -36,11 +33,10 @@ class Category extends Component {
     }
 
     render() {
-         var categories = this.state.items.map((category, index) =>
+         const categories = this.state.items.map((category) =>
             (
                 <div className="container" key={category.id}>
                     <div className="row">
-
                         <div className="home-product-inner">
                             <div className="home-product-content">
                                 {category.products.map((product, index) =>
@@ -48,7 +44,6 @@ class Category extends Component {
                                 )}
                             </div>
                         </div>
-
                         <div className="banner-product-title fadeInUp animated" data-animate="fadeInUp" data-delay="200" style={this.state.styles}>
                             <div className="title-content">
                                 <h2>{category.name}</h2>
@@ -66,4 +61,3 @@ class Category extends Component {
 }
 
 export default Category;
-

@@ -17,6 +17,7 @@ mix.react('resources/assets/restaurant/js/app.js', 'public/dist/restaurant/js/ap
 mix.react('resources/assets/frontend/js/app.js', 'public/dist/frontend/js/app.js')
     .sass('resources/assets/frontend/sass/app.scss', 'public/dist/frontend/css/app.css');
 
+
 if (mix.inProduction()) {
     mix.version();
     mix.disableNotifications();

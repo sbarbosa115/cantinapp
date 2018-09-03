@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Restaurant;
 
 use App\Model\Employee;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Validator;
 
 class EmployeeController extends Controller
@@ -11,25 +13,19 @@ class EmployeeController extends Controller
     /**
      *
      */
-    public function index(){
+    public function index(): View
+    {
         $items = Employee::all();
         return view('restaurant.employee.index', ['items' => $items]);
     }
 
-    /**
-     * Return the view to store a product.
-     */
-    public function create(){
+    public function create(): View
+    {
         return view('restaurant.employee.create', ["item" => new Employee()]);
     }
 
-
-    /**
-     * Store validate and store a product in database.
-     * @param Request $request User request object.
-     * @return Redirect if all is good to controller index otherwise self-redirect with errors.
-     */
-    public function store(Request $request){
+    public function store(Request $request): RedirectResponse
+    {
         request()->validate([
             'name' => 'required',
             'username' => 'required|unique:employees',
@@ -45,26 +41,14 @@ class EmployeeController extends Controller
         return redirect()->route("restaurant.employee.index");
     }
 
-
-    /**
-     * Return the view to edit a employee.
-     * @param $id Database product identifier.
-     * @return $this View to edit the product.
-     */
-    public function edit($id){
+    public function edit($id): View
+    {
         $item = Employee::findOrFail($id);
-
         return view('restaurant.employee.edit', ["item" => $item]);
     }
 
-
-    /**
-     * Validate and store the employee.
-     * @param Request $request
-     * @param $id Database employee identifier.
-     * @return $this
-     */
-    public function update(Request $request, $id){
+    public function update(Request $request, $id): RedirectResponse
+    {
         request()->validate([
             'name' => 'required',
             'username' => "required|unique:employees,username,{$id}",
@@ -73,23 +57,15 @@ class EmployeeController extends Controller
         ]);
 
         Employee::findOrFail($id)->update($request->all());
-
         $request->session()->flash('success', 'The action was completed successfully.');
 
         return redirect()->route("restaurant.employee.index");
     }
 
-    /**
-     * Remove employee from database.
-     * @param Request $request Request object.
-     * @param $id Employee id.
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function destroy(Request $request, $id){
+    public function destroy(Request $request, $id): RedirectResponse
+    {
         $item = Employee::findOrFail($id);
-
         $item->delete();
-
         $request->session()->flash('success', 'The action was completed successfully.');
         return redirect()->route("restaurant.employee.index");
     }

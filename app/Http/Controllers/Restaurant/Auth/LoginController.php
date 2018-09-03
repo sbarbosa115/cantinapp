@@ -16,7 +16,7 @@ class LoginController extends Controller
      * Where to redirect users after login.
      * @var string
      */
-    protected $redirectTo = '/99/order';
+    protected $redirectTo = '/restaurant/order';
 
 
     /**
@@ -51,7 +51,7 @@ class LoginController extends Controller
     public function logout()
     {
         Auth::guard('employee')->logout();
-        return redirect('/99/login');
+        return redirect()->route('restaurant.login');
     }
 
     /**

@@ -11,8 +11,17 @@
 |
 */
 
-Route::group(['prefix' => '99', 'as' => 'restaurant.', 'namespace' => 'Restaurant'], function () {
+Route::name('restaurant.')->prefix('restaurant')->namespace('Restaurant')->group(function () {
+    Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
+    Route::post('/login', 'Auth\LoginController@login')->name('login.submit');
+    Route::get('logout/', 'Auth\LoginController@logout')->name('logout');
+    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    Route::post('password/reset', 'Auth\ForgotPasswordController@reset')->name('password.request.reset');
+    Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+    Route::get('password/reset/{token}', 'Auth\ForgotPasswordController@showResetForm')->name('password.reset');
+});
 
+Route::name('restaurant.')->prefix('restaurant')->namespace('Restaurant')->middleware(['employee'])->group(function () {
     Route::get('/', 'ProductController@index')->name('product.index');
     Route::get('/product', 'ProductController@index')->name('product.index');
     Route::get('/product/create', 'ProductController@create')->name('product.create');
@@ -38,24 +47,10 @@ Route::group(['prefix' => '99', 'as' => 'restaurant.', 'namespace' => 'Restauran
     Route::get('/balance/create/{id}', 'BalanceController@create')->name('balance.create');
     Route::post('/balance/store', 'BalanceController@store')->name('balance.store');
     Route::get('/balance/log/{id}', 'BalanceController@log')->name('balance.log');
-
-    Auth::routes();
-
-    Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
-    Route::post('/login', 'Auth\LoginController@login')->name('login.submit');
-    Route::get('logout/', 'Auth\LoginController@logout')->name('logout');
-    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-    Route::post('password/reset', 'Auth\ForgotPasswordController@reset')->name('password.request.reset');
-    Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-    Route::get('password/reset/{token}', 'Auth\ForgotPasswordController@showResetForm')->name('password.reset');
 });
 
 
-Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
-    Route::get('/profile', 'HomeController@profile')->name('home.profile');
-
-    Auth::routes();
-
+Route::name('frontend.')->namespace('Frontend')->group(function () {
     Route::get('/', 'HomeController@index')->name('home.index');
     Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
     Route::post('/login', 'Auth\LoginController@login')->name('login.submit');
@@ -66,14 +61,14 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function () {
     Route::post('password/reset', 'Auth\ForgotPasswordController@reset')->name('password.request.reset');
     Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
     Route::get('password/reset/{token}', 'Auth\ForgotPasswordController@showResetForm')->name('password.reset');
+});
 
-
+Route::name('frontend.')->namespace('Frontend')->middleware(['web'])->group(function () {
     Route::get('order', 'OrderController@show')->name('order.show');
     Route::post('order', 'OrderController@store')->name('order.store');
     Route::get('order/add/{id}', 'OrderController@product')->name('order.add');
     Route::post('order/add/product', 'OrderController@addProduct')->name('order.add.product');
-    Route::get('order/confirm', 'OrderController@confirmTime')->name('order.confirm');
-    Route::get('order/check/balance/{id}', 'OrderController@checkBalance')->name('order.check.balance');
+    Route::get('order/check/balance', 'OrderController@checkBalance')->name('order.check.balance');
 
 
     Route::get('api/categories', 'TaxonomyController@categories')->name('taxonomies.categories');

@@ -12,11 +12,6 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function __construct()
-    {
-        $this->middleware('auth:employee');
-    }
-
     /**
      * Upload and image into the app.
      * @param Request $request Request from the user.

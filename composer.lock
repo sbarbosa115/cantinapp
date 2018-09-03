@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "94e34b95833cb91b95f31bd378ec8341",
+    "content-hash": "93bd95b43f38b426ab24e91c490418e5",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -2194,6 +2194,57 @@
                 "dump"
             ],
             "time": "2018-07-26T11:24:31+00:00"
+        },
+        {
+            "name": "tightenco/ziggy",
+            "version": "v0.6.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tightenco/ziggy.git",
+                "reference": "cf6dc47db14304cd6fe2b6d3fae22b411586e8dc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tightenco/ziggy/zipball/cf6dc47db14304cd6fe2b6d3fae22b411586e8dc",
+                "reference": "cf6dc47db14304cd6fe2b6d3fae22b411586e8dc",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "~5.6.7"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "^1.6",
+                "orchestra/testbench": "~3.6"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Tightenco\\Ziggy\\ZiggyServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tightenco\\Ziggy\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matt Stauffer",
+                    "email": "matt@tighten.co"
+                },
+                {
+                    "name": "Daniel Coulbourne",
+                    "email": "daniel@tighten.co"
+                }
+            ],
+            "description": "Generates a Blade directive exporting all of your named Laravel routes. Also provides a nice route() helper function in JavaScript.",
+            "time": "2018-07-06T02:53:28+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

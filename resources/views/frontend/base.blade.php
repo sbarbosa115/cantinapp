@@ -49,17 +49,13 @@
 
 <!-- Main Content -->
 <div class="page-container" id="PageContainer">
-    <main class="main-content" id="MainContent" role="main">
-
-        @yield('content')
-
-    </main>
+    @yield('content')
 </div>
 
 <!-- Footer -->
 <footer class="footer">
     <div id="shopify-section-theme-footer" class="shopify-section">
-        <section class="footer-information-block clearfix" style="background-image:  url(./assets/images/1600x437.png);">
+        <section class="footer-information-block clearfix">
             <div class="container">
                 <div class="row">
                     <div class="footer-information-inner">
@@ -67,7 +63,7 @@
                             <div class="information-item col-sm-4 not-animated" data-animate="fadeInUp" data-delay="100">
                                 <div class="about-content">
                                     <div class="logo-footer">
-                                        <img src="./assets/images/113x118.png" alt="" />
+                                        <img src="//via.placeholder.com/113x118" alt="" />
                                     </div>
                                     <div class="about-caption">
                                         Skort Maison Martin Margiela knot ponytail cami texture tucked t-shirt. Black skirt razor pleats plaited gold collar.
@@ -76,13 +72,16 @@
                                     </div>
                                     <div class="about-contact">
                                         <div class="item">
-                                            <span class="cs-icon icon-marker"></span><address>No 1104 Sky Tower, Las Vegas, USA</address>
+                                            <span class="cs-icon icon-marker"></span>
+                                            <address>No 1104 Sky Tower, Las Vegas, USA</address>
                                         </div>
                                         <div class="item">
-                                            <span class="cs-icon icon-phone"></span><a href="tel:(084)0123456789">(084) 0123 456 789</a>
+                                            <span class="cs-icon icon-phone"></span>
+                                            <a href="tel:(084)0123456789">(084) 0123 456 789</a>
                                         </div>
                                         <div class="item">
-                                            <span class="cs-icon icon-mail"></span><a href="mailto:contac@yourcompany.com">contac@yourcompany.com</a>
+                                            <span class="cs-icon icon-mail"></span>
+                                            <a href="mailto:contac@yourcompany.com">contac@yourcompany.com</a>
                                         </div>
                                     </div>
                                 </div>
@@ -117,7 +116,7 @@
 </footer>
 
 <div class="modal fade" id="modal-messages"></div>
-
+@routes
 <script type="text/javascript" src="{{ asset('dist/frontend/js/app.js') }}"></script>
 @yield('javascript')
 

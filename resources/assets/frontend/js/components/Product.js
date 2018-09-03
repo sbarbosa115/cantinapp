@@ -39,7 +39,7 @@ class Product extends Component {
                         <div className="hover-mask">
                             <div className="group-mask">
                                 <div className="inner-mask">
-                                    <form action="./cart.html" method="post">
+                                    <form action="#" method="post">
                                         <div className="effect-ajax-cart">
                                             <input name="quantity" value="1" type="hidden"/>
                                             <button className="_btn add-to-cart" data-parent=".parent-fly" onClick={(e) => this.addToOrder(e, this.state.product.id)} title="Add To Order">Add to Order</button>

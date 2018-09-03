@@ -7,11 +7,10 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('dist/restaurant/css/app.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -53,12 +52,9 @@
 
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="{{ route('frontend.logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                        <a href="{{ route('frontend.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                             Logout
                                         </a>
-
                                         <form id="logout-form" action="{{ route('frontend.logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
@@ -75,6 +71,6 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('dist/restaurant/js/app.js') }}"></script>
 </body>
 </html>

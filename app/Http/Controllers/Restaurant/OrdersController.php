@@ -2,27 +2,29 @@
 
 namespace App\Http\Controllers\Restaurant;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Model\Order;
 use App\Services\Orders;
+use Illuminate\View\View;
 use Validator;
 
 class OrdersController extends Controller
 {
 
-    public function index()
+    public function index(): View
     {
         $orders = Order::whereNotIn("status", ["archived"])->orderBy("pickup_at", "desc")->get();
         return view('restaurant.orders.index', ['orders' => $orders]);
     }
 
-    public function detail($id)
+    public function detail($id): View
     {
         $order = Order::find($id);
         return view('restaurant.orders.detail', ['order' => $order]);
     }
 
-    public function change($id, $status)
+    public function change($id, $status): View
     {
         $order = Order::find($id);
         return view('restaurant.orders.change', ['order' => $order, 'status' => $status]);
@@ -36,7 +38,7 @@ class OrdersController extends Controller
         return $validator;
     }
 
-    public function status(Request $request, $id)
+    public function status(Request $request, $id): RedirectResponse
     {
         $validator = $this->validator($request->all());
         if ($validator->fails()){

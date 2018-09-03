@@ -32,7 +32,6 @@
                                     @else
                                         No products added yet.
                                     @endif
-
                                 </span>
                             </div>
                         </div>
@@ -81,15 +80,10 @@
                                     @endif
                                 @endforeach
                             </div>
-                            <div class="subtotal">
-                                <span>Subtotal:</span>
-                                <span class="cart-total-right money">${{ $total }}</span>
-                            </div>
 
                             <div class="action">
                                 <button class="_btn float-right" onclick="window.location='{{ route("frontend.order.show") }}'">Proceed To Order</button>
                             </div>
-
                         @endif
                     </div>
                 </div>

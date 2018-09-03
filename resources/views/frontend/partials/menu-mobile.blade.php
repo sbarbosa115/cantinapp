@@ -16,7 +16,12 @@
                                 <div class="num-items-in-cart">
                                     <span class="cs-icon icon-bag"></span>
                                     <span class="cart_text">
-										<span class="number">2</span>
+										@if(Session::has('order'))
+                                            @php($products = Session::get('order'))
+                                            Order <span class="number">({{ $products->count() }})</span>
+                                        @else
+                                            No products added yet.
+                                        @endif
                                     </span>
                                 </div>
                             </div>
@@ -24,64 +29,55 @@
                     </a>
                     <div class="dropdown-menu cart-info">
                         <div class="cart-content">
-                            <div class="text-items"><span>2 item(s) in the shopping cart</span>
-                                <span class="cs-icon icon-close close-dropdown"></span>
-                            </div>
-                            <div class="items control-container">
-                                <div class="group_cart_item">
-                                    <div class="cart-left">
-                                        <a class="cart-image" href="./product.html">
-                                            <img src="./assets/images/800x800.png" alt="" title="">
-                                        </a>
-                                    </div>
-                                    <div class="cart-right">
-                                        <div class="cart-title">
-                                            <a href="./product.html">Extra Crispy - Small / Black / Black Bottom Cupcakes</a>
-                                        </div>
-                                        <div class="cart-price">
-                                            <span class="money" data-currency-usd="$10.00" data-currency="USD">$10.00</span>
-                                        </div>
-                                        <div class="cart-qty">
-                                            <span class="quantity">Qty: 1</span>
-                                            <a title="Add To Wishlist" class="wishlist-extra-crispy-1" href="./wish-list.html">
-                                                <span class="cs-icon icon-heart"></span>
-                                            </a>
-                                            <a class="cart-close" title="Remove" href="javascript:void(0);">
-                                                <span class="cs-icon icon-bin"></span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="group_cart_item">
-                                    <div class="cart-left">
-                                        <a class="cart-image" href="./product.html">
-                                            <img src="./assets/images/800x800.png" alt="" title="">
-                                        </a>
-                                    </div>
-                                    <div class="cart-right">
-                                        <div class="cart-title">
-                                            <a href="./product.html">Juice Ice Tea</a>
-                                        </div>
-                                        <div class="cart-price">
-                                            <span class="money" data-currency-usd="$10.00" data-currency="USD">$10.00</span>
-                                        </div>
-                                        <div class="cart-qty">
-                                            <span class="quantity">Qty: 2</span>
-                                            <a title="Add To Wishlist" class="wishlist-extra-crispy-1" href="./wish-list.html">
-                                                <span class="cs-icon icon-heart"></span>
-                                            </a>
-                                            <a class="cart-close" title="Remove" href="javascript:void(0);">
-                                                <span class="cs-icon icon-bin"></span>
-                                            </a>
-                                        </div>
-                                    </div>
+                            <div class="text-items">
+                                <div class="text-items">
+                                    @if(Session::has('order'))
+                                        @php($products = Session::get('order'))
+                                        <span>{{ $products->count()  }} item(s) in this order</span>
+                                        <span class="cs-icon icon-close close-dropdown"></span>
+                                    @else
+                                        <span>No products added yet.</span>
+                                    @endif
                                 </div>
                             </div>
-                            <div class="subtotal"><span>Subtotal:</span><span class="cart-total-right money" data-currency-usd="$30.00" data-currency="USD">$30.00</span></div>
-                            <div class="action">
-                                <button class="_btn" onclick="window.location='./cart.html'">View All Your Cart</button>
-                                <button class="_btn float-right" onclick="window.location='./cart.html'">Proceed To Checkout</button>
-                            </div>
+                            @php($total = 0)
+                            @php($products = collect([]))
+                            @if(Session::has('order'))
+                                @if(Session::has('order'))
+                                    <div class="items control-container">
+                                        @foreach(Session::get('order') as $product)
+                                            @if(!$products->contains('name', $product->name))
+                                                <?php $products->push($product); ?>
+                                                <div class="group_cart_item">
+                                                    <div class="cart-left">
+                                                        <a class="cart-image" href="#">
+                                                            <img src="{{ asset($product->image_path) }}">
+                                                        </a>
+                                                    </div>
+                                                    <div class="cart-right">
+                                                        <div class="cart-title">
+                                                            <a href="#">{{  $product->name }}</a>
+                                                        </div>
+                                                        <div class="cart-price">
+                                                            <span class="money">${{ $product->price * $product->quantity }}</span>
+                                                        </div>
+                                                        <div class="cart-qty">
+                                                            <span class="quantity">Qty: {{ $product->quantity }}</span>
+                                                            <a class="cart-close" title="Remove" href="javascript:void(0);">
+                                                                <span class="cs-icon icon-bin"></span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @php($total = $total  + ($product->price * $product->quantity))
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                    <div class="action">
+                                        <button class="_btn float-right" onclick="window.location='{{ route("frontend.order.show") }}'">Proceed To Order</button>
+                                    </div>
+                                @endif
+                            @endif
                         </div>
                     </div>
                 </div>

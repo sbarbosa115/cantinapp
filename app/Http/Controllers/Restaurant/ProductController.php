@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Restaurant;
 
 use App\Model\Product;
-use App\Model\Taxonomy;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
 use Validator;
 
 class ProductController extends Controller
@@ -22,18 +22,18 @@ class ProductController extends Controller
         return $validator;
     }
 
-    public function index()
+    public function index(): View
     {
         $products = Product::all();
         return view('restaurant.product.index', ['products' => $products]);
     }
 
-    public function create()
+    public function create(): View
     {
         return view('restaurant.product.create', ["product" => new Product()]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $validator = $this->validator($request->all());
 
@@ -51,7 +51,7 @@ class ProductController extends Controller
         return redirect()->route("restaurant.product.index");
     }
 
-    public function edit($id)
+    public function edit($id): View
     {
         $product = Product::find($id);
         if(!$product){
@@ -60,7 +60,7 @@ class ProductController extends Controller
         return view('restaurant.product.create', ["product" => $product]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id): RedirectResponse
     {
         $product = Product::findOrFail($id);
         $validator = $this->validator($request->all());
@@ -74,7 +74,7 @@ class ProductController extends Controller
     }
 
 
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, int $id): RedirectResponse
     {
         $product = Product::findOrFail($id);
         $product->delete();
@@ -82,9 +82,4 @@ class ProductController extends Controller
         return redirect()->route("restaurant.product.index");
     }
 
-    public function sides(Product $product)
-    {
-        $sides = $product->sides()->get();
-        dd($sides);
-    }
 }
