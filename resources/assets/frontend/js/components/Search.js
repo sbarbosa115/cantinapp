@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Product from "./Product";
+import WelcomeHeader from "./WelcomeHeader";
 
 class Search extends Component {
 
@@ -55,46 +56,46 @@ class Search extends Component {
             }
         });
 
-        console.log(products)
         return (
-            <section className="search-content">
-                <div className="search-content-wrapper">
-                    <div className="container">
-                        <div className="row">
-                            <div className="search-content-group">
-                                <div className="search-content-inner">
-                                    <div id="search">
-                                        <div className="expanded-message">
-                                            <div className="search-field">
-                                                <form className="search" action="#" style={{position:'relative'}}>
-                                                    <input type="hidden" name="type"/>
-                                                    <button className="search-submit" type="submit">
-                                                        <span className="cs-icon icon-search"></span>
-                                                    </button>
-                                                    <input type="text" name="q" className="search_box" placeholder="search our store" autoComplete="off" onChange={e => this.onSearch(e)}/>
-                                                </form>
+            <div>
+                <WelcomeHeader/>
+                <section className="search-content">
+                    <div className="search-content-wrapper">
+                        <div className="container">
+                            <div className="row">
+                                <div className="search-content-group">
+                                    <div className="search-content-inner">
+                                        <div id="search">
+                                            <div className="expanded-message">
+                                                <div className="search-field">
+                                                    <form className="search" action="#" style={{position:'relative'}}>
+                                                        <input type="text" name="q" className="search_box" placeholder="search our store" autoComplete="off" onChange={e => this.onSearch(e)}/>
+                                                    </form>
+                                                </div>
+                                                {this.state.query && <div>
+                                                    <span className="subtext">Your search for '<strong>{this.state.query}</strong>' revealed the following: </span>
+                                                    <span className="results">{products.length} results found</span>
+                                                </div>}
                                             </div>
-                                            {this.state.query && <div>
-                                                <span className="subtext">Your search for '<strong>{this.state.query}</strong>' revealed the following: </span>
-                                                <span className="results">{products.length} results found</span>
-                                            </div>}
-                                        </div>
-                                        <div className="product-item-group clearfix">
-                                            {products}
-                                        </div>
-                                        <div className="search-bottom-toolbar">
-                                            <div className="search-pagination col-sm-6"></div>
-                                            <div className="search-counter col-sm-6">
-                                                Items 1 to {products.length} of {_products.length} total
+                                            <div className="product-item-group clearfix">
+                                                {products}
                                             </div>
+                                            {products.length > 0 &&
+                                            <div className="search-bottom-toolbar">
+                                                <div className="search-pagination col-sm-6"></div>
+                                                <div className="search-counter col-sm-6">
+                                                    Items 1 to {products.length} of {_products.length} total
+                                                </div>
+                                            </div>
+                                            }
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
         );
     }
 }

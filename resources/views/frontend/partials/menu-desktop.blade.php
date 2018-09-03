@@ -101,8 +101,6 @@
                 @else
                     @include('frontend.partials._menu-desktop-login')
                 @endif
-
-                </div
             </div>
         </div>
     </div>

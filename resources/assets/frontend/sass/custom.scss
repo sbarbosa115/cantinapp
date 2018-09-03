@@ -18,3 +18,24 @@
 .confirm-order{
   padding: 0 2%;
 }
+
+select.form-control{
+  background-image: url(../images/ico-select.svg);
+}
+
+section.home-welcome-layout .welcome-caption {
+  margin-bottom: 50px;
+  display: block;
+  line-height: 1.6em;
+  font-weight: 500;
+  text-align: center
+}
+
+section.home-welcome-layout .page-title {
+  text-align: center;
+  margin-bottom: 45px;
+  font-size: 72px;
+  font-family: Playball;
+  line-height: 1em;
+  color: #000
+}

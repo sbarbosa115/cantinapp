@@ -17,9 +17,9 @@ class OrderService
     public function addProductToCurrentOrder(array $userOrder, Product $product): void
     {
         $order = $this->getCurrentSessionOrder();
-        foreach ($userOrder['side'] as $side) {
+        foreach ($userOrder['side'] as $key => $side) {
             $sideProduct = clone $product;
-            $this->addProductDetails($side, $userOrder, $sideProduct);
+            $this->addProductDetails($side, $userOrder, $sideProduct, $key);
             $order->push($sideProduct);
         }
         $this->syncCurrentUserOrder($order);
@@ -54,9 +54,9 @@ class OrderService
         session()->forget('order');
     }
 
-    protected function addProductDetails(array $sides, array $userOrder, Product &$product): void
+    protected function addProductDetails(array $sides, array $userOrder, Product &$product, int $index): void
     {
-        $product->comment = $userOrder['comment'];
+        $product->comment = $userOrder['comment'][$index];
         $product->quantity = $userOrder['quantity'];
 
         $this->addSidesToProduct($sides, $product);

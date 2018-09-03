@@ -34,13 +34,6 @@
                 <div class="col-md-12 tabs-sides" id="sides-container">
                 </div>
 
-                <div class="form-group col-md-12">
-                    <label for="inputCity">Do you have a special requirement in this Order?</label>
-                    <textarea class="form-control" name="comment"></textarea>
-                    @if($errors->first('comment'))
-                        <div>{{$errors->first('comment')}}</div>
-                    @endif
-                </div>
             </form>
             <div class="clearfix"></div>
         </div>
@@ -72,7 +65,7 @@
             tabsContainer.push([`<li><a href="#product-${i}" data-toggle="tab">Dish ${i} Sides</a></li>`])
             contentContainer.push([`<div class="tab-pane" id="product-${i}"> <br />`]);
 
-            Object.keys(productSides).forEach((items, index) => {
+            Object.keys(productSides).forEach((items) => {
                 contentContainer.push([`<div class="form-group col-md-12">
                     <label for="dish-quantity">Dish ${i} ${items} side</label>
                     <select name="side[${i}][]" class="form-control">
@@ -87,6 +80,11 @@
                 contentContainer.push([`</select></div>`]);
             })
 
+            contentContainer.push([`<div class="form-group col-md-12">
+                    <label for="inputCity">Do you have a special requirement in this Order?</label>
+                    <textarea class="form-control" name="comment[${i}]"></textarea>
+                </div>`
+            ]);
             contentContainer.push([`<br /></div>`]);
         }
         tabsContainer.push(['</ul>']);

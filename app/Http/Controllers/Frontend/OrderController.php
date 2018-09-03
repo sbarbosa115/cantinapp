@@ -53,12 +53,15 @@ class OrderController extends Controller
     public function show(Request $request)
     {
         $order = OrderService::getCurrentSessionOrder();
-
-        if($order->count() > 0){
-            return view("frontend.order.show", ["order" => $order]);
+        if(Auth::user()){
+            if($order->count() > 0){
+                return view("frontend.order.show", ["order" => $order]);
+            } else {
+                $request->session()->flash('error', "You need to add products before confirm the order.");
+            }
+        } else {
+            $request->session()->flash('error', "You need to sign-in before see your the order page.");
         }
-
-        $request->session()->flash('error', "You need to add products before confirm the order.");
         return redirect()->route("frontend.home.index");
     }
 

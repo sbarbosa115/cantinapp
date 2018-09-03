@@ -1,4 +1,4 @@
-<div class="modal-dialog" role="document">
+<div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Customer: <strong>{{ $order->user->name }}</strong></h5>
@@ -22,7 +22,7 @@
                             <td class="text-center">{{ $product->quantity }}</td>
                             <td>{{ $product->product()->name }}</td>
                             <td>{{ $product->sidesAsString()  }}</td>
-                            <td>{{ $product->product()->comment }}</td>
+                            <td>{{ $product->comment }}</td>
                         </tr>
                     @endforeach
                 </tbody>
