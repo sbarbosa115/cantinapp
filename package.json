@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.2.0",
+    "@yaireo/tagify": "^2.1.7",
     "animate.css": "^3.7.0",
     "appear": "^1.0.1",
     "bootstrap": "^4.0.0-beta.2",

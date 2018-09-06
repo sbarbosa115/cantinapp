@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Restaurant;
 
 use App\Model\Product;
+use App\Model\Taxonomy;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -18,6 +19,7 @@ class ProductController extends Controller
             'description' => 'required',
             'price' => 'required|numeric',
             'image' => 'image',
+            'tags' => 'json',
         ]);
         return $validator;
     }
@@ -35,19 +37,18 @@ class ProductController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $validator = $this->validator($request->all());
+        $data = $request->all();
+        $validator = $this->validator($data);
 
         if ($validator->fails()){
             return redirect()->back()->withInput()->withErrors($validator->errors());
         }
 
-        $image = $this->uploadImage($request);
-        $data = $request->all();
-        $data['image_path'] = $image;
+        $this->uploadImage($request);
+        $product = Product::create($data);
+        $product->attachTags($data['tags']);
 
-        Product::create($data);
         $request->session()->flash('success', 'The action was completed successfully.');
-
         return redirect()->route("restaurant.product.index");
     }
 
@@ -63,12 +64,16 @@ class ProductController extends Controller
     public function update(Request $request, int $id): RedirectResponse
     {
         $product = Product::findOrFail($id);
-        $validator = $this->validator($request->all());
+        $data = $request->all();
+        $validator = $this->validator($data);
         if ($validator->fails()){
             return redirect()->back()->withErrors($validator->errors());
         }
+
         $this->uploadImage($request);
-        $product->update($request->all());
+        $product->update($data);
+        $product->attachTags($data['tags']);
+
         $request->session()->flash('success', 'The action was completed successfully.');
         return redirect()->route("restaurant.product.index");
     }

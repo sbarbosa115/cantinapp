@@ -6258,9 +6258,6 @@ ul.filter-content.filter-color .color-swatch {
 }
 
 @media only screen and (max-width: 767px) {
-    .product .mask,.product .hover-mask {
-        display: none !important
-    }
 
     .product .product-title {
         font-size: 20px

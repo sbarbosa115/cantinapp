@@ -145,12 +145,12 @@ class TaxonomiesSeeder extends Seeder
             ],
             ['name' => 'White rice', 'image_path' => '67bead9a4203c3fa8a93e7342d5cf73c.jpg', 'category' => [
                     'name' => 'meals',
-                    'type' => 'side'
+                    'type' => 'category'
                 ]
             ],
             ['name' => 'French fries', 'image_path' => '67bead9a4203c3fa8a93e7342d5cf73c.jpg', 'category' => [
                     'name' => 'meals',
-                    'type' => 'side'
+                    'type' => 'category'
                 ]
             ],
             ['name' => 'Rice milk', 'image_path' => '67bead9a4203c3fa8a93e7342d5cf73c.jpg', 'category' => [

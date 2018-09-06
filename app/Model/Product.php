@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\Repositories\TaxonomyRepository;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -26,11 +27,11 @@ class Product extends Model
     }
 
     public function categories(){
-        return $this->belongsToMany(Taxonomy::class)->where("type", "=","category");
+        return $this->belongsTo(Taxonomy::class)->whereIn("type",["category", "side"], 'or');
     }
 
     public function tags(){
-        return $this->belongsToMany(Taxonomy::class)->where("type", "=","tag")->groupBy("taxonomies.slug");
+        return $this->belongsToMany(Taxonomy::class)->where("type", "=","tag");
     }
 
     public function getCurrency(){
@@ -43,6 +44,24 @@ class Product extends Model
             $result  = $this->quantity * $this->price;
         }
         return $result;
+    }
+
+    public function attachTags(string $stringTags)
+    {
+        $tags = json_decode($stringTags, true);
+        $taxonomiesIds = [];
+        foreach ($tags as $tag){
+            $taxonomy = Taxonomy::where('name', $tag)->where('type', 'tag')->first();
+            if(!$taxonomy){
+                $taxonomy = Taxonomy::create([
+                    'name' => $tag,
+                    'type' => 'tag',
+                    'description' => 'Created from product.'
+                ]);
+            }
+            $taxonomiesIds[] = $taxonomy->id;
+        }
+        $this->tags()->sync($taxonomiesIds);
     }
 
 }

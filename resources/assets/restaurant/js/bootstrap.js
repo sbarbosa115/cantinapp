@@ -4,6 +4,7 @@ window._ = require('lodash');
 
 require('bootstrap/dist/js/bootstrap.bundle');
 require('startbootstrap-sb-admin/js/sb-admin');
+window.Tagify = require('@yaireo/tagify/dist/tagify');
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -28,3 +29,4 @@ if (token) {
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
+

@@ -30,9 +30,13 @@
 <div class="form-group">
     <label for="message-text" class="form-control-label">Category:</label>
     <select class="form-control" name="category">
-        <option>Choose a category to this product.</option>
+        <option value="">Choose a category to this product.</option>
         @foreach($product->categories()->get() as $category)
-            <option value="{{$category->id}}">{{$category->name}}</option>
+            @if($category->slug === $product->categories->slug)
+                <option value="{{$category->id}}" selected>{{ucfirst($category->name)}} ({{ucfirst($category->type)}})</option>
+            @else
+                <option value="{{$category->id}}">{{ucfirst($category->name)}} ({{ucfirst($category->type)}})</option>
+            @endif
         @endforeach
     </select>
     @if($errors->first('category'))
@@ -49,6 +53,14 @@
 </div>
 
 <div class="form-group">
+    <label for="message-text" class="form-control-label">Tags:</label>
+    <textarea name="tags" id="tags" placeholder="Put tags separed by ,"></textarea>
+    @if($errors->first('tags'))
+        <div class="form-control-feedback">{{$errors->first('tags')}}</div>
+    @endif
+</div>
+
+<div class="form-group">
     <a class="btn btn-info" href="{{ route("restaurant.product.index") }}">Go Back</a>
     <input type="submit" class="btn btn-success" value="Save Product">
 </div>
@@ -57,6 +69,13 @@
 
 @section('javascript')
     <script>
-        console.log("message from form.")
+        document.getElementById('tags').value = "{!! join(', ', $product->tags()->get()->pluck('name')->toArray()) !!}";
+        const input = document.querySelector('textarea[name=tags]'),
+        tagify = new Tagify(input, {
+            callbacks        : {
+                add    : console.log,  // callback when adding a tag
+                remove : console.log   // callback when removing a tag
+            }
+        });
     </script>
 @endsection

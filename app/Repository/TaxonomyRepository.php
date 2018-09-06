@@ -15,4 +15,12 @@ class TaxonomyRepository {
             ->get();
     }
 
+    public static function getCategories(): Collection
+    {
+        return DB::table('taxonomies')
+            ->select(['id', 'type', 'name'])
+            ->where('type','category')
+            ->orWhere('type', 'side')
+            ->get();
+    }
 }
