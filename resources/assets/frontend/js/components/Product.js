@@ -27,12 +27,12 @@ class Product extends Component {
 
     render() {
         return (
-            <div className="content_product col-sm-3 fadeInUp animated" data-animate="fadeInUp" data-delay="100">
+            <div className="product-item-wrapper col-sm-3" data-animate="fadeInUp" data-delay="100">
                 <div className="row-container product list-unstyled clearfix product-circle">
                     <div className="row-left">
                         <a onClick={this.showProduct()} className="hoverBorder container_item">
                             <div className="hoverBorderWrapper">
-                                <img src={"/" + this.state.product.image_path} className="img-responsive front"/>
+                                <img src={this.state.product.image_path} className="img-responsive front"/>
                                 <div className="mask"></div>
                             </div>
                         </a>

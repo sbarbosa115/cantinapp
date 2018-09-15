@@ -39,7 +39,7 @@ class TaxonomiesSeeder extends Seeder
         foreach ($dishes as $key => $dish){
             $dish = factory(\App\Model\Product::class)->create([
                 "name" => $dishes[$key]["name"],
-                "image_path" => "uploads/" . $dishes[$key]["image_path"]
+                "image_path" => "/uploads/" . $dishes[$key]["image_path"]
             ]);
 
             if($taxonomy === null){
@@ -145,12 +145,12 @@ class TaxonomiesSeeder extends Seeder
             ],
             ['name' => 'White rice', 'image_path' => '67bead9a4203c3fa8a93e7342d5cf73c.jpg', 'category' => [
                     'name' => 'meals',
-                    'type' => 'category'
+                    'type' => 'side'
                 ]
             ],
             ['name' => 'French fries', 'image_path' => '67bead9a4203c3fa8a93e7342d5cf73c.jpg', 'category' => [
                     'name' => 'meals',
-                    'type' => 'category'
+                    'type' => 'side'
                 ]
             ],
             ['name' => 'Rice milk', 'image_path' => '67bead9a4203c3fa8a93e7342d5cf73c.jpg', 'category' => [
@@ -168,7 +168,7 @@ class TaxonomiesSeeder extends Seeder
         foreach ($dishes as $key => $item){
             $dish = factory(\App\Model\Product::class)->create([
                 "name" => $dishes[$key]["name"],
-                "image_path" => "uploads/" . $dishes[$key]["image_path"]
+                "image_path" => "/uploads/" . $dishes[$key]["image_path"]
             ]);
 
             $taxonomy = \App\Model\Taxonomy::where('name', '=', $item['category']['name'])

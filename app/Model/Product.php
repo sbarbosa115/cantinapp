@@ -4,6 +4,8 @@ namespace App\Model;
 
 use App\Repositories\TaxonomyRepository;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property mixed price
@@ -22,12 +24,19 @@ class Product extends Model
         $this->attributes['slug'] = str_slug($value);
     }
 
-    public function taxonomies(){
+    public function taxonomies(): BelongsToMany
+    {
         return $this->belongsToMany(Taxonomy::class);
     }
 
-    public function categories(){
+    public function categories(): BelongsTo
+    {
         return $this->belongsTo(Taxonomy::class)->whereIn("type",["category", "side"], 'or');
+    }
+
+    public function category()
+    {
+       return $this->belongsToMany(Taxonomy::class)->whereIn("type",["category", "side"]);
     }
 
     public function tags(){
@@ -46,7 +55,7 @@ class Product extends Model
         return $result;
     }
 
-    public function attachTags(string $stringTags)
+    protected function attachTags(string $stringTags): array
     {
         $tags = json_decode($stringTags, true);
         $taxonomiesIds = [];
@@ -61,7 +70,21 @@ class Product extends Model
             }
             $taxonomiesIds[] = $taxonomy->id;
         }
-        $this->tags()->sync($taxonomiesIds);
+        return $taxonomiesIds;
     }
 
+    protected function attachCategory(int $category): array
+    {
+        $taxonomy = Taxonomy::find($category);
+        if(!$taxonomy instanceof Taxonomy){
+            throw new \Exception('Invalid category id');
+        }
+        return [$taxonomy->id];
+    }
+
+    public function attachTaxonomies(string $tags, string $category){
+        $tags = $this->attachTags($tags);
+        $taxonomies = array_merge($tags, $this->attachCategory($category));
+        $this->tags()->sync($taxonomies);
+    }
 }

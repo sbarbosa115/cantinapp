@@ -26,7 +26,7 @@
                             <div class="main-header-inner">
                                 <div class="nav-logo">
                                     <a href="{{ url("/") }}">
-                                        <img src="http://via.placeholder.com/170x101" alt="" title="Cantinapp" />
+                                        <img src="{{ asset('images/logo.png') }}" alt="" title="Cantinapp" />
                                     </a>
                                     <h1 style="display:none">
                                         <a href="/">Cantinapp </a>
@@ -63,7 +63,7 @@
                             <div class="information-item col-sm-4 not-animated" data-animate="fadeInUp" data-delay="100">
                                 <div class="about-content">
                                     <div class="logo-footer">
-                                        <img src="//via.placeholder.com/113x118" alt="" />
+                                        <img src="{{ asset('images/logo.png') }}" alt="" />
                                     </div>
                                     <div class="about-caption">
                                         Skort Maison Martin Margiela knot ponytail cami texture tucked t-shirt. Black skirt razor pleats plaited gold collar.

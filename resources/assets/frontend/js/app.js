@@ -38,3 +38,4 @@ require('../images/6.jpg');
 require('../images/7.jpg');
 require('../images/8.jpg');
 require('../images/9.jpg');
+require('../images/logo.png');

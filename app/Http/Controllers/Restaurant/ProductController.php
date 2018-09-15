@@ -20,6 +20,7 @@ class ProductController extends Controller
             'price' => 'required|numeric',
             'image' => 'image',
             'tags' => 'json',
+            'category' => 'required'
         ]);
         return $validator;
     }
@@ -44,9 +45,9 @@ class ProductController extends Controller
             return redirect()->back()->withInput()->withErrors($validator->errors());
         }
 
-        $this->uploadImage($request);
+        $this->uploadImage($data);
         $product = Product::create($data);
-        $product->attachTags($data['tags']);
+        $product->attachTaxonomies($data['tags'], $data['category']);
 
         $request->session()->flash('success', 'The action was completed successfully.');
         return redirect()->route("restaurant.product.index");
@@ -70,9 +71,9 @@ class ProductController extends Controller
             return redirect()->back()->withErrors($validator->errors());
         }
 
-        $this->uploadImage($request);
+        $this->uploadImage($data);
         $product->update($data);
-        $product->attachTags($data['tags']);
+        $product->attachTaxonomies($data['tags'], $data['category']);
 
         $request->session()->flash('success', 'The action was completed successfully.');
         return redirect()->route("restaurant.product.index");

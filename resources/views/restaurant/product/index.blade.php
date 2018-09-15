@@ -25,7 +25,6 @@
                     All products stored
                 </div>
                 <div class="card-body">
-
                     <table class="table display" id="entities" width="100%" cellspacing="0">
                         <thead>
                         <tr>
@@ -42,7 +41,7 @@
                                 <td>{{$product->name}}</td>
                                 <td>{{$product->description}}</td>
                                 <td>{{$product->price}}</td>
-                                <td>@if($product->categories()->count()) {{$product->categories()->first()->name}} @endif</td>
+                                <td>{{ucfirst($product->category()->first()->name)}}</td>
                                 <td>
                                     <a class="btn btn-primary btn-sm" href="{{ route("restaurant.product.edit", ["id" => $product->id]) }}">Edit</a>
                                     <form action="{{ route("restaurant.product.delete", ["id" => $product->id]) }}" method="post" style="display: inline;">
@@ -55,29 +54,10 @@
                         @endforeach
                         </tbody>
                     </table>
-
                 </div>
             </div>
-
-
         </div>
         <!-- /.container-fluid-->
     </div>
 
 @endsection('content')
-
-@section('javascript')
-    <script>
-        $(document).ready( function () {
-
-            $('.nav-tabs a').click(function(e){
-                var _option = $(e.currentTarget).html();
-                if(_option === "Products"){
-                    $('#entities').DataTable();
-                }0
-                $(this).tab('show');
-            })
-
-        });
-    </script>
-@endsection('javascript')

@@ -12,15 +12,14 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function uploadImage(Request &$request, $path = '/uploads'): void
+    public function uploadImage(array &$data, $path = '/uploads'): void
     {
-        $return = null;
-        if($request->file('image')){
-            $image = $request->file('image');
+        if($data['image']){
+            $image = $data['image'];
             $name = md5(time() . rand(0,9999)).'.'.$image->getClientOriginalExtension();
             $destinationPath = public_path($path);
             $image->move($destinationPath, $name);
-            $request->request->add(['image_path' => "{$path}/{$name}"]);
+            $data['image_path'] = "{$path}/{$name}";
         }
     }
 }
