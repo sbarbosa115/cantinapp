@@ -27,7 +27,7 @@ class Product extends Component {
 
     render() {
         return (
-            <div className="product-item-wrapper col-sm-3" data-animate="fadeInUp" data-delay="100">
+            <div className="content_product col-sm-3 fadeInUp animated" data-animate="fadeInUp" data-delay="100">
                 <div className="row-container product list-unstyled clearfix product-circle">
                     <div className="row-left">
                         <a onClick={this.showProduct()} className="hoverBorder container_item">
