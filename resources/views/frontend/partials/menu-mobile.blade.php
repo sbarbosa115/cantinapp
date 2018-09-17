@@ -1,7 +1,7 @@
 <div class="navMobile-navigation">
     <div class="navMobile-logo">
         <a href="/">
-            <img class="header-logo-image" src="{{ asset("/frontend/images/170x177.png") }}" alt="" title="Cantinapp">
+            <img class="header-logo-image" src="{{ asset("/images/logo.png") }}" alt="" title="Cantinapp">
         </a>
     </div>
     <div class="group_mobile_right">
