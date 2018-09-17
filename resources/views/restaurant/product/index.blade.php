@@ -41,7 +41,11 @@
                                 <td>{{$product->name}}</td>
                                 <td>{{$product->description}}</td>
                                 <td>{{$product->price}}</td>
-                                <td>{{ucfirst($product->category()->first()->name)}}</td>
+                                @if($product->category()->count())
+                                    <td>{{ucfirst($product->category()->first()->name)}}</td>
+                                @else
+                                    <td>No category</td>
+                                @endif
                                 <td>
                                     <a class="btn btn-primary btn-sm" href="{{ route("restaurant.product.edit", ["id" => $product->id]) }}">Edit</a>
                                     <form action="{{ route("restaurant.product.delete", ["id" => $product->id]) }}" method="post" style="display: inline;">
