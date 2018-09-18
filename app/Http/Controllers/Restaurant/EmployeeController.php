@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Restaurant;
 
+use App\Http\Requests\EmployeeStoreRequest;
 use App\Model\Employee;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -24,20 +25,11 @@ class EmployeeController extends Controller
         return view('restaurant.employee.create', ["item" => new Employee()]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(EmployeeStoreRequest $request): RedirectResponse
     {
-        request()->validate([
-            'name' => 'required',
-            'username' => 'required|unique:employees',
-            'password' => 'required|min:6',
-            'email' => 'email|unique:employees',
-            'birth_date' => 'nullable|date_format:"Y-m-d"',
-        ]);
-
-        Employee::create($request->all());
-
+        $data = $request->validated();
+        Employee::create($data);
         $request->session()->flash('success', 'The action was completed successfully.');
-
         return redirect()->route("restaurant.employee.index");
     }
 

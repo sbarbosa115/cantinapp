@@ -26,8 +26,8 @@ Route::name('restaurant.')->prefix('restaurant')->namespace('Restaurant')->middl
     Route::get('/product', 'ProductController@index')->name('product.index');
     Route::get('/product/create', 'ProductController@create')->name('product.create');
     Route::post('/product/create', 'ProductController@store')->name('product.store');
-    Route::get('/product/edit/{id}', 'ProductController@edit')->name('product.edit');
-    Route::post('/product/edit/{id}', 'ProductController@update')->name('product.update');
+    Route::get('/product/edit/{product}', 'ProductController@edit')->name('product.edit');
+    Route::post('/product/edit/{product}', 'ProductController@update')->name('product.update');
     Route::delete('/product/delete/{id}', 'ProductController@destroy')->name('product.delete');
     Route::get('/product/sides/{product}', 'ProductController@sides')->name('product.sides');
 
@@ -47,6 +47,9 @@ Route::name('restaurant.')->prefix('restaurant')->namespace('Restaurant')->middl
     Route::get('/balance/create/{id}', 'BalanceController@create')->name('balance.create');
     Route::post('/balance/store', 'BalanceController@store')->name('balance.store');
     Route::get('/balance/log/{id}', 'BalanceController@log')->name('balance.log');
+
+    Route::get('/my-account', 'AccountController@index')->name('account.index');
+    Route::post('/my-account', 'AccountController@update')->name('account.update');
 });
 
 
@@ -69,7 +72,6 @@ Route::name('frontend.')->namespace('Frontend')->middleware(['web'])->group(func
     Route::get('order/add/{id}', 'OrderController@product')->name('order.add');
     Route::post('order/add/product', 'OrderController@addProduct')->name('order.add.product');
     Route::get('order/check/balance', 'OrderController@checkBalance')->name('order.check.balance');
-
 
     Route::get('api/categories', 'TaxonomyController@categories')->name('taxonomies.categories');
     Route::get('api/order/products', 'OrderController@products')->name('order.products');

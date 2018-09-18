@@ -66,37 +66,21 @@
                                         <img src="{{ asset('images/logo.png') }}" alt="" />
                                     </div>
                                     <div class="about-caption">
-                                        Skort Maison Martin Margiela knot ponytail cami texture tucked t-shirt. Black skirt razor pleats plaited gold collar.
-                                        <div class="clearfix" style="margin-bottom: 5px; "></div>
-                                        Crop 90s spearmint indigo seam luxe washed out. Prada Saffiano cash mere crop sneaker chignon
+                                        Con cantinapp organiza la cantina de tus clientes, facil, rapido y seguro, contactanos para una consulta gratis para tu negocio
                                     </div>
                                     <div class="about-contact">
                                         <div class="item">
                                             <span class="cs-icon icon-marker"></span>
-                                            <address>No 1104 Sky Tower, Las Vegas, USA</address>
+                                            <address>Palm springs Fl 33461 USA</address>
                                         </div>
                                         <div class="item">
                                             <span class="cs-icon icon-phone"></span>
-                                            <a href="tel:(084)0123456789">(084) 0123 456 789</a>
+                                            <a href="tel:(084)0123456789">(561) 667-6583</a>
                                         </div>
                                         <div class="item">
                                             <span class="cs-icon icon-mail"></span>
-                                            <a href="mailto:contac@yourcompany.com">contac@yourcompany.com</a>
+                                            <a href="mailto:Info@herclasolutions.com">Info@herclasolutions.com</a>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="social-payment-item col-sm-4 not-animated" data-animate="fadeInUp" data-delay="300">
-                                <h5 class="footer-title"> Follow Us</h5>
-                                <div class="social-content">
-                                    <div class="social-caption">
-                                        <a href="https://www.facebook.com/#" title="Fast Food on Facebook" class="icon-social facebook"><i class="fa fa-facebook"></i></a>
-                                        <a href="https://twitter.com/#" title="Fast Food on Twitter" class="icon-social twitter"><i class="fa fa-twitter"></i></a>
-                                        <a href="https://plus.google.com/+#" title="Fast Food on Google+" class="icon-social google-plus"><i class="fa fa-google-plus"></i></a>
-                                        <a href="https://www.pinterest.com/#" title="Fast Food on Pinterest" class="icon-social pinterest"><i class="fa fa-pinterest"></i></a>
-                                        <a href="https://instagram.com/#" title="Fast Food on Instagram" class="icon-social instagram"><i class="fa fa-instagram"></i></a>
-                                        <a href="https://www.youtube.com/user/#" title="Fast Food on Youtube" class="icon-social youtube"><i class="fa fa-youtube"></i></a>
                                     </div>
                                 </div>
                             </div>

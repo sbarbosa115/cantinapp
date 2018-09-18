@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Restaurant;
 
+use App\Http\Requests\BalanceStoreRequest;
 use App\Model\Balance;
 use App\Facades\BalanceService;
 use App\User;
@@ -25,15 +26,11 @@ class BalanceController extends Controller
         return view('restaurant.balance.create', ['item' => $item, "user" => $user]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(BalanceStoreRequest $request): RedirectResponse
     {
-        request()->validate([
-            'user_id' => 'required',
-            'quantity' => 'required'
-        ]);
-
-        $quantity = $request->all()["quantity"];
-        $user = User::findOrFail($request->all()["user_id"]);
+        $data = $request->validated();
+        $quantity = $data["quantity"];
+        $user = User::findOrFail($data["user_id"]);
         BalanceService::addUserBalance($user, $quantity);
         $request->session()->flash('success', "The user {$user->name} now has a new account balance.");
         return redirect()->route("restaurant.balance.index");

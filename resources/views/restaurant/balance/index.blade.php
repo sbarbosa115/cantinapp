@@ -49,7 +49,6 @@
 @section('javascript')
     <script>
         $(document).ready( function () {
-            $('#entities').DataTable();
 
             $('.load-balance').click(function(e) {
                 e.preventDefault();
@@ -75,7 +74,5 @@
                 }
             });
         });
-
-
     </script>
 @endsection('javascript')

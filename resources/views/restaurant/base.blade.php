@@ -42,6 +42,12 @@
                     <span class="nav-link-text">Recharge</span>
                 </a>
             </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="View Orders">
+                <a class="nav-link" href="{{ route("restaurant.account.index") }}">
+                    <i class="fa fa-fw fa-home"></i>
+                    <span class="nav-link-text">My Account</span>
+                </a>
+            </li>
         </ul>
 
         <ul class="navbar-nav ml-auto">

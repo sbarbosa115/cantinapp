@@ -20,8 +20,12 @@ class WelcomeHeader extends Component {
                             <h2 className="page-title">Welcome to Cantinapp!</h2>
                             <div className="home-welcome-content">
                                     <span className="welcome-caption">
-                                        Aliquam dapibus tincidunt metus. Praesent justo dolor, lobortis quis, lobortis dignissim, pulvinar ac, lorem.
-                                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent vestibulum molestie lacus. Aenean nonummy hendrerit mauris. Phasellus porta. Fusce suscipit varius mi. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce feugiat malesuada odio.
+                                        Desde ahora vas a poder ordenar tus comidas favoritas con anticipación y recogerlas en el momento que mas te convenga utilizando nuestra nueva e ingeniosa aplicación.
+                                        <br />
+                                        No filas, no esperas, solo has tu selección y te notificaremos cuando tu pedido este listo.
+                                        <br />
+                                        EMPEZAMOS?
+                                        <br />
                                     </span>
                                     <img className="welcome-banner" src={this.state.imagePath} />
                             </div>

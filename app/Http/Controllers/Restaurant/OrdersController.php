@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Restaurant;
 
+use App\Http\Requests\OrderStoreRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Model\Order;
@@ -30,22 +31,10 @@ class OrdersController extends Controller
         return view('restaurant.orders.change', ['order' => $order, 'status' => $status]);
     }
 
-    public function validator(array $form)
+    public function status(OrderStoreRequest $request, $id): RedirectResponse
     {
-        $validator = Validator::make($form, [
-            'status' => 'required|in:created,cooking,cooked,delivered,archived'
-        ]);
-        return $validator;
-    }
-
-    public function status(Request $request, $id): RedirectResponse
-    {
-        $validator = $this->validator($request->all());
-        if ($validator->fails()){
-            return redirect()->back()->withErrors($validator->errors());
-        }
+        $data = $request->validated();
         $order = Order::findOrFail($id);
-        $data = $request->all();
         $order->status = $data["status"];
         $order->save();
         $request->session()->flash('success', "The order was changed to {$order->status} successfully.");
