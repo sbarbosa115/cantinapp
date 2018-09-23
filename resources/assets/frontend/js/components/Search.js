@@ -44,7 +44,11 @@ class Search extends Component {
         const _products = [];
 
         this.state.items.map((category, i) => {
-            category.products.map(item => (_products.push(item)));
+            category.products.map(item => {
+                if(item.status !== 'disabled'){
+                    _products.push(item)
+                }
+            });
         });
 
         const products = [];

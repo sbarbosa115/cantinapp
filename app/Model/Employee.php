@@ -8,20 +8,28 @@ use Illuminate\Notifications\Notifiable;
 
 class Employee extends Authenticatable
 {
-
     use Notifiable;
 
     protected $guard = 'employee';
 
-    protected $fillable = ['name', 'birth_date', 'username', 'email', 'password'];
+    protected $fillable = ['name', 'username', 'email', 'password'];
 
     protected $hidden = [
         'password', 'remember_token',
     ];
 
+    public static function boot(): void
+    {
+        parent::boot();
+        static::addGlobalScope(function ($query) {
+            $query->where('restaurant_id', '=', session('restaurant_id'));
+        });
+    }
+
     public function setPasswordAttribute($password): void
     {
         $this->attributes['password'] = bcrypt($password);
+        $this->attributes['restaurant_id'] = session('restaurant_id');
     }
 
     public function restaurant(): BelongsTo

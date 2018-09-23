@@ -16,7 +16,7 @@ use Validator;
 class OrderController extends Controller
 {
 
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'pickup_at' => [
@@ -26,10 +26,10 @@ class OrderController extends Controller
         ];
     }
 
-    public function product($id)
+    public function product($id): View
     {
         $product = Product::findOrFail($id);
-        return view("frontend.order.add", ["product" => $product]);
+        return view('frontend.order.add', ['product' => $product]);
     }
 
     public function addProduct(Request $request): View
@@ -42,12 +42,12 @@ class OrderController extends Controller
         ]);
         $product = Product::findOrFail($request->get('product_id'));
         if($validator->fails()) {
-            $request->session()->flash('error', "An error occurred trying to process your order, please try again.");
-            return view("frontend.order.add", ["product" => $product])->withErrors($validator->errors());
+            $request->session()->flash('error', 'An error occurred trying to process your order, please try again.');
+            return view('frontend.order.add', ['product' => $product])->withErrors($validator->errors());
         }
         OrderService::addProductToCurrentOrder($data, $product);
         $request->session()->flash('success', 'Item added successfully.');
-        return view("frontend.order.add", ["product" => $product]);
+        return view('frontend.order.add', ['product' => $product]);
     }
 
     public function show(Request $request)
@@ -55,24 +55,24 @@ class OrderController extends Controller
         $order = OrderService::getCurrentSessionOrder();
         if(Auth::user()){
             if($order->count() > 0){
-                return view("frontend.order.show", ["order" => $order]);
+                return view('frontend.order.show', ['order' => $order]);
             } else {
-                $request->session()->flash('error', "You need to add products before confirm the order.");
+                $request->session()->flash('error', 'You need to add products before confirm the order.');
             }
         } else {
-            $request->session()->flash('error', "You need to sign-in before see your the order page.");
+            $request->session()->flash('error', 'You need to sign-in before see your the order page.');
         }
-        return redirect()->route("frontend.home.index");
+        return redirect()->route('frontend.home.index');
     }
 
     public function confirmTime(): View
     {
-        return view("frontend.order.confirm");
+        return view('frontend.order.confirm');
     }
 
     public function products(Request $request): Response
     {
-        $products = $request->session()->get("order");
+        $products = $request->session()->get('order');
         if($products){
             $products->toArray();
         } else {
@@ -87,17 +87,17 @@ class OrderController extends Controller
         $validator = Validator::make($data, $this->rules());
 
         if($validator->fails()) {
-            $request->session()->flash('error', "An error occurred trying to process your order, please try again.");
+            $request->session()->flash('error', 'An error occurred trying to process your order, please try again.');
             return response()->json([
-                'redirect' => route("frontend.home.index"),
+                'redirect' => route('frontend.home.index'),
                 'errors' => $validator->errors(),
             ]);
         }
 
         OrderService::createOrder($data);
-        $pickUpTime = Carbon::createFromFormat("Y-m-d H:i:s", $request->get("pickup_at"));
+        $pickUpTime = Carbon::createFromFormat('Y-m-d H:i:s', $request->get('pickup_at'));
         $request->session()->flash('success', "Your order will be ready to pick up in {$pickUpTime->diffForHumans()}");
-        return response()->json(['redirect' => route("frontend.home.index")]);
+        return response()->json(['redirect' => route('frontend.home.index')]);
     }
 
     public function checkBalance(): Response
@@ -108,7 +108,7 @@ class OrderController extends Controller
         if($user->balances()->count() < $quantity) {
             $result = false;
         }
-        return response()->json(["result" => $result]);
+        return response()->json(['result' => $result]);
     }
 
 }

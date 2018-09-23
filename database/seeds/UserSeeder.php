@@ -4,15 +4,29 @@ use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
 {
+
+    /** @var $restaurant \App\Model\Restaurant */
+    protected $restaurant;
+
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
+        $this->createRestaurant();
         $this->createUser();
         $this->createEmployee();
+    }
+
+    public function createRestaurant(): void
+    {
+        $faker = Faker\Factory::create();
+
+        $this->restaurant = \App\Model\Restaurant::create([
+            'name' => 'Demo',
+            'phone' => $faker->phoneNumber,
+            'address' => $faker->address
+        ]);
     }
 
     public function createUser(): void
@@ -23,21 +37,12 @@ class UserSeeder extends Seeder
             'username' => 'juanlopez',
             'password' => bcrypt('123456'),
             'remember_token' => str_random(10),
+            'restaurant_id' => $this->restaurant->id
         ]);
     }
 
     public function createEmployee(): void
     {
-        $faker = Faker\Factory::create();
-
-        $restaurant = \App\Model\Restaurant::create([
-            'name' => 'Top 1 Restaurant',
-            'phone' => $faker->phoneNumber,
-            'lat' => $faker->latitude,
-            'lon' => $faker->longitude,
-            'address' => $faker->address
-        ]);
-
         \App\Model\Employee::create([
             'name' => 'Frank Rodriguez',
             'email' => 'frank@example.com',
@@ -45,7 +50,7 @@ class UserSeeder extends Seeder
             'identification' => 9909,
             'password' => '123456',
             'remember_token' => str_random(10),
-            'restaurant_id' => $restaurant->id,
+            'restaurant_id' => $this->restaurant->id,
         ]);
     }
 }

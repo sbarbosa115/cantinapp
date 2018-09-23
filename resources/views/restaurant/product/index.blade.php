@@ -17,9 +17,7 @@
                     </div>
                 </div>
             </div>
-
             @include('restaurant.partials._flash')
-
             <div class="card mb-3">
                 <div class="card-header">
                     All products stored
@@ -46,13 +44,18 @@
                                 @else
                                     <td>No category</td>
                                 @endif
-                                <td>
-                                    <a class="btn btn-primary btn-sm" href="{{ route("restaurant.product.edit", ["id" => $product->id]) }}">Edit</a>
-                                    <form action="{{ route("restaurant.product.delete", ["id" => $product->id]) }}" method="post" style="display: inline;">
+                                <td width="21%">
+                                    <a class="btn btn-primary btn-sm" href="{{ route('restaurant.product.edit', ['id' => $product->id]) }}">Edit</a>
+                                    <form action="{{ route('restaurant.product.delete', ['id' => $product->id]) }}" method="post" style="display: inline;">
                                         {{ method_field('DELETE') }}
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="submit" class="btn btn-danger btn-sm" value="Delete">
                                     </form>
+                                    @if($product->status === 'enabled')
+                                        <a class="btn btn-warning btn-sm" href="{{ route('restaurant.product.change.status', ['product' => $product->id, 'status' => 'disabled']) }}">To Disable</a>
+                                    @else
+                                        <a class="btn btn-success btn-sm" href="{{ route('restaurant.product.change.status', ['product' => $product->id, 'status' => 'enabled']) }}">To Enable</a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

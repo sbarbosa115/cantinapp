@@ -15,7 +15,7 @@ class OrdersController extends Controller
 
     public function index(): View
     {
-        $orders = Order::whereNotIn("status", ["archived"])->orderBy("pickup_at", "desc")->get();
+        $orders = Order::whereNotIn('status', ['archived'])->orderBy('pickup_at', 'desc')->get();
         return view('restaurant.orders.index', ['orders' => $orders]);
     }
 
@@ -38,6 +38,6 @@ class OrdersController extends Controller
         $order->status = $data["status"];
         $order->save();
         $request->session()->flash('success', "The order was changed to {$order->status} successfully.");
-        return redirect()->route("restaurant.orders.index");
+        return redirect()->route('restaurant.orders.index');
     }
 }

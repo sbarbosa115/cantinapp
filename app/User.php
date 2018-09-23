@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Model\Balance;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -10,29 +11,27 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'restaurant_id'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
-    /**
-     * Return the current balance relationship.
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function balances(){
-        return $this->hasMany(Balance::class)->where("status", "=", "available");
+    public static function boot(): void
+    {
+        parent::boot();
+        static::addGlobalScope(function ($query) {
+            $query->where('restaurant_id', '=', session('restaurant_id'));
+        });
+        static::creating(function($item) {
+            $item->restaurant_id = session('restaurant_id');
+        });
+    }
+
+    public function balances(): HasMany
+    {
+        return $this->hasMany(Balance::class)->where('status', '=', 'available');
     }
 }

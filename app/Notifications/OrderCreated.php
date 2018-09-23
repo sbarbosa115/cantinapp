@@ -17,15 +17,10 @@ class OrderCreated extends Notification
 
     private $order;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
     public function __construct(User $user, Order $order)
     {
-        $this->user;
-        $this->order;
+        $this->user = $user;
+        $this->order = $order;
     }
 
     /**

@@ -3,16 +3,20 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class OrderProduct extends Model
 {
     protected $table = 'order_product';
 
-    public function sides(){
+    public function sides(): HasMany
+    {
         return $this->hasMany(Side::class);
     }
 
-    public function sidesAsString(){
+    public function sidesAsString(): string
+    {
         $sides = $this->hasMany(Side::class)->get();
         $result = [];
 
@@ -23,7 +27,8 @@ class OrderProduct extends Model
         return implode(',', $result);
     }
 
-    public function product(){
+    public function product(): BelongsTo
+    {
         return $this->belongsTo(Product::class, 'product_id', 'id')->get()->first();
     }
 }

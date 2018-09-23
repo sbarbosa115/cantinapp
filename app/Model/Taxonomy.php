@@ -3,30 +3,34 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @method static where(string $string, string $string1, string $string2)
+ */
 class Taxonomy extends Model
 {
-    /**
-     * The attributes that are mass assignable.
-     * @var array
-     */
+
     protected $fillable = ['name', 'slug', 'description', 'type'];
 
-    /**
-     * Return all product.
-     */
-    public function products(){
+    public static function boot(): void
+    {
+        parent::boot();
+        static::addGlobalScope(function ($query) {
+            $query->where('restaurant_id', '=', session('restaurant_id'));
+        });
+    }
+
+    public function products(): BelongsToMany
+    {
         return $this->belongsToMany(Product::class);
     }
 
-    /**
-     * Generate the product slug.
-     * @param $value
-     */
-    public function setNameAttribute($value)
+    public function setNameAttribute($value): void
     {
         $this->attributes['name'] = $value;
         $this->attributes['slug'] = str_slug($value);
+        $this->attributes['restaurant_id'] = session('restaurant_id');
     }
 
 }

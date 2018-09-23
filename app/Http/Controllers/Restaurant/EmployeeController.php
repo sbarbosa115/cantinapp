@@ -7,7 +7,6 @@ use App\Model\Employee;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Validator;
 
 class EmployeeController extends Controller
 {
@@ -22,7 +21,7 @@ class EmployeeController extends Controller
 
     public function create(): View
     {
-        return view('restaurant.employee.create', ["item" => new Employee()]);
+        return view('restaurant.employee.create', ['item' => new Employee()]);
     }
 
     public function store(EmployeeStoreRequest $request): RedirectResponse
@@ -30,13 +29,13 @@ class EmployeeController extends Controller
         $data = $request->validated();
         Employee::create($data);
         $request->session()->flash('success', 'The action was completed successfully.');
-        return redirect()->route("restaurant.employee.index");
+        return redirect()->route('restaurant.employee.index');
     }
 
     public function edit($id): View
     {
         $item = Employee::findOrFail($id);
-        return view('restaurant.employee.edit', ["item" => $item]);
+        return view('restaurant.employee.edit', ['item' => $item]);
     }
 
     public function update(Request $request, $id): RedirectResponse
@@ -51,7 +50,7 @@ class EmployeeController extends Controller
         Employee::findOrFail($id)->update($request->all());
         $request->session()->flash('success', 'The action was completed successfully.');
 
-        return redirect()->route("restaurant.employee.index");
+        return redirect()->route('restaurant.employee.index');
     }
 
     public function destroy(Request $request, $id): RedirectResponse
@@ -59,7 +58,7 @@ class EmployeeController extends Controller
         $item = Employee::findOrFail($id);
         $item->delete();
         $request->session()->flash('success', 'The action was completed successfully.');
-        return redirect()->route("restaurant.employee.index");
+        return redirect()->route('restaurant.employee.index');
     }
 
 }

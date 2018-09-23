@@ -5,6 +5,7 @@ namespace App\Model;
 use App\Model\Order;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Balance extends Model
 {
@@ -16,45 +17,30 @@ class Balance extends Model
     protected $fillable = ['user_id', 'product_id', 'order_id', 'status'];
 
 
-    /**
-     * Get the product record associated with the balance record.
-     */
-    public function product()
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
 
-    /**
-     * Get the product record associated with the balance record.
-     */
-    public function order()
+    public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
     }
 
-    /**
-     * Get the user record associated with the balance record.
-     */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @param $attribute
-     * @return mixed
-     */
-    public function getOrderAttribute($attribute){
+    public function getOrderAttribute($attribute)
+    {
         if($this->order()->exists()){
             return $this->order()->first()->{$attribute};
         }
     }
 
-    /**
-     * @param $attribute
-     * @return mixed
-     */
-    public function getProductAttribute($attribute){
+    public function getProductAttribute($attribute)
+    {
         if($this->product()->exists()){
             return $this->product()->first()->{$attribute};
         }

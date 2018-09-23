@@ -7,7 +7,6 @@ use App\Model\Balance;
 use App\Facades\BalanceService;
 use App\User;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class BalanceController extends Controller
@@ -29,17 +28,17 @@ class BalanceController extends Controller
     public function store(BalanceStoreRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        $quantity = $data["quantity"];
-        $user = User::findOrFail($data["user_id"]);
+        $quantity = $data['quantity'];
+        $user = User::findOrFail($data['user_id']);
         BalanceService::addUserBalance($user, $quantity);
         $request->session()->flash('success', "The user {$user->name} now has a new account balance.");
-        return redirect()->route("restaurant.balance.index");
+        return redirect()->route('restaurant.balance.index');
     }
 
     public function log($id): View
     {
-        $items = Balance::where("user_id", "=", $id)->where("status", "=", "spent")->orderBy("id", "asc")->get();
+        $items = Balance::where('user_id', '=', $id)->where('status', '=', 'spent')->orderBy('id', 'asc')->get();
         $user = User::find($id);
-        return view("restaurant.balance.log", ["items" => $items, "user" => $user]);
+        return view('restaurant.balance.log', ['items' => $items, 'user' => $user]);
     }
 }
