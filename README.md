@@ -1,8 +1,10 @@
 ## Cantinapp
 
-Cantinapp is an application that allows you and your restaurant publish dishes and allow that your clients make orders through a website. 
-The order is queued and in your cook, you can put a monitor to see what orders were make, change their states and to delivery orders
-to your clients.
+Cantinapp is an application that allows you and your restaurant publish dishes and allow that your clients make orders through a website.
+ The order is queued and in your kitchen, you can put a monitor to see what orders were make, change their states and to delivery orders 
+ to your clients.
+
+
 
 ## Requirements
 1. PHP 7.1+
