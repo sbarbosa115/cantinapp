@@ -23,7 +23,7 @@
     "@yaireo/tagify": "^2.1.7",
     "animate.css": "^3.7.0",
     "appear": "^1.0.1",
-    "bootstrap": "^4.0.0-beta.2",
+    "bootstrap": "^4.1.2",
     "bootstrap3": "^3.3.5",
     "font-awesome": "^4.7.0",
     "hammerjs": "^2.0.8",
@@ -34,6 +34,6 @@
     "react-datetime-bootstrap": "^1.4.5",
     "react-widgets": "^4.4.4",
     "react-widgets-moment": "^4.0.20",
-    "startbootstrap-sb-admin": "^4.0.0-beta"
+    "startbootstrap-sb-admin": "^5.0.2"
   }
 }
