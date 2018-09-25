@@ -11,7 +11,7 @@
                         <a class="card-footer text-white clearfix small z-1" href="{{ route("restaurant.product.create") }}" id="create-item">
                             <span class="float-left">Create new product</span>
                             <span class="float-right">
-                            <i class="fa fa-product-hunt"></i>
+                            <i class="fas fa-store"></i>
                           </span>
                         </a>
                     </div>

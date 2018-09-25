@@ -40,7 +40,7 @@ class Order extends Model
 
     public function productsOrder(): HasMany
     {
-        return $this->hasMany(OrderProduct::class)->get();
+        return $this->hasMany(OrderProduct::class);
     }
 
     /**

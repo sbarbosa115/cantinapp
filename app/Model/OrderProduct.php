@@ -21,7 +21,9 @@ class OrderProduct extends Model
         $result = [];
 
         foreach ($sides as $side){
-            $result[] = $side->products()->name;
+            if($side->products()->get()->count()){
+                $result[] = $side->products()->get()->first()->name;
+            }
         }
 
         return implode(',', $result);
@@ -29,6 +31,6 @@ class OrderProduct extends Model
 
     public function product(): BelongsTo
     {
-        return $this->belongsTo(Product::class, 'product_id', 'id')->get()->first();
+        return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 }

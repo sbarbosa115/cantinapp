@@ -5,80 +5,96 @@
     <title>Cantinapp - The new way to get your Cantina!!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="shortcut icon" href="images/favicon.ico">
-    <link rel="stylesheet" href="{{ asset("dist/restaurant/css/app.css") }}">
+    <link rel="stylesheet" href="{{ asset('dist/restaurant/css/app.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
-<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+<body id="page-top">
 <!-- Navigation-->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="index.html">Cantinapp</a>
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav navbar-sidenav">
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="View Products">
-                <a class="nav-link" href="{{ route("restaurant.product.index") }}">
-                    <i class="fa fa-fw fa-shopping-basket"></i>
-                    <span class="nav-link-text">Products</span>
-                </a>
-            </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="View Orders">
-                <a class="nav-link" href="{{ route("restaurant.orders.index") }}">
-                    <i class="fa fa-fw fa-list"></i>
-                    <span class="nav-link-text">Orders</span>
-                </a>
-            </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="View Employees">
-                <a class="nav-link" href="{{ route("restaurant.employee.index") }}">
-                    <i class="fa fa-fw fa-user"></i>
-                    <span class="nav-link-text">Employee</span>
-                </a>
-            </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="View Orders">
-                <a class="nav-link" href="{{ route("restaurant.balance.index") }}">
-                    <i class="fa fa-fw fa-money"></i>
-                    <span class="nav-link-text">Recharge</span>
-                </a>
-            </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="View Orders">
-                <a class="nav-link" href="{{ route("restaurant.account.index") }}">
-                    <i class="fa fa-fw fa-home"></i>
-                    <span class="nav-link-text">My Account</span>
-                </a>
-            </li>
-        </ul>
 
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link"  href="{{ route("restaurant.logout") }}">
-                    <i class="fa fa-fw fa-sign-out"></i>Logout
-                </a>
-            </li>
-        </ul>
-    </div>
+<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+    <a class="navbar-brand mr-1" href="{{ route('restaurant.orders.index') }}">Cantinapp</a>
+
+    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Navbar Search -->
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+
+    </form>
+
+    <!-- Navbar -->
+    <ul class="navbar-nav ml-auto ml-md-0">
+        <li class="nav-item dropdown no-arrow">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-user-circle fa-fw"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="{{ route('restaurant.logout') }}" data-toggle="modal" data-target="#logoutModal">Logout</a>
+            </div>
+        </li>
+    </ul>
+
 </nav>
 
 
-@yield('content')
+<div id="wrapper">
 
-<!-- /.content-wrapper-->
-<footer class="sticky-footer">
-    <div class="container">
-        <div class="text-center">
-            <small>Copyright © Cantinapp 2018</small>
-        </div>
+    <!-- Sidebar -->
+    <ul class="sidebar navbar-nav">
+
+        <li class="nav-item active">
+            <a class="nav-link" href="{{ route('restaurant.product.index') }}">
+                <i class="fas fa-fw fa-store"></i>
+                <span>Products</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('restaurant.orders.index') }}">
+                <i class="fas fa-fw fa-book-open"></i>
+                <span>Orders</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('restaurant.employee.index') }}">
+                <i class="fas fa-fw fa-users"></i>
+                <span>Employees</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('restaurant.balance.index') }}">
+                <i class="fas fa-fw fa-money-bill"></i>
+                <span>Balance</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('restaurant.account.index') }}">
+                <i class="fas fa-fw fa-user-circle"></i>
+                <span>My Account</span>
+            </a>
+        </li>
+    </ul>
+
+    <div id="content-wrapper">
+        @yield('content')
     </div>
-</footer>
 
-<!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
-    <i class="fa fa-angle-up"></i>
-</a>
+    <!-- /.content-wrapper-->
+    <footer class="sticky-footer">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <small>Copyright © Cantinapp 2018</small>
+            </div>
+        </div>
+    </footer>
 
-<script src="{{ asset("dist/restaurant/js/app.js") }}"></script>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fa fa-angle-up"></i>
+    </a>
 
+    <script src="{{ asset('dist/restaurant/js/app.js') }}"></script>
 @yield('javascript')
 </body>
 </html>

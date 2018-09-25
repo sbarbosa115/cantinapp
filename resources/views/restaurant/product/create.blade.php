@@ -61,7 +61,7 @@
 </div>
 
 <div class="form-group">
-    <a class="btn btn-info" href="{{ route("restaurant.product.index") }}">Go Back</a>
+    <a class="btn btn-info" href="{{ route('restaurant.product.index') }}">Go Back</a>
     <input type="submit" class="btn btn-success" value="Save Product">
 </div>
 
@@ -69,7 +69,7 @@
 
 @section('javascript')
     <script>
-        document.getElementById('tags').value = "{!! join(', ', $product->tags()->get()->pluck('name')->toArray()) !!}";
+        document.getElementById('tags').value = "{!! implode(', ', $product->tags()->get()->pluck('name')->toArray()) !!}";
         const input = document.querySelector('textarea[name=tags]'),
         tagify = new Tagify(input, {
             callbacks        : {
