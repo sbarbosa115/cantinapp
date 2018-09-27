@@ -1,20 +1,5 @@
 jQuery(window).load(function(){
 
-  if ( $('.slides li').size() > 1 ) {
-
-    $('.flexslider').flexslider({
-      animation: "slide",
-      slideshow: true,
-      animationDuration: 700,
-      slideshowSpeed: 6000,
-      animation: "fade",
-      controlsContainer: ".flex-controls",
-      controlNav: false,
-      keyboardNav: true
-    }).hover(function(){ $('.flex-direction-nav').fadeIn();}, function(){$('.flex-direction-nav').fadeOut();});
-
-  }
-
   $("select.loc_on_change").change(function(){
   	if($(this).attr("value") == "#") return false;
   	window.location = $(this).attr("value");
