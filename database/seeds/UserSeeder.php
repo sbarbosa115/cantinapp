@@ -49,7 +49,6 @@ class UserSeeder extends Seeder
             'username' => 'frank',
             'identification' => 9909,
             'password' => '123456',
-            'remember_token' => str_random(10),
             'restaurant_id' => $this->restaurant->id,
         ]);
     }

@@ -35,7 +35,7 @@ class OrdersController extends Controller
     {
         $data = $request->validated();
         $order = Order::findOrFail($id);
-        $order->status = $data["status"];
+        $order->status = $data['status'];
         $order->save();
         $request->session()->flash('success', "The order was changed to {$order->status} successfully.");
         return redirect()->route('restaurant.orders.index');

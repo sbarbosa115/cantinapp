@@ -6,6 +6,7 @@ use App\Facades\BalanceService;
 use App\Facades\OrderService;
 use App\Model\Product;
 use App\Model\Order;
+use App\Model\Restaurant;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
@@ -14,7 +15,17 @@ use Tests\TestCase;
 class OrderTest extends TestCase
 {
 
-    public function testAddProductTest()
+    public function setUp(): void
+    {
+        parent::setUp();
+        $restaurant = Restaurant::find(1);
+        $this->session([
+            'restaurant_id' => $restaurant->id,
+            'restaurant' => $restaurant
+        ]);
+    }
+
+    public function testAddProductTest(): void
     {
         $data = [
             'quantity' => '1',
@@ -33,7 +44,7 @@ class OrderTest extends TestCase
         }
     }
 
-    public function testAddTwoProductsTest()
+    public function testAddTwoProductsTest(): void
     {
         $data = [
             'quantity' => '1',
@@ -52,7 +63,7 @@ class OrderTest extends TestCase
         }
     }
 
-    public function testCreateOrderTest()
+    public function testCreateOrderTest(): void
     {
         $data = [
             'quantity' => '2',
@@ -88,7 +99,7 @@ class OrderTest extends TestCase
         }
     }
 
-    public function testCreateOrderPendingBalanceTest()
+    public function testCreateOrderPendingBalanceTest(): void
     {
         $data = [
             'quantity' => '2',
@@ -123,7 +134,7 @@ class OrderTest extends TestCase
         }
     }
 
-    public function testCreateOrderIncompleteBalanceTest()
+    public function testCreateOrderIncompleteBalanceTest(): void
     {
         $data = [
             'quantity' => '2',
@@ -159,7 +170,7 @@ class OrderTest extends TestCase
         }
     }
 
-    public function testCreateOrderIncompleteOneDishBalanceTest()
+    public function testCreateOrderIncompleteOneDishBalanceTest(): void
     {
         $data = [
             'quantity' => '2',

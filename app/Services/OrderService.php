@@ -101,16 +101,16 @@ class OrderService
         $products = $this->getCurrentSessionOrder();
         $user = Auth::user();
         $order = Order::create([
-            "status" => "created",
-            "pickup_at" => $details["pickup_at"],
-            "payment_method" => $details["payment_method"],
-            "user_id" => $user->id,
+            'status' => 'created',
+            'pickup_at' => $details['pickup_at'],
+            'payment_method' => $details['payment_method'],
+            'user_id' => $user->id,
         ]);
 
         $orderStatus = [];
         foreach ($products as $product){
-            $comment = isset($product->comment) ? $product->comment : "N/A";
-            $order->products()->attach([$product->id => ["quantity" => 1, "comment" => $comment]]);
+            $comment = $product->comment ?? 'N/A';
+            $order->products()->attach([$product->id => ['quantity' => 1, 'comment' => $comment]]);
 
             $orderProducts = $order->products()->withPivot('id')->get();
             foreach ($product->orderProductSides as $productSide){
@@ -141,9 +141,9 @@ class OrderService
             }
         }
 
-        if($null === count($orderStatus)){
+        if($null === \count($orderStatus)){
             return 'pending';
-        } else if($balance === count($orderStatus)){
+        } else if($balance === \count($orderStatus)){
             return 'paid';
         } else {
             return 'incomplete';

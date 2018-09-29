@@ -30,6 +30,7 @@ class Employee extends Authenticatable
     {
         $this->attributes['password'] = bcrypt($password);
         $this->attributes['restaurant_id'] = session('restaurant_id');
+        $this->attributes['remember_token'] = str_random(128);
     }
 
     public function restaurant(): BelongsTo

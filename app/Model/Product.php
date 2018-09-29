@@ -95,10 +95,12 @@ class Product extends Model
         return [$taxonomy->id];
     }
 
-    public function attachTaxonomies(string $tags, string $category): void
+    public function attachTaxonomies(?string $tags, string $category): void
     {
-        $tags = $this->attachTags($tags);
-        $taxonomies = array_merge($tags, $this->attachCategory($category));
-        $this->tags()->sync($taxonomies);
+        if($tags){
+            $tags = $this->attachTags($tags);
+            $taxonomies = array_merge($tags, $this->attachCategory($category));
+            $this->tags()->sync($taxonomies);
+        }
     }
 }
