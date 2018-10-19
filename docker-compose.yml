@@ -1,0 +1,26 @@
+version: '3'
+services:
+  web:
+    build: .
+    volumes:
+    - .:/var/www/html:delegated
+    command: >
+      sh -c '
+           composer install
+           chmod 777 var/cache storage/frameworks storage/logs
+           mkdir -p web/uploads
+           chown -R apache:apache web/uploads
+           chown -R apache:apache var/sessions
+           supervisord
+      '
+  db:
+    image: mysql:5.7
+    volumes:
+    - ./Docker/conf/mysql.cnf.d:/etc/mysql/conf.d
+    environment:
+    - MYSQL_DATABASE=
+    - MYSQL_USER=symfony
+    - MYSQL_PASSWORD=symfony
+    - MYSQL_ROOT_PASSWORD=symfony
+    ports:
+    - 6603:3306
