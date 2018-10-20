@@ -4,23 +4,22 @@ services:
     build: .
     volumes:
     - .:/var/www/html:delegated
+    environment:
+    - DEBUG=true
     command: >
       sh -c '
            composer install
-           chmod 777 var/cache storage/frameworks storage/logs
-           mkdir -p web/uploads
-           chown -R apache:apache web/uploads
-           chown -R apache:apache var/sessions
-           supervisord
+           chmod 777 /var/www/html/storage/framework /var/www/html/storage/logs
+           mkdir -p /var/www/html/public/uploads
       '
   db:
     image: mysql:5.7
     volumes:
     - ./Docker/conf/mysql.cnf.d:/etc/mysql/conf.d
     environment:
-    - MYSQL_DATABASE=
-    - MYSQL_USER=symfony
-    - MYSQL_PASSWORD=symfony
-    - MYSQL_ROOT_PASSWORD=symfony
+    - MYSQL_DATABASE=laravel
+    - MYSQL_USER=laravel
+    - MYSQL_PASSWORD=laravel
+    - MYSQL_ROOT_PASSWORD=laravel
     ports:
     - 6603:3306
