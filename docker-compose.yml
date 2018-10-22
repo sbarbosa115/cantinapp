@@ -1,25 +1,35 @@
 version: '3'
 services:
   web:
+    tty: true
     build: .
     volumes:
-    - .:/var/www/html:delegated
+      - .:/var/www/html:delegated
     environment:
-    - DEBUG=true
+      - DEBUG=true
     command: >
       sh -c '
-           composer install
-           chmod 777 /var/www/html/storage/framework /var/www/html/storage/logs
-           mkdir -p /var/www/html/public/uploads
+        /etc/init.d/nginx start
+        /etc/init.d/php7.2-fpm start
+        php artisan install -y
+        composer install
+        chmod 777 /var/www/html/storage/framework /var/www/html/storage/logs
+        mkdir -p /var/www/html/public/uploads
+        supervisord
       '
+    ports:
+      - 80:80
   db:
     image: mysql:5.7
     volumes:
-    - ./Docker/conf/mysql.cnf.d:/etc/mysql/conf.d
+      - ./Docker/mysql.cnf.d/sql_mode.cnf:/etc/my.cnf
+    command: --default-authentication-plugin=mysql_native_password
     environment:
-    - MYSQL_DATABASE=laravel
-    - MYSQL_USER=laravel
-    - MYSQL_PASSWORD=laravel
-    - MYSQL_ROOT_PASSWORD=laravel
+      MYSQL_DATABASE: "laravel"
+      MYSQL_USER: "laravel"
+      MYSQL_PASSWORD: "laravel"
+      MYSQL_ROOT_PASSWORD: "laravel"
+    depends_on:
+    - web
     ports:
-    - 6603:3306
+      - 6603:3306
