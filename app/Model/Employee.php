@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @method static create(array $data)
+ * @method static findOrFail($id)
+ */
 class Employee extends Authenticatable
 {
     use Notifiable;

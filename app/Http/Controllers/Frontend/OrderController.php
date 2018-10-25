@@ -6,12 +6,14 @@ use App\Facades\OrderService;
 use App\Model\Product;
 use App\Rules\GreaterThanNow;
 use App\Rules\MaxOrderDate;
+use App\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Response;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
@@ -52,13 +54,14 @@ class OrderController extends Controller
 
     public function show(Request $request)
     {
+        /** @var $order Collection **/
         $order = OrderService::getCurrentSessionOrder();
         if(Auth::user()){
             if($order->count() > 0){
                 return view('frontend.order.show', ['order' => $order]);
-            } else {
-                $request->session()->flash('error', 'You need to add products before confirm the order.');
             }
+            $request->session()->flash('error', 'You need to add products before confirm the order.');
+
         } else {
             $request->session()->flash('error', 'You need to sign-in before see your the order page.');
         }
@@ -102,7 +105,8 @@ class OrderController extends Controller
 
     public function checkBalance(): Response
     {
-        $user = Auth::user()->id;
+        /** @var $user User */
+        $user = Auth::user();
         $result = true;
         $quantity = OrderService::totalOrderProducts();
         if($user->balances()->count() < $quantity) {

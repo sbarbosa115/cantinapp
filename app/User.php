@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * @method static findOrFail($id)
+ * @property mixed id
+ */
 class User extends Authenticatable
 {
     use Notifiable;

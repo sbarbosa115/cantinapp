@@ -9,6 +9,8 @@ use Symfony\Component\Debug\Exception\ClassNotFoundException;
 
 /**
  * @property mixed price
+ * @property mixed id
+ * @property  comment
  * @method static create(array $data)
  * @method static find($id)
  * @method static findOrFail(int $id)
