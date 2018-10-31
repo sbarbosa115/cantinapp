@@ -32,6 +32,8 @@
     "jquery": "^3.3.1",
     "moment": "^2.22.2",
     "react-datetime-bootstrap": "^1.4.5",
+    "react-scrollable-anchor": "^0.6.1",
+    "react-toastify": "^4.4.0",
     "react-widgets": "^4.4.4",
     "react-widgets-moment": "^4.0.20",
     "startbootstrap-sb-admin": "^5.0.2"
