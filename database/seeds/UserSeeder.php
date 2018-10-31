@@ -47,7 +47,6 @@ class UserSeeder extends Seeder
             'name' => 'Frank Rodriguez',
             'email' => 'frank@example.com',
             'username' => 'frank',
-            'identification' => 9909,
             'password' => '123456',
             'restaurant_id' => $this->restaurant->id,
         ]);

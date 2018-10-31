@@ -11,8 +11,9 @@ services:
       sh -c '
         /etc/init.d/nginx start
         /etc/init.d/php7.2-fpm start
-        php artisan install -y
         composer install
+        yarn
+        yarn run development
         chmod 777 /var/www/html/storage/framework /var/www/html/storage/logs
         mkdir -p /var/www/html/public/uploads
         supervisord
