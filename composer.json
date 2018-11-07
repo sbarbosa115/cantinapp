@@ -9,6 +9,7 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.6.*",
         "laravel/tinker": "~1.0",
+        "niklasravnsborg/laravel-pdf": "^2.0",
         "tightenco/ziggy": "^0.6.7"
     },
     "require-dev": {

@@ -1,7 +1,7 @@
 <div class="navMobile-navigation">
     <div class="navMobile-logo">
         <a href="/">
-            <img class="header-logo-image" src="{{ asset("/images/logo.png") }}" alt="" title="Cantinapp">
+            <img class="header-logo-image" src="{{ asset('/images/logo.svg') }}" alt="" title="Cantinapp">
         </a>
     </div>
     <div class="group_mobile_right">
@@ -112,7 +112,7 @@
                             </a>
 
                             @if(Auth::user())
-                                <a href="{{ route("frontend.order.show") }}">
+                                <a href="{{ route('frontend.order.show') }}">
                                     My Current Order
                                 </a>
                             @endif

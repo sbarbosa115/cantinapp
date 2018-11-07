@@ -33,28 +33,49 @@
                                 <td>{{$order->user->name}}</td>
                                 <td>
                                     @if($order->payment_method == 'cantina')
-                                        <span data-toggle="tooltip" title="Balance Available">{{$order->user->balances()->count()}}</span>/<span data-toggle="tooltip" title="Quantity in this order">{{$order->getTotalQuantityOrder()}}</span>
+                                        <span data-toggle="tooltip" title="Balance Available">
+                                            {{$order->user->balances()->count()}}
+                                        </span>
+                                         /
+                                        <span data-toggle="tooltip" title="Quantity in this order">
+                                            {{$order->getTotalQuantityOrder()}}
+                                        </span>
                                     @else
                                         No
                                     @endif
                                 </td>
                                 <td>
-                                    <a class="btn btn-primary btn-sm" href="{{ route("restaurant.orders.detail", ["id" => $order->id]) }}" data-toggle="modal"><i class="fa fa-eye" aria-hidden="true"></i> Detail</a>
-                                    @if($order->status === "created")
-                                        <a class="btn btn-danger btn-sm" href="{{ route("restaurant.orders.change", ["id" => $order->id, "status" => "cooking"]) }}" data-toggle="change">Cooking</a>
-                                    @elseif($order->status === "cooking")
-                                        <a class="btn btn-success btn-sm" href="{{ route("restaurant.orders.change", ["id" => $order->id, "status" => "cooked"]) }}" data-toggle="change">Cooked</a>
-                                    @elseif($order->status === "cooked")
-                                        @if($order->user->balances()->count() < $order->getTotalQuantityOrder() && $order->payment_method == 'cantina')
-                                            <a class="btn btn-success btn-sm disabled" href="#" data-toggle="change">Re Charge</a>
+                                    <a class="btn btn-primary btn-sm" href="{{ route('restaurant.orders.detail', ['id' => $order->id]) }}" data-toggle="modal">
+                                        <i class="fa fa-eye" aria-hidden="true"></i> {{ __('restaurant.detail') }}
+                                    </a>
+                                    <a class="btn btn-primary btn-sm" href="{{ route('restaurant.orders.print', ['id' => $order->id]) }}" target="_blank">
+                                        <i class="fa fa-print" aria-hidden="true"></i> {{ __('restaurant.print') }}
+                                    </a>
+                                    @if($order->status === 'created')
+                                        <a class="btn btn-danger btn-sm" href="{{ route('restaurant.orders.change', ['id' => $order->id, 'status' => 'cooking']) }}" data-toggle="change">
+                                            {{ __('restaurant.cooking') }}
+                                        </a>
+                                    @elseif($order->status === 'cooking')
+                                        <a class="btn btn-success btn-sm" href="{{ route('restaurant.orders.change', ['id' => $order->id, 'status' => 'cooked']) }}" data-toggle="change">
+                                            {{ __('restaurant.cooked') }}
+                                        </a>
+                                    @elseif($order->status === 'cooked')
+                                        @if($order->payment_method === 'cantina' && $order->user->balances()->count() < $order->getTotalQuantityOrder())
+                                            <a class="btn btn-success btn-sm disabled" href="#" data-toggle="change">
+                                                {{ __('restaurant.re_charge') }}
+                                            </a>
                                         @else
-                                            <a class="btn btn-success btn-sm" href="{{ route("restaurant.orders.change", ["id" => $order->id, "status" => "delivered"]) }}" data-toggle="change">Delivered</a>
+                                            <a class="btn btn-success btn-sm" href="{{ route('restaurant.orders.change', ['id' => $order->id, 'status' => 'delivered']) }}" data-toggle="change">Delivered</a>
                                         @endif
                                     @else
-                                        <a class="btn btn-default btn-sm disabled" data-toggle="change">Pending to Archive</a>
+                                        <a class="btn btn-default btn-sm disabled" data-toggle="change">
+                                            {{ __('restaurant.pending_to_archive') }}
+                                        </a>
                                     @endif
-                                    @if($order->user->balances()->count() < $order->getTotalQuantityOrder() && $order->payment_method == 'cantina')
-                                        <a class="btn btn-success btn-sm load-balance" href="{{ route("restaurant.balance.create", ["id" => $order->user_id]) }}"><i class="fa fa-credit-card" aria-hidden="true"></i> Load</a>
+                                    @if($order->payment_method === 'cantina' && $order->user->balances()->count() < $order->getTotalQuantityOrder())
+                                        <a class="btn btn-success btn-sm load-balance" href="{{ route('restaurant.balance.create', ['id' => $order->user_id]) }}">
+                                            <i class="fa fa-credit-card" aria-hidden="true"></i> Load
+                                        </a>
                                     @endif
                                 </td>
                             </tr>

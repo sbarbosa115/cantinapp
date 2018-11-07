@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @method static create(array $array)
+ * @method static whereNotIn(string $string, array $array)
+ * @method static find($id)
+ * @method static findOrFail($id)
  * @property string payment_status
  * @property mixed id
  */

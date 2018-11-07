@@ -13,7 +13,6 @@
     </section>
 @endif
 
-
 @if ($message = Session::get('error'))
     <section class="heading-content">
         <div class="heading-wrapper">
@@ -60,7 +59,6 @@
     </section>
 @endif
 
-
 @if ($errors->any())
     <section class="heading-content">
         <div class="heading-wrapper">
@@ -68,7 +66,9 @@
                 <div class="row">
                     <div class="alert alert-danger">
                         <button type="button" class="close" data-dismiss="alert">×</button>
-                        Please check the form below for errors
+                        @foreach($errors->getMessages() as $key => $message)
+                            {{ $message[0] }}
+                        @endforeach
                     </div>
                 </div>
             </div>

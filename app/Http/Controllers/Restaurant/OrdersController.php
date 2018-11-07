@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Restaurant;
 
 use App\Http\Requests\OrderStoreRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use App\Model\Order;
-use App\Services\Orders;
 use Illuminate\View\View;
-use Validator;
+use niklasravnsborg\LaravelPdf\Facades\Pdf;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class OrdersController extends Controller
 {
@@ -34,10 +33,20 @@ class OrdersController extends Controller
     public function status(OrderStoreRequest $request, $id): RedirectResponse
     {
         $data = $request->validated();
+        /** @var $order Order */
         $order = Order::findOrFail($id);
         $order->status = $data['status'];
         $order->save();
         $request->session()->flash('success', "The order was changed to {$order->status} successfully.");
         return redirect()->route('restaurant.orders.index');
+    }
+
+    public function print($id): BinaryFileResponse
+    {
+        $order = Order::find($id);
+        $pdf = Pdf::loadView('restaurant.orders.print', [
+            'order' => $order
+        ]);
+        return $pdf->stream('recipe.pdf');
     }
 }

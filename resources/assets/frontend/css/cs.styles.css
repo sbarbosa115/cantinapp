@@ -19496,8 +19496,7 @@ header section.main-header .nav-icon .m_search.search-icon>a .fa-search {
 }
 
 header section.main-header .nav-logo {
-    max-width: 170px;
-    max-height: 177px;
+    max-width: 100px;
     text-align: left;
     position: absolute;
     top: 0;

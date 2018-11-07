@@ -35,6 +35,7 @@ Route::name('restaurant.')->prefix('restaurant')->namespace('Restaurant')->middl
 
     Route::get('/order', 'OrdersController@index')->name('orders.index');
     Route::get('/order/detail/{id}', 'OrdersController@detail')->name('orders.detail');
+    Route::get('/order/print/{id}', 'OrdersController@print')->name('orders.print');
     Route::post('/order/status/{id}', 'OrdersController@status')->name('orders.status');
     Route::get('/order/change/{id}/{status}', 'OrdersController@change')->name('orders.change');
 

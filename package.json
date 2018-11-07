@@ -13,10 +13,13 @@
     "axios": "^0.16.2",
     "babel-preset-react": "^6.23.0",
     "cross-env": "^5.0.1",
+    "eslint": "^5.8.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-react": "^7.11.1",
     "laravel-mix": "^2.1.14",
-    "lodash": "^4.17.10",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "lodash": "^4.17.10"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.2.0",
@@ -31,6 +34,8 @@
     "jgrowl": "^1.4.6",
     "jquery": "^3.3.1",
     "moment": "^2.22.2",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
     "react-datetime-bootstrap": "^1.4.5",
     "react-scrollable-anchor": "^0.6.1",
     "react-toastify": "^4.4.0",

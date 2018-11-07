@@ -25,8 +25,8 @@
                         <div class="row">
                             <div class="main-header-inner">
                                 <div class="nav-logo">
-                                    <a href="{{ url("/") }}">
-                                        <img src="{{ asset('images/logo.png') }}" alt="" title="Cantinapp" />
+                                    <a href="{{ url('/') }}">
+                                        <img src="{{ asset('images/logo.svg') }}" alt="" title="Cantinapp" />
                                     </a>
                                     <h1 style="display:none">
                                         <a href="/">Cantinapp </a>
@@ -63,7 +63,7 @@
                             <div class="information-item col-sm-4 not-animated" data-animate="fadeInUp" data-delay="100">
                                 <div class="about-content">
                                     <div class="logo-footer">
-                                        <img src="{{ asset('images/logo.png') }}" alt="" />
+                                        <img src="{{ asset('images/logo.svg') }}" alt="" />
                                     </div>
                                     <div class="about-caption">
                                         Con cantinapp organiza la cantina de tus clientes, facil, rapido y seguro, contactanos para una consulta gratis para tu negocio
