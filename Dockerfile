@@ -16,7 +16,6 @@ WORKDIR /var/www/html
 
 RUN composer install --no-scripts --no-autoloader
 RUN update-rc.d nginx enable
-RUN php artisan key:generate
 
 EXPOSE 80
 
