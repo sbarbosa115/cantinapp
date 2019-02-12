@@ -64,10 +64,10 @@ Route::name('frontend.')->namespace('Frontend')->group(function () {
     Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('register');
     Route::post('/register', 'Auth\RegisterController@register')->name('register.create');
     Route::get('logout/', 'Auth\LoginController@logout')->name('logout');
+
     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
     Route::post('password/reset', 'Auth\ForgotPasswordController@reset')->name('password.request.reset');
     Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-    Route::get('password/reset/{token}', 'Auth\ForgotPasswordController@showResetForm')->name('password.reset');
 });
 
 Route::name('frontend.')->namespace('Frontend')->middleware(['web'])->group(function () {
@@ -80,6 +80,8 @@ Route::name('frontend.')->namespace('Frontend')->middleware(['web'])->group(func
     Route::get('api/categories', 'TaxonomyController@categories')->name('taxonomies.categories');
     Route::get('api/order/products', 'OrderController@products')->name('order.products');
 });
+
+Route::get('password/reset/{token}', 'Auth\ForgotPasswordController@showResetForm')->name('password.reset');
 
 
 

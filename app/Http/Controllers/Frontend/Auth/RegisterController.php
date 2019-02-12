@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Frontend\Auth;
 use App\Notifications\Register;
 use App\User;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
+use Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\View\View;
 
 class RegisterController extends Controller
 {
@@ -42,13 +43,11 @@ class RegisterController extends Controller
 
     /**
      * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
+    protected function validator(
+        array $data
+    ): \Illuminate\Contracts\Validation\Validator {
+        return \Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
@@ -57,11 +56,8 @@ class RegisterController extends Controller
 
     /**
      * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\User
      */
-    protected function create(array $data)
+    protected function create(array $data): User
     {
         $user =  User::create([
             'name' => $data['name'],
@@ -76,10 +72,8 @@ class RegisterController extends Controller
 
     /**
      * Show the application registration form.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function showRegistrationForm()
+    public function showRegistrationForm(): View
     {
         return view('frontend.auth.register');
     }

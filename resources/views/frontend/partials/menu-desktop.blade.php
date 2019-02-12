@@ -3,13 +3,13 @@
         <ul class="navigation-links ">
             <li class="nav-item">
                 <a href="{{ url('/') }}">
-                    <span>Home</span>
+                    <span>{{ trans('frontend.menu.home') }}</span>
                 </a>
             </li>
             @if(Auth::user())
                 <li class="nav-item">
-                    <a href="{{ route("frontend.order.show") }}">
-                        <span>My Current Order</span>
+                    <a href="{{ route('frontend.order.show') }}">
+                        <span>{{ trans('frontend.menu.my_current_order') }}</span>
                     </a>
                 </li>
             @endif
@@ -28,9 +28,9 @@
                                 <span class="cart_text">
                                     @if(Session::has('order'))
                                         @php($products = Session::get('order'))
-                                        Order <span class="number">({{ $products->count() }})</span>
+                                        {{ trans('frontend.menu.order') }} <span class="number">({{ $products->count() }})</span>
                                     @else
-                                        No products added yet.
+                                        {{ trans('frontend.menu.no_products') }}
                                     @endif
                                 </span>
                             </div>
@@ -42,10 +42,10 @@
                         <div class="text-items">
                             @if(Session::has('order'))
                                 @php($products = Session::get('order'))
-                                <span>{{ $products->count()  }} item(s) in this order</span>
+                                <span>{{ $products->count() }} {{ trans('frontend.menu.items_this_order') }}</span>
                                 <span class="cs-icon icon-close close-dropdown"></span>
                             @else
-                                <span>No products added yet.</span>
+                                <span>{{ trans('frontend.menu.no_products_added') }}</span>
                             @endif
                         </div>
                         @php($total = 0)
@@ -69,20 +69,22 @@
                                                     <span class="money">${{ $product->price * $product->quantity }}</span>
                                                 </div>
                                                 <div class="cart-qty">
-                                                    <span class="quantity">Qty: {{ $product->quantity }}</span>
+                                                    <span class="quantity">{{ trans('frontend.menu.qty') }}: {{ $product->quantity }}</span>
                                                     <a class="cart-close" title="Remove" href="javascript:void(0);">
                                                         <span class="cs-icon icon-bin"></span>
                                                     </a>
                                                 </div>
                                             </div>
                                         </div>
-                                        @php($total = $total  + ($product->price * $product->quantity))
+                                        @php($total += ($product->price * $product->quantity))
                                     @endif
                                 @endforeach
                             </div>
 
                             <div class="action">
-                                <button class="_btn float-right" onclick="window.location='{{ route("frontend.order.show") }}'">Proceed To Order</button>
+                                <button class="_btn float-right" onclick="window.location='{{ route('frontend.order.show"') }}'">
+                                    {{ trans('frontend.menu.proceed_to_order') }}
+                                </button>
                             </div>
                         @endif
                     </div>

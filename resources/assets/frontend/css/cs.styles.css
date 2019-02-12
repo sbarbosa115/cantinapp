@@ -11,36 +11,36 @@ Note: File layout css
 [Layout]
 
 * body
-	+ header  / .header	
-		- Main header /.main-header					
+	+ header  / .header
+		- Main header /.main-header
 			- logo / .nav-logo
-			- Navigation / .navigation-links 			
+			- Navigation / .navigation-links
 			- Navgation icon/ .nav-icon
 				- Search / .search-icon
 				- Icon cart / .icon_cart
 				- Icon accounts / .icon_accounts
-				
+
 	+ Main content / .main-content
 		- Home slideshow / .home-slideshow-layout
 		- Home banslider / .home-banslider-layout
-		- Home welcome  / .home-welcome-layout 
-		- Home product / .home-product-layout		
+		- Home welcome  / .home-welcome-layout
+		- Home product / .home-product-layout
 		- Home banner / .home-banner-layout
-		- Home gallery / .home-gallery-layout				
+		- Home gallery / .home-gallery-layout
 	+ Footer / .footer
 		- Footer Information Block / .footer-information-block
-			- Information item  / .information-item 
-			- Blog group / .blog-group 
+			- Information item  / .information-item
+			- Blog group / .blog-group
 			- Social payment / .social-payment
 		- footer news block / .footer_newsoc_block
 			- Footer news letter content / .footer_newsletter_content
 			- Footer social content / .footer_social_content
 			- Footer shop content / .footer_shop_content
-		- Footer linklist block/ .footer_linklist_block		
+		- Footer linklist block/ .footer_linklist_block
 		- Copy right / .copy-right
 
-	+ Scroll icon / .float-right-icon	
-	
+	+ Scroll icon / .float-right-icon
+
 
 -------------------------------------------------------------------*/
 
@@ -50,14 +50,14 @@ Note: File layout css
 COLORS GENERAL
 	GENERAL COLORS
 	- Primary color: #c83700
-	- Sub color: #ffc03f 
+	- Sub color: #ffc03f
 	- Color body: #010101
 	- Color tertiary: #726e6e
 	- Color altenative: #f7f1e9
 	- Color text heading: #000000
-	- Color line: #dbcebd	
+	- Color line: #dbcebd
 	- Color heading product: #f3eade
-	
+
 	COLORS HEADER
 	- Color Header: #fff
 	- Border Header: #fff
@@ -66,55 +66,55 @@ COLORS GENERAL
 	- Border Top Header: #fff
 	- Background Top Header: #fff
 
-	CART DROPDOWN HEADER	
+	CART DROPDOWN HEADER
 	- Color price cart text: #000
 	- Text Dropdown Cart: #000
 	- Border Dropdown Cart: #e8e8e8
 	- Background Dropdown Cart: #fff
 	- Color Text Button Close: #b0b0b0
 	- Color Border Button Close: #fff
-	- Background Button Close: #fff 
-	
+	- Background Button Close: #fff
+
 	COLORS NEWLETTER
 	- Footer text: #fff
 	- Footer text hover: #ffc03f
 	- Footer border: #ffffff
 	- Footer background: #6b3918
 	- Color footer title text: #fff
-	
+
 	COLORS COPYRIGHT
 	- Color Copyright Border: #fff
 	- Color Copyright Text: #fff
 	- Color Copyright Text Hover: #ffc03f
 	- Color Copyright Link: #fff
 	- Color Copyright Background: #c83700
-	
-	
+
+
 	COLORS LABEL
 	- Color New Label: #c83700
 	- Color Best Label: #e18694
 	- Color Trend Label: #fea348
 	- Color Deal Label: #8ec63f
-	
-	PRODUCT	
+
+	PRODUCT
 	- Color Product Title Text: #000
 	- Color Product Title Text Hover: #c83700
 	- Color Product Description Text: #343434
 	- Color Price Text: #9d1414
 	- Color Price Compare Text: #000000
 	- Color Rating Text: #ffc03f
-	
+
 	PRICE PRODUCT DETAIL
 	- Price Sale Color: #8d785b
 	- Price Compare Color: #c83700
 	- Background Price Color: #ffc03f
-	
+
 	NAVIGATION
 	- Color Navigation Text: #fff
 	- Color Navigation Border: #343434
 	- Color Navigation Background: #ffffff
 	- Color Navigation Text Hover: ##ffc03f
-	
+
 	PAGINATION
 	- Text pagination: #000
 	- Text pagination hover: #fff
@@ -122,13 +122,13 @@ COLORS GENERAL
 	- Border pagination hover: #c83700
 	- Background pagination: #ffffff
 	- Background pagination hover: #c83700
-	
+
 	BACKGROUND
 	- Background body color: #f3e8dd
 	- Background content color: #f3e8dd
-	
-	
-	
+
+
+
 -------------------------------------------------------------------*/
 
 
@@ -12165,7 +12165,6 @@ body:not(.index-template) main section.article-content .related-body .owl-button
 body:not(.index-template) main section.customers-layout {
     min-height: 500px;
     position: relative;
-    background-image: url(../images/1920x1280.png);
     background-repeat: no-repeat;
     background-size: cover;
     display: -webkit-flex;

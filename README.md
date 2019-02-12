@@ -25,7 +25,7 @@ Cantinapp is an application that allows you and your restaurant publish dishes a
     ```
     php artisan migrate
     ```
-5. Put write permissions to public/letters folder.
+5. Put write-permissions to public/letters folder.
 
 ## Tests
 ```
