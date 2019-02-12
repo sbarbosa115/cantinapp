@@ -47,7 +47,7 @@ class Register extends Notification
             ->line("{$this->user->name}, gracias por registrarte.")
             ->line('Desde ahora vas a poder ordenar tus comidas favoritas con anticipación y recogerlas en el momento que mas te convenga utilizando nuestra nueva e ingeniosa aplicación')
             ->line('No lineas, no esperas, solo has tu selección y te notificaremos cuando tu pedido este listo.')
-            ->action('¿EMPEZAMOS?', route('home.index'))
+            ->action('¿EMPEZAMOS?', route('frontend.home.index'))
             ->line('Estas a uno pocos clicks de tu comida.')
             ->salutation('Equipo Cantinapp.');
     }
