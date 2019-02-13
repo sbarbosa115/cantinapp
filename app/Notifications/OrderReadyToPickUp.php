@@ -2,23 +2,27 @@
 
 namespace App\Notifications;
 
+use App\Model\Order;
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+
 
 class OrderReadyToPickUp extends Notification
 {
     use Queueable;
 
+    /** @var Order */
+    private $order;
+
     /**
      * Create a new notification instance.
-     *
      * @return void
      */
-    public function __construct()
+    public function __construct(Order $order)
     {
-        //
+        $this->order = $order;
     }
 
     /**
@@ -40,10 +44,10 @@ class OrderReadyToPickUp extends Notification
      */
     public function toMail($notifiable)
     {
+        $user = $this->order->user;
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->subject('Order lista')
+            ->line("Hola {$user->name}, La orden ya está lista para ser recogida.");
     }
 
     /**

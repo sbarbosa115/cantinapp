@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Restaurant;
 
 use App\Http\Requests\OrderStoreRequest;
+use App\Notifications\OrderReadyToPickUp;
 use Illuminate\Http\RedirectResponse;
 use App\Model\Order;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\View\View;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -37,6 +40,11 @@ class OrdersController extends Controller
         $order = Order::findOrFail($id);
         $order->status = $data['status'];
         $order->save();
+
+        if ($data['status'] === 'cooked') {
+            Notification::send($order->user, new OrderReadyToPickUp($order));
+        }
+
         $request->session()->flash('success', "The order was changed to {$order->status} successfully.");
         return redirect()->route('restaurant.orders.index');
     }

@@ -6,7 +6,6 @@ use App\User;
 use App\Model\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
 class OrderCreated extends Notification
@@ -17,7 +16,7 @@ class OrderCreated extends Notification
 
     private $order;
 
-    public function __construct(User $user, Order $order)
+    public function __construct(Order $order, User $user)
     {
         $this->user = $user;
         $this->order = $order;
@@ -43,7 +42,7 @@ class OrderCreated extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject("Order Recibida")
+            ->subject('Order Recibida')
             ->line("Hola {$this->user->name} tu orden esta confirmada y empezaremos a prepararla.")
             ->line('Te enviaremos un email cuando este lista para recoger.');
     }

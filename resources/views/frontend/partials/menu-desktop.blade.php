@@ -82,7 +82,7 @@
                             </div>
 
                             <div class="action">
-                                <button class="_btn float-right" onclick="window.location='{{ route('frontend.order.show"') }}'">
+                                <button class="_btn float-right" onclick="window.location='{{ route('frontend.order.show') }}'">
                                     {{ trans('frontend.menu.proceed_to_order') }}
                                 </button>
                             </div>

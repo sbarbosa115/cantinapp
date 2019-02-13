@@ -52,7 +52,7 @@
 
     $(document).off("click", "#add-product-to-order").on("click", "#add-product-to-order", function (e) {
         e.preventDefault();
-        $.post("{{ route("frontend.order.add.product") }}", $("#add-to-order").serialize(), function (data) {
+        $.post("{{ route('frontend.order.add.product') }}", $("#add-to-order").serialize(), function (data) {
             $("#modal-messages").html(data);
         });
     });
