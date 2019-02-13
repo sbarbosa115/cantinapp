@@ -11,7 +11,6 @@ use App\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
-
 class OrderService
 {
     public function addProductToCurrentOrder(array $userOrder, Product $product): void

@@ -81,7 +81,7 @@ Route::name('frontend.')->namespace('Frontend')->middleware(['web'])->group(func
     Route::get('api/order/products', 'OrderController@products')->name('order.products');
 });
 
-Route::get('password/reset/{token}', 'Auth\ForgotPasswordController@showResetForm')->name('password.reset');
+Route::get('password/reset/{token}', 'Frontend\Auth\ForgotPasswordController@showResetForm')->name('password.reset');
 
 
 

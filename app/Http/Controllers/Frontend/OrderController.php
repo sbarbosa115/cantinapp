@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Facades\OrderService;
 use App\Model\Product;
+use App\Notifications\OrderCreated;
 use App\Rules\GreaterThanNow;
 use App\Rules\MaxOrderDate;
 use App\User;
@@ -11,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
@@ -97,7 +99,10 @@ class OrderController extends Controller
             ]);
         }
 
-        OrderService::createOrder($data);
+        $order = OrderService::createOrder($data);
+
+        Notification::send(\Auth::user(), new OrderCreated($order, \Auth::user()));
+
         $pickUpTime = Carbon::createFromFormat('Y-m-d H:i:s', $request->get('pickup_at'));
         $request->session()->flash('success', "Your order will be ready to pick up in {$pickUpTime->diffForHumans()}");
         return response()->json(['redirect' => route('frontend.home.index')]);
