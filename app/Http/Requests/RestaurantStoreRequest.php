@@ -8,6 +8,7 @@ class RestaurantStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
+     *
      * @return bool
      */
     public function authorize(): bool
@@ -17,6 +18,7 @@ class RestaurantStoreRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
+     *
      * @return array
      */
     public function rules(): array
@@ -24,7 +26,7 @@ class RestaurantStoreRequest extends FormRequest
         return [
             'name' => 'required',
             'phone' => 'required',
-            'address' => 'required'
+            'address' => 'required',
         ];
     }
 }

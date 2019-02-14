@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Taxonomy extends Model
 {
-
     protected $fillable = ['name', 'slug', 'description', 'type'];
 
     public static function boot(): void
@@ -32,5 +31,4 @@ class Taxonomy extends Model
         $this->attributes['slug'] = str_slug($value);
         $this->attributes['restaurant_id'] = session('restaurant_id');
     }
-
 }

@@ -4,15 +4,13 @@ use Illuminate\Database\Seeder;
 
 class TaxonomiesSeeder extends Seeder
 {
-
-    protected $dishes =[];
+    protected $dishes = [];
 
     /** @var $restaurant \App\Model\Restaurant */
     protected $restaurant;
 
     /**
      * Run the database seeds.
-     * @return void
      */
     public function run(): void
     {
@@ -25,14 +23,14 @@ class TaxonomiesSeeder extends Seeder
     public function getRestaurantOrCreate(): void
     {
         $this->restaurant = \App\Model\Restaurant::all()->first();
-        if(!$this->restaurant instanceof \App\Model\Restaurant){
+        if (!$this->restaurant instanceof \App\Model\Restaurant) {
             throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Object not found');
         }
     }
 
     public function createTaxonomies(): void
     {
-        $dishes =[
+        $dishes = [
             ['name' => 'Bandeja paisa', 'image_path' => '67bead9a4203c3fa8a93e7342d5cf73c.jpg'],
             ['name' => 'Chuleta valluna', 'image_path' => '5e80b1e0a4ccb66758d2aff75c94f9cf.jpg'],
             ['name' => 'Ajiaco', 'image_path' => '880b0173ef7849261f3fd7325c623d47.jpg'],
@@ -44,18 +42,18 @@ class TaxonomiesSeeder extends Seeder
 
         $taxonomy = null;
 
-        foreach ($dishes as $key => $dish){
+        foreach ($dishes as $key => $dish) {
             $dish = factory(\App\Model\Product::class)->create([
                 'name' => $dishes[$key]['name'],
-                'image_path' => '/uploads/' . $dishes[$key]['image_path'],
-                'restaurant_id' => $this->restaurant->id
+                'image_path' => '/uploads/'.$dishes[$key]['image_path'],
+                'restaurant_id' => $this->restaurant->id,
             ]);
 
-            if($taxonomy === null){
+            if (null === $taxonomy) {
                 $taxonomy = factory(\App\Model\Taxonomy::class)->create([
                     'name' => 'meals',
                     'type' => 'category',
-                    'restaurant_id' => $this->restaurant->id
+                    'restaurant_id' => $this->restaurant->id,
                 ]);
             }
 
@@ -71,58 +69,57 @@ class TaxonomiesSeeder extends Seeder
                 ['name' => 'Monday', 'type' => 'tag'],
                 ['name' => 'Colombian Food', 'type' => 'tag'],
                 ['name' => 'Bean', 'type' => 'tag'],
-                ['name' => 'Rice', 'type' => 'tag']
+                ['name' => 'Rice', 'type' => 'tag'],
             ],
             [
                 ['name' => 'Thursday', 'type' => 'tag'],
                 ['name' => 'Colombian Food', 'type' => 'tag'],
                 ['name' => 'Pork', 'type' => 'tag'],
-                ['name' => 'Rice', 'type' => 'tag']
+                ['name' => 'Rice', 'type' => 'tag'],
             ],
             [
                 ['name' => 'Saturday', 'type' => 'tag'],
                 ['name' => 'Colombian Food', 'type' => 'tag'],
                 ['name' => 'Chicken', 'type' => 'tag'],
-                ['name' => 'Soup', 'type' => 'tag']
+                ['name' => 'Soup', 'type' => 'tag'],
             ],
             [
                 ['name' => 'Tuesday', 'type' => 'tag'],
                 ['name' => 'Peruvian Food', 'type' => 'tag'],
                 ['name' => 'Steak', 'type' => 'tag'],
-                ['name' => 'Beef', 'type' => 'tag']
+                ['name' => 'Beef', 'type' => 'tag'],
             ],
             [
                 ['name' => 'Tuesday', 'type' => 'tag'],
                 ['name' => 'Peruvian Food', 'type' => 'tag'],
                 ['name' => 'Chicken', 'type' => 'tag'],
-                ['name' => 'Rice', 'type' => 'tag']
+                ['name' => 'Rice', 'type' => 'tag'],
             ],
             [
                 ['name' => 'Wednesday', 'type' => 'tag'],
                 ['name' => 'Mexican Food', 'type' => 'tag'],
                 ['name' => 'Beef', 'type' => 'tag'],
-                ['name' => 'Guacamole', 'type' => 'tag']
+                ['name' => 'Guacamole', 'type' => 'tag'],
             ],
             [
                 ['name' => 'Friday', 'type' => 'tag'],
                 ['name' => 'Mexican Food', 'type' => 'tag'],
                 ['name' => 'Chicken', 'type' => 'tag'],
-                ['name' => 'Spicy', 'type' => 'tag']
+                ['name' => 'Spicy', 'type' => 'tag'],
             ],
-
         ];
 
-        foreach ($this->dishes as $key => $dish){
-            foreach ($tags[$key] as $item){
+        foreach ($this->dishes as $key => $dish) {
+            foreach ($tags[$key] as $item) {
                 $taxonomy = \App\Model\Taxonomy::where('name', '=', $item['name'])
                     ->where('type', '=', $item['type'])
                     ->first();
 
-                if(!$taxonomy){
+                if (!$taxonomy) {
                     $taxonomy = factory(\App\Model\Taxonomy::class)->create([
                         'name' => $item['name'],
                         'type' => $item['type'],
-                        'restaurant_id' => $this->restaurant->id
+                        'restaurant_id' => $this->restaurant->id,
                     ]);
                 }
 
@@ -133,60 +130,60 @@ class TaxonomiesSeeder extends Seeder
 
     public function createTaxonomiesSides(): void
     {
-        $dishes =[
+        $dishes = [
             ['name' => 'Mango juice', 'image_path' => '67bead9a4203c3fa8a93e7342d5cf73c.jpg', 'category' => [
                     'name' => 'juice',
-                    'type' => 'side'
-                ]
+                    'type' => 'side',
+                ],
             ],
             ['name' => 'Pineapple juice', 'image_path' => '67bead9a4203c3fa8a93e7342d5cf73c.jpg', 'category' => [
                     'name' => 'juice',
-                    'type' => 'side'
-                ]
+                    'type' => 'side',
+                ],
             ],
             ['name' => 'Guava juice', 'image_path' => '67bead9a4203c3fa8a93e7342d5cf73c.jpg', 'category' => [
                     'name' => 'juice',
-                    'type' => 'side'
-                ]
+                    'type' => 'side',
+                ],
             ],
             ['name' => 'White rice', 'image_path' => '67bead9a4203c3fa8a93e7342d5cf73c.jpg', 'category' => [
                     'name' => 'meals',
-                    'type' => 'side'
-                ]
+                    'type' => 'side',
+                ],
             ],
             ['name' => 'French fries', 'image_path' => '67bead9a4203c3fa8a93e7342d5cf73c.jpg', 'category' => [
                     'name' => 'meals',
-                    'type' => 'side'
-                ]
+                    'type' => 'side',
+                ],
             ],
             ['name' => 'Rice milk', 'image_path' => '67bead9a4203c3fa8a93e7342d5cf73c.jpg', 'category' => [
                     'name' => 'dessert',
-                    'type' => 'side'
-                ]
+                    'type' => 'side',
+                ],
             ],
             ['name' => 'Banana split', 'image_path' => '67bead9a4203c3fa8a93e7342d5cf73c.jpg', 'category' => [
                     'name' => 'dessert',
-                    'type' => 'side'
-                ]
+                    'type' => 'side',
+                ],
             ],
         ];
 
-        foreach ($dishes as $key => $item){
+        foreach ($dishes as $key => $item) {
             $dish = factory(\App\Model\Product::class)->create([
                 'name' => $dishes[$key]['name'],
-                'image_path' => '/uploads/' . $dishes[$key]['image_path'],
-                'restaurant_id' => $this->restaurant->id
+                'image_path' => '/uploads/'.$dishes[$key]['image_path'],
+                'restaurant_id' => $this->restaurant->id,
             ]);
 
             $taxonomy = \App\Model\Taxonomy::where('name', '=', $item['category']['name'])
                 ->where('type', '=', $item['category']['type'])
                 ->first();
 
-            if(!$taxonomy){
+            if (!$taxonomy) {
                 $taxonomy = factory(\App\Model\Taxonomy::class)->create([
                     'name' => $item['category']['name'],
                     'type' => $item['category']['type'],
-                    'restaurant_id' => $this->restaurant->id
+                    'restaurant_id' => $this->restaurant->id,
                 ]);
             }
             $dish->taxonomies()->save($taxonomy);

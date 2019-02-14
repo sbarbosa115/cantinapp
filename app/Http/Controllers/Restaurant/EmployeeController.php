@@ -10,12 +10,10 @@ use Illuminate\View\View;
 
 class EmployeeController extends Controller
 {
-    /**
-     *
-     */
     public function index(): View
     {
         $items = Employee::all();
+
         return view('restaurant.employee.index', ['items' => $items]);
     }
 
@@ -29,12 +27,14 @@ class EmployeeController extends Controller
         $data = $request->validated();
         Employee::create($data);
         $request->session()->flash('success', 'The action was completed successfully.');
+
         return redirect()->route('restaurant.employee.index');
     }
 
     public function edit($id): View
     {
         $item = Employee::findOrFail($id);
+
         return view('restaurant.employee.edit', ['item' => $item]);
     }
 
@@ -58,7 +58,7 @@ class EmployeeController extends Controller
         $item = Employee::findOrFail($id);
         $item->delete();
         $request->session()->flash('success', 'The action was completed successfully.');
+
         return redirect()->route('restaurant.employee.index');
     }
-
 }

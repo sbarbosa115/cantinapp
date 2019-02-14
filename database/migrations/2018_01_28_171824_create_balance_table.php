@@ -1,15 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateBalanceTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -20,15 +18,12 @@ class CreateBalanceTable extends Migration
             $table->integer('user_id')->index()->default(0);
             $table->integer('product_id')->index()->default(0);
             $table->integer('order_id')->index()->default(0);
-            $table->enum("status", ["available", "spent"]);
-
+            $table->enum('status', ['available', 'spent']);
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

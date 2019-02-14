@@ -10,10 +10,10 @@ use Illuminate\View\View;
 
 class ProductController extends Controller
 {
-
     public function index(): View
     {
         $products = Product::all();
+
         return view('restaurant.product.index', ['products' => $products]);
     }
 
@@ -29,15 +29,17 @@ class ProductController extends Controller
         $product = Product::create($data);
         $product->attachTaxonomies($data['tags'], $data['category']);
         $request->session()->flash('success', 'The action was completed successfully.');
+
         return redirect()->route('restaurant.product.index');
     }
 
     public function edit($id): View
     {
         $product = Product::find($id);
-        if(!$product){
+        if (!$product) {
             abort(404);
         }
+
         return view('restaurant.product.create', ['product' => $product]);
     }
 
@@ -48,6 +50,7 @@ class ProductController extends Controller
         $product->update($data);
         $product->attachTaxonomies($data['tags'], $data['category']);
         $request->session()->flash('success', 'The action was completed successfully.');
+
         return redirect()->route('restaurant.product.index');
     }
 
@@ -56,6 +59,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $product->delete();
         $request->session()->flash('success', 'The action was completed successfully.');
+
         return redirect()->route('restaurant.product.index');
     }
 
@@ -64,7 +68,7 @@ class ProductController extends Controller
         $product->status = $state;
         $product->save();
         $request->session()->flash('success', "Status changed successfully to {$product->name}");
+
         return redirect()->route('restaurant.product.index');
     }
-
 }

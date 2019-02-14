@@ -7,18 +7,19 @@ use Illuminate\Contracts\Validation\Rule;
 
 class GreaterThanNow implements Rule
 {
-
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed  $value
+     *
      * @return bool
      */
     public function passes($attribute, $value)
     {
         $orderDate = Carbon::createFromFormat('Y-m-d H:i:s', $value);
         $now = Carbon::now();
+
         return $orderDate > $now;
     }
 

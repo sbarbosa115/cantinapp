@@ -5,11 +5,12 @@ namespace App;
 use App\Model\Balance;
 use App\Notifications\PasswordReset;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * @method static findOrFail($id)
+ *
  * @property mixed id
  */
 class User extends Authenticatable
@@ -17,7 +18,7 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'password', 'restaurant_id'
+        'name', 'email', 'password', 'restaurant_id',
     ];
 
     protected $hidden = [
@@ -30,7 +31,7 @@ class User extends Authenticatable
         static::addGlobalScope(function ($query) {
             $query->where('restaurant_id', '=', session('restaurant_id'));
         });
-        static::creating(function($item) {
+        static::creating(function ($item) {
             $item->restaurant_id = session('restaurant_id');
         });
     }

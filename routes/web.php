@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,7 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 Route::name('restaurant.')->prefix('restaurant')->namespace('Restaurant')->group(function () {
     Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
     Route::post('/login', 'Auth\LoginController@login')->name('login.submit');
@@ -20,7 +20,7 @@ Route::name('restaurant.')->prefix('restaurant')->namespace('Restaurant')->group
     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
     Route::post('password/reset', 'Auth\ForgotPasswordController@reset')->name('password.request.reset');
     Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-    Route::get('password/reset/{token}', 'Auth\ForgotPasswordController@showResetForm')->name('password.reset');
+    Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 });
 
 Route::name('restaurant.')->prefix('restaurant')->namespace('Restaurant')->middleware(['employee'])->group(function () {
@@ -56,7 +56,6 @@ Route::name('restaurant.')->prefix('restaurant')->namespace('Restaurant')->middl
     Route::post('/my-account', 'AccountController@update')->name('account.update');
 });
 
-
 Route::name('frontend.')->namespace('Frontend')->group(function () {
     Route::get('/', 'HomeController@index')->name('home.index');
     Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -66,7 +65,8 @@ Route::name('frontend.')->namespace('Frontend')->group(function () {
     Route::get('logout/', 'Auth\LoginController@logout')->name('logout');
 
     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-    Route::post('password/reset', 'Auth\ForgotPasswordController@reset')->name('password.request.reset');
+    Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.request.reset');
+    Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
     Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
 });
 
@@ -80,8 +80,4 @@ Route::name('frontend.')->namespace('Frontend')->middleware(['web'])->group(func
     Route::get('api/categories', 'TaxonomyController@categories')->name('taxonomies.categories');
     Route::get('api/order/products', 'OrderController@products')->name('order.products');
 });
-
-Route::get('password/reset/{token}', 'Frontend\Auth\ForgotPasswordController@showResetForm')->name('password.reset');
-
-
 

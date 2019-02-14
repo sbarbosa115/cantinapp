@@ -9,14 +9,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AddSubdomainToSession
 {
-
     public function handle(Request $request, Closure $next)
     {
         $url = parse_url(url()->current());
         $domain = explode('.', $url['host']);
-        $restaurant = Restaurant::where('domain', $domain{0})->first();
+        $restaurant = Restaurant::where('domain', $domain[0])->first();
 
-        if(!$restaurant instanceof Restaurant){
+        if (!$restaurant instanceof Restaurant) {
             throw new NotFoundHttpException('This restaurant was not found.');
         }
 

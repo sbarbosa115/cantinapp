@@ -2,8 +2,8 @@
 
 namespace App\Model;
 
-use Illuminate\Database\Eloquent\Model;
 use App\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,16 +13,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static whereNotIn(string $string, array $array)
  * @method static find($id)
  * @method static findOrFail($id)
+ *
  * @property string payment_status
  * @property mixed id
  */
 class Order extends Model
 {
-
     protected $fillable = ['pickup_at', 'status', 'image_path', 'user_id', 'payment_method'];
 
     protected $dates = [
-        'pickup_at','created_at','updated_at '
+        'pickup_at', 'created_at', 'updated_at ',
     ];
 
     public static function boot(): void
@@ -31,7 +31,7 @@ class Order extends Model
         static::addGlobalScope(function ($query) {
             $query->where('restaurant_id', '=', session('restaurant_id'));
         });
-        static::creating(function($item) {
+        static::creating(function ($item) {
             $item->restaurant_id = session('restaurant_id');
         });
     }
@@ -56,7 +56,8 @@ class Order extends Model
      */
     public function getTotalQuantityOrder()
     {
-        $result = $this->belongsToMany(Product::class)->withPivot('quantity')->pluck("quantity");
+        $result = $this->belongsToMany(Product::class)->withPivot('quantity')->pluck('quantity');
+
         return array_sum($result->toArray());
     }
 }

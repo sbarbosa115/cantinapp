@@ -4,8 +4,8 @@ namespace Tests\Feature;
 
 use App\Facades\BalanceService;
 use App\Facades\OrderService;
-use App\Model\Product;
 use App\Model\Order;
+use App\Model\Product;
 use App\Model\Restaurant;
 use App\User;
 use Carbon\Carbon;
@@ -14,14 +14,13 @@ use Tests\TestCase;
 
 class OrderTest extends TestCase
 {
-
     public function setUp(): void
     {
         parent::setUp();
         $restaurant = Restaurant::find(1);
         $this->session([
             'restaurant_id' => $restaurant->id,
-            'restaurant' => $restaurant
+            'restaurant' => $restaurant,
         ]);
     }
 
@@ -31,16 +30,16 @@ class OrderTest extends TestCase
             'quantity' => '1',
             'product_id' => '2',
             'side' => [
-                ['10', '12', '14']
+                ['10', '12', '14'],
             ],
-            'comment' => null
+            'comment' => null,
         ];
         $product = Product::find($data['product_id']);
         if ($product) {
             OrderService::addProductToCurrentOrder($data, $product);
             /** @var $order Collection */
             $order = OrderService::getCurrentSessionOrder();
-            $this->assertEquals(1, $order->count());
+            $this->assertSame(1, $order->count());
         }
     }
 
@@ -52,14 +51,14 @@ class OrderTest extends TestCase
             'side' => [
                 ['10', '12', '14'], ['10', '12', '14'],
             ],
-            'comment' => null
+            'comment' => null,
         ];
         $product = Product::find($data['product_id']);
         if ($product) {
             OrderService::addProductToCurrentOrder($data, $product);
             /** @var $order Collection */
             $order = OrderService::getCurrentSessionOrder();
-            $this->assertEquals(2, $order->count());
+            $this->assertSame(2, $order->count());
         }
     }
 
@@ -71,7 +70,7 @@ class OrderTest extends TestCase
             'side' => [
                 ['10', '12', '14'], ['10', '12', '14'],
             ],
-            'comment' => null
+            'comment' => null,
         ];
 
         $product = Product::find($data['product_id']);
@@ -79,11 +78,11 @@ class OrderTest extends TestCase
             OrderService::addProductToCurrentOrder($data, $product);
             /** @var $order Collection */
             $order = OrderService::getCurrentSessionOrder();
-            $this->assertEquals(2, $order->count());
+            $this->assertSame(2, $order->count());
             $now = Carbon::now()->addMinutes(15);
             $details = [
                 'payment_method' => 'cantina',
-                'pickup_at' => $now->format('Y-m-d H:i:s')
+                'pickup_at' => $now->format('Y-m-d H:i:s'),
             ];
 
             //this user is get from users table after run the seeders.
@@ -93,8 +92,8 @@ class OrderTest extends TestCase
                 $this->be($user);
                 BalanceService::addUserBalance($user, 2);
                 $order = OrderService::createOrder($details);
-                $this->assertEquals(2, $order->products()->count());
-                $this->assertEquals('paid', $order->payment_status);
+                $this->assertSame(2, $order->products()->count());
+                $this->assertSame('paid', $order->payment_status);
             }
         }
     }
@@ -107,7 +106,7 @@ class OrderTest extends TestCase
             'side' => [
                 ['10', '12', '14'], ['10', '12', '14'],
             ],
-            'comment' => null
+            'comment' => null,
         ];
 
         $product = Product::find($data['product_id']);
@@ -115,11 +114,11 @@ class OrderTest extends TestCase
             OrderService::addProductToCurrentOrder($data, $product);
             /** @var $order Collection */
             $order = OrderService::getCurrentSessionOrder();
-            $this->assertEquals(2, $order->count());
+            $this->assertSame(2, $order->count());
             $now = Carbon::now()->addMinutes(15);
             $details = [
                 'payment_method' => 'cantina',
-                'pickup_at' => $now->format('Y-m-d H:i:s')
+                'pickup_at' => $now->format('Y-m-d H:i:s'),
             ];
 
             //this user is get from users table after run the seeders.
@@ -128,8 +127,8 @@ class OrderTest extends TestCase
             if ($user) {
                 $this->be($user);
                 $order = OrderService::createOrder($details);
-                $this->assertEquals(2, $order->products()->count());
-                $this->assertEquals('pending', $order->payment_status);
+                $this->assertSame(2, $order->products()->count());
+                $this->assertSame('pending', $order->payment_status);
             }
         }
     }
@@ -142,7 +141,7 @@ class OrderTest extends TestCase
             'side' => [
                 ['10', '12', '14'], ['10', '12', '14'], ['10', '12', '14'],
             ],
-            'comment' => null
+            'comment' => null,
         ];
 
         $product = Product::find($data['product_id']);
@@ -150,11 +149,11 @@ class OrderTest extends TestCase
             OrderService::addProductToCurrentOrder($data, $product);
             /** @var $order Collection */
             $order = OrderService::getCurrentSessionOrder();
-            $this->assertEquals(3, $order->count());
+            $this->assertSame(3, $order->count());
             $now = Carbon::now()->addMinutes(15);
             $details = [
                 'payment_method' => 'cantina',
-                'pickup_at' => $now->format('Y-m-d H:i:s')
+                'pickup_at' => $now->format('Y-m-d H:i:s'),
             ];
 
             //this user is get from users table after run the seeders.
@@ -164,8 +163,8 @@ class OrderTest extends TestCase
                 $this->be($user);
                 BalanceService::addUserBalance($user, 2);
                 $order = OrderService::createOrder($details);
-                $this->assertEquals(3, $order->products()->count());
-                $this->assertEquals('incomplete', $order->payment_status);
+                $this->assertSame(3, $order->products()->count());
+                $this->assertSame('incomplete', $order->payment_status);
             }
         }
     }
@@ -176,9 +175,9 @@ class OrderTest extends TestCase
             'quantity' => '2',
             'product_id' => '2',
             'side' => [
-                ['10', '12', '14'], ['10', '12', '14']
+                ['10', '12', '14'], ['10', '12', '14'],
             ],
-            'comment' => null
+            'comment' => null,
         ];
 
         $product = Product::find($data['product_id']);
@@ -186,11 +185,11 @@ class OrderTest extends TestCase
             OrderService::addProductToCurrentOrder($data, $product);
             /** @var $order Collection */
             $order = OrderService::getCurrentSessionOrder();
-            $this->assertEquals(2, $order->count());
+            $this->assertSame(2, $order->count());
             $now = Carbon::now()->addMinutes(15);
             $details = [
                 'payment_method' => 'cantina',
-                'pickup_at' => $now->format('Y-m-d H:i:s')
+                'pickup_at' => $now->format('Y-m-d H:i:s'),
             ];
 
             //this user is get from users table after run the seeders.
@@ -200,8 +199,8 @@ class OrderTest extends TestCase
                 $this->be($user);
                 BalanceService::addUserBalance($user, 1);
                 $order = OrderService::createOrder($details);
-                $this->assertEquals(2, $order->products()->count());
-                $this->assertEquals('incomplete', $order->payment_status);
+                $this->assertSame(2, $order->products()->count());
+                $this->assertSame('incomplete', $order->payment_status);
             }
         }
     }

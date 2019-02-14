@@ -4,7 +4,6 @@ use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
 {
-
     /** @var $restaurant \App\Model\Restaurant */
     protected $restaurant;
 
@@ -25,7 +24,7 @@ class UserSeeder extends Seeder
         $this->restaurant = \App\Model\Restaurant::create([
             'name' => 'Demo',
             'phone' => $faker->phoneNumber,
-            'address' => $faker->address
+            'address' => $faker->address,
         ]);
     }
 
@@ -37,7 +36,7 @@ class UserSeeder extends Seeder
             'username' => 'juanlopez',
             'password' => bcrypt('123456'),
             'remember_token' => str_random(10),
-            'restaurant_id' => $this->restaurant->id
+            'restaurant_id' => $this->restaurant->id,
         ]);
     }
 

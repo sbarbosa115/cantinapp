@@ -20,8 +20,8 @@ class OrderProduct extends Model
         $sides = $this->hasMany(Side::class)->get();
         $result = [];
 
-        foreach ($sides as $side){
-            if($side->products()->get()->count()){
+        foreach ($sides as $side) {
+            if ($side->products()->get()->count()) {
                 $result[] = $side->products()->get()->first()->name;
             }
         }
