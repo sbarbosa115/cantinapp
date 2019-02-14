@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Restaurant\Auth;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
@@ -11,13 +10,12 @@ class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
-
     /**
      * Where to redirect users after login.
+     *
      * @var string
      */
     protected $redirectTo = '/restaurant/order';
-
 
     /**
      * Create a new controller instance.
@@ -29,6 +27,7 @@ class LoginController extends Controller
 
     /**
      * Default username to login in.
+     *
      * @return string
      */
     public function username()
@@ -37,20 +36,24 @@ class LoginController extends Controller
     }
 
     /**
-     * Return the show login form.s
+     * Return the show login form.s.
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showLoginForm(){
-        return view("restaurant.login.index");
+    public function showLoginForm()
+    {
+        return view('restaurant.login.index');
     }
 
     /**
      * Logout the user for platform.
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function logout()
     {
         Auth::guard('employee')->logout();
+
         return redirect()->route('restaurant.login');
     }
 
@@ -61,8 +64,6 @@ class LoginController extends Controller
      */
     protected function guard()
     {
-        return Auth::guard("employee");
+        return Auth::guard('employee');
     }
-
-
 }

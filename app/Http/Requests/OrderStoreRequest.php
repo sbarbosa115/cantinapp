@@ -8,6 +8,7 @@ class OrderStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
+     *
      * @return bool
      */
     public function authorize(): bool
@@ -23,7 +24,7 @@ class OrderStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => 'required|in:created,cooking,cooked,delivered,archived'
+            'status' => 'required|in:created,cooking,cooked,delivered,archived',
         ];
     }
 }

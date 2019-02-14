@@ -2,11 +2,11 @@
 
 namespace App\Notifications;
 
-use App\User;
 use App\Model\Order;
+use App\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class OrderCreated extends Notification
 {
@@ -25,7 +25,8 @@ class OrderCreated extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function via($notifiable)
@@ -36,12 +37,13 @@ class OrderCreated extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Order Recibida')
             ->line("Hola {$this->user->name} tu orden esta confirmada y empezaremos a prepararla.")
             ->line('Te enviaremos un email cuando este lista para recoger.');
@@ -50,13 +52,13 @@ class OrderCreated extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function toArray($notifiable)
     {
         return [
-            //
         ];
     }
 }

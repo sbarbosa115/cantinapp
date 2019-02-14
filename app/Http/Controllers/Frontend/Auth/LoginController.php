@@ -46,12 +46,13 @@ class LoginController extends Controller
 
     /**
      * Logout the user for platform.
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function logout()
     {
         Auth::guard()->logout();
+
         return redirect('/login');
     }
-
 }

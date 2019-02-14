@@ -4,8 +4,8 @@ namespace App\Notifications;
 
 use App\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class Register extends Notification
 {
@@ -16,6 +16,7 @@ class Register extends Notification
     /**
      * Create a new notification instance.
      * Register constructor.
+     *
      * @param User $user
      */
     public function __construct(User $user)
@@ -26,7 +27,8 @@ class Register extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function via($notifiable)
@@ -37,12 +39,13 @@ class Register extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Bienvenido a Cantinapp')
             ->line("{$this->user->name}, gracias por registrarte.")
             ->line('Desde ahora vas a poder ordenar tus comidas favoritas con anticipación y recogerlas en el momento que mas te convenga utilizando nuestra nueva e ingeniosa aplicación')
@@ -52,11 +55,11 @@ class Register extends Notification
             ->salutation('Equipo Cantinapp.');
     }
 
-
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function toArray($notifiable): array

@@ -12,6 +12,7 @@ class AccountController extends Controller
     public function index(): View
     {
         $restaurant = Auth::guard('employee')->user()->restaurant;
+
         return view('restaurant.account.index', ['restaurant' => $restaurant]);
     }
 
@@ -22,6 +23,7 @@ class AccountController extends Controller
         $validated = $request->validated();
         $restaurant->update($validated);
         $request->session()->flash('success', 'Restaurant data updated successfully.');
+
         return view('restaurant.account.index', ['restaurant' => $restaurant]);
     }
 }

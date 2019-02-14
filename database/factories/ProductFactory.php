@@ -17,8 +17,7 @@ $factory->define(App\Model\Product::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'description' => $faker->text(200),
-        'image_path' =>  "/uploads/67bead9a4203c3fa8a93e7342d5cf73c.jpg",
+        'image_path' => '/uploads/67bead9a4203c3fa8a93e7342d5cf73c.jpg',
         'price' => mt_rand(7, 20),
     ];
 });
-

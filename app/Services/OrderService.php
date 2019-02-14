@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
+use App\Facades\BalanceService;
 use App\Model\Balance;
+use App\Model\Order;
 use App\Model\Product;
 use App\Model\Side;
-use App\Model\Order;
-use App\Facades\BalanceService;
 use App\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -26,15 +26,15 @@ class OrderService
 
     public function deleteProductFromCurrentOrder(?Collection $order, Product $product): void
     {
-        if($order === null){
+        if (null === $order) {
             $order = $this->getCurrentSessionOrder();
         }
 
-        $order = $order->reject(function($element) use ($product) {
+        $order = $order->reject(function ($element) use ($product) {
             return $element->id === $product->id;
         });
 
-        if(!$order){
+        if (!$order) {
             $this->syncCurrentUserOrder($order);
         }
     }
@@ -45,6 +45,7 @@ class OrderService
         if (session()->has('order')) {
             $result = session()->get('order');
         }
+
         return $result;
     }
 
@@ -69,9 +70,9 @@ class OrderService
     public function addSidesToProduct(array $sides, Product $product): void
     {
         $collection = new Collection();
-        foreach ($sides as $side){
+        foreach ($sides as $side) {
             $productSide = Product::find($side);
-            if($productSide){
+            if ($productSide) {
                 $collection->push($productSide);
             }
         }
@@ -84,7 +85,6 @@ class OrderService
         $tax = 0;
         $products = $this->getCurrentSessionOrder();
         if ($products->count() > 0) {
-
             foreach ($products as $product) {
                 $total = ($product->price * 1) + $total;
             }
@@ -92,6 +92,7 @@ class OrderService
                 $tax = $total * config('customer.tax') / 100;
             }
         }
+
         return ['tax' => $tax, 'total' => number_format($total, 2)];
     }
 
@@ -108,18 +109,18 @@ class OrderService
         ]);
 
         $orderStatus = [];
-        foreach ($products as $product){
+        foreach ($products as $product) {
             $comment = $product->comment ?? 'N/A';
-            /** @var $order Order */
+            /* @var $order Order */
             $order->products()->attach([$product->id => ['quantity' => 1, 'comment' => $comment]]);
             /** @var $orderProducts Collection */
             $orderProducts = $order->products()->withPivot('id')->get();
-            foreach ($product->orderProductSides as $productSide){
+            foreach ($product->orderProductSides as $productSide) {
                 Side::create([
                     'order_product_id' => $orderProducts->last()->pivot->id,
                     'product_id' => $productSide->id,
                     'quantity' => 1,
-                    'order_id' => $order->id
+                    'order_id' => $order->id,
                 ]);
             }
             $orderStatus[] = BalanceService::removeUserBalance($user, $product, $order);
@@ -127,6 +128,7 @@ class OrderService
         $order->payment_status = $this->calculateStatus($orderStatus);
         $order->save();
         $this->flushCurrentSessionOrder();
+
         return $order;
     }
 
@@ -134,21 +136,22 @@ class OrderService
     {
         $null = 0;
         $balance = 0;
-        foreach ($orderStatus as $status){
-            if($status === null){
-                $null++;
+        foreach ($orderStatus as $status) {
+            if (null === $status) {
+                ++$null;
             }
-            if($status instanceof Balance){
-                $balance++;
+            if ($status instanceof Balance) {
+                ++$balance;
             }
         }
 
         $result = 'incomplete';
-        if($null === \count($orderStatus)){
+        if ($null === \count($orderStatus)) {
             $result = 'pending';
-        } else if($balance === \count($orderStatus)){
-            $result =  'paid';
+        } elseif ($balance === \count($orderStatus)) {
+            $result = 'paid';
         }
+
         return $result;
     }
 

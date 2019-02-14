@@ -5,8 +5,8 @@ namespace App\Repositories;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
-class ProductRepository {
-
+class ProductRepository
+{
     public static function getAllProductsBySide(string $type = 'side'): Collection
     {
         return DB::table('products as p')
@@ -16,7 +16,6 @@ class ProductRepository {
             ->where('t.type', '=', $type)
             ->get();
     }
-
 
     public static function getSidesBySlug(string $name): Collection
     {
@@ -33,11 +32,10 @@ class ProductRepository {
     {
         $sidesCategories = TaxonomyRepository::getTaxonomiesByType('side');
         $result = new Collection();
-        foreach ($sidesCategories as $side){
+        foreach ($sidesCategories as $side) {
             $result->put($side->slug, self::getSidesBySlug($side->slug));
         }
 
         return $result;
     }
-
 }

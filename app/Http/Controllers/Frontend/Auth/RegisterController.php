@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Frontend\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Notifications\Register;
 use App\User;
-use App\Http\Controllers\Controller;
-use Validator;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Validator;
 
 class RegisterController extends Controller
 {
@@ -33,20 +35,13 @@ class RegisterController extends Controller
 
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
         $this->middleware('guest');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     */
-    protected function validator(
-        array $data
-    ): \Illuminate\Contracts\Validation\Validator {
+    protected function validator(array $data): \Illuminate\Contracts\Validation\Validator {
         return \Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -54,12 +49,9 @@ class RegisterController extends Controller
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     */
     protected function create(array $data): User
     {
-        $user =  User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
@@ -68,6 +60,19 @@ class RegisterController extends Controller
         $user->notify(new Register($user));
 
         return $user;
+    }
+
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        $this->guard()->login($user);
+
+        $request->session()->flash('info', trans('frontend.menu.register_successfully'));
+
+        return $this->registered($request, $user) ?: redirect($this->redirectPath());
     }
 
     /**

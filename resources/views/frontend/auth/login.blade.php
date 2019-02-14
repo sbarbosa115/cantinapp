@@ -8,6 +8,8 @@
             <div class="customers-wrapper">
                 <div class="container">
                     <div class="row">
+                        @include('frontend.partials._flash')
+
                         <div class="customers-inner">
                             <div class="customers-content">
                                 <div id="login" class="customers">
@@ -18,8 +20,8 @@
                                             <input type="email" value="" placeholder="Email Address" name="email" id="customer_email" class="text">
                                             @if ($errors->has('email'))
                                                 <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
+                                                    <strong>{{ $errors->first('email') }}</strong>
+                                                </span>
                                             @endif
                                         </div>
                                         <div class="clearfix large_form form-item form-password">
@@ -27,8 +29,8 @@
                                             <span class="cs-icon icon-eye"></span>
                                             @if ($errors->has('password'))
                                                 <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
+                                                    <strong>{{ $errors->first('password') }}</strong>
+                                                </span>
                                             @endif
                                         </div>
                                         <div class="clearfix">

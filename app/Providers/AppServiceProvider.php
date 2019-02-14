@@ -12,8 +12,6 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -22,18 +20,14 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Register any application services.
-     *
-     * @return void
      */
     public function register()
     {
-        App::bind('orderService', function()
-        {
+        App::bind('orderService', function () {
             return new OrderService();
         });
 
-        App::bind('balanceService', function()
-        {
+        App::bind('balanceService', function () {
             return new BalanceService();
         });
     }
