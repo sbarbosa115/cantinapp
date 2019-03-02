@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Facades\BalanceService;
 use App\Facades\OrderService;
-use App\Model\Order;
 use App\Model\Product;
 use App\Model\Restaurant;
 use App\User;
@@ -12,7 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
 
-class OrderTest extends TestCase
+class OrderServiceTest extends TestCase
 {
     public function setUp(): void
     {
@@ -70,7 +69,7 @@ class OrderTest extends TestCase
             'side' => [
                 ['10', '12', '14'], ['10', '12', '14'],
             ],
-            'comment' => null,
+            'comment' => null,InteractsWithDatabase
         ];
 
         $product = Product::find($data['product_id']);

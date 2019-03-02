@@ -32,7 +32,10 @@ class User extends Authenticatable
             $query->where('restaurant_id', '=', session('restaurant_id'));
         });
         static::creating(function ($item) {
-            $item->restaurant_id = session('restaurant_id');
+            if (!$item->restaurant_id) {
+                $item->restaurant_id = session('restaurant_id');
+            }
+
         });
     }
 

@@ -9,19 +9,20 @@ class AddPaymentTypeToOrdersTable extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->enum('payment_method', ['cash', 'cantina']);
+            $table->enum('payment_method', ['cash', 'cantina'])->nullable();
         });
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('orders', function (Blueprint $table) {
+            $table->dropColumn('payment_method');
         });
     }
 }

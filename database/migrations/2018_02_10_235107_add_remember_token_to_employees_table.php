@@ -9,20 +9,20 @@ class AddRememberTokenToEmployeesTable extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('employees', function (Blueprint $table) {
-            $table->string('remember_token', 255);
+            $table->string('remember_token', 255)->nullable();
         });
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('employees', function (Blueprint $table) {
-            $table->string('remember_token', 255);
+            $table->dropColumn('remember_token');
         });
     }
 }

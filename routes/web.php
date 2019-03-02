@@ -62,7 +62,7 @@ Route::name('frontend.')->namespace('Frontend')->group(function () {
     Route::post('/login', 'Auth\LoginController@login')->name('login.submit');
     Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('register');
     Route::post('/register', 'Auth\RegisterController@register')->name('register.create');
-    Route::get('logout/', 'Auth\LoginController@logout')->name('logout');
+    Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
     Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.request.reset');

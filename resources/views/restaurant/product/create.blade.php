@@ -32,11 +32,7 @@
     <select class="form-control" name="category">
         <option value="">Choose a category to this product.</option>
         @foreach($product->categories()->get() as $category)
-            @if($category->slug === $product->categories->slug)
-                <option value="{{$category->id}}" selected>{{ucfirst($category->name)}} ({{ucfirst($category->type)}})</option>
-            @else
-                <option value="{{$category->id}}">{{ucfirst($category->name)}} ({{ucfirst($category->type)}})</option>
-            @endif
+            <option value="{{$category->id}}">{{ucfirst($category->name)}} ({{ucfirst($category->type)}})</option>
         @endforeach
     </select>
     @if($errors->first('category'))
