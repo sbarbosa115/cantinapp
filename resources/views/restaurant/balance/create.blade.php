@@ -8,12 +8,10 @@
         </div>
         <div class="modal-body">
             <h5>Current Balance: {{ $user->balances()->count() }}</h5>
-            <form method="post" action="{{ route("restaurant.balance.store") }}">
+            <form method="post" action="{{ route('restaurant.balance.store') }}">
                 {!! csrf_field() !!}
                 @include('restaurant.balance._form')
             </form>
-
         </div>
-
     </div>
 </div>

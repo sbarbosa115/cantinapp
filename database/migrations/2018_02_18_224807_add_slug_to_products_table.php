@@ -9,19 +9,20 @@ class AddSlugToProductsTable extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->string('slug', 255)->after('name');
+            $table->string('slug', 255)->after('name')->nullable();
         });
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('products', function (Blueprint $table) {
+            $table->dropColumn('slug');
         });
     }
 }

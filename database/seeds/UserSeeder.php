@@ -25,6 +25,7 @@ class UserSeeder extends Seeder
             'name' => 'Demo',
             'phone' => $faker->phoneNumber,
             'address' => $faker->address,
+            'domain' => 'demo'
         ]);
     }
 
