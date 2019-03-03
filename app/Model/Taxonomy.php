@@ -16,7 +16,15 @@ class Taxonomy extends Model
     {
         parent::boot();
         static::addGlobalScope(function ($query) {
-            $query->where('restaurant_id', '=', session('restaurant_id'));
+            if(session()->has('restaurant_id')) {
+                $query->where('restaurant_id', '=', session()->get('restaurant_id'));
+            }
+        });
+
+        static::creating(function ($item) {
+            if (!$item->restaurant_id) {
+                $item->restaurant_id = session()->get('restaurant_id');
+            }
         });
     }
 

@@ -18,17 +18,12 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        switch ($guard) {
-            case 'employee':
-                if (Auth::guard($guard)->check()) {
-                    return redirect()->route('restaurant.orders.index');
-                }
-                break;
-            default:
-                if (Auth::guard($guard)->check()) {
-                    return redirect('/home');
-                }
-                break;
+        if(Auth::guard($guard)->check()) {
+            if ($guard == 'employee') {
+                return redirect()->route('restaurant.orders.index');
+            } else {
+                return redirect()->route('frontend.home.index');
+            }
         }
 
         return $next($request);

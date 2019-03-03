@@ -19,6 +19,25 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Order extends Model
 {
+    /**
+     * OrderServiceTest
+     * enum('created', 'cooking', 'cooked', 'delivered', 'archived')
+     * @var array
+     */
+
+    public const PAYMENT_METHOD_CASH = 'cash';
+    public const PAYMENT_METHOD_CANTINA = 'cantina';
+
+    public const PAYMENT_STATUS_PAID = 'paid';
+    public const PAYMENT_STATUS_PENDING = 'pending';
+
+    public const STATUS_CREATED = 'created';
+    public const STATUS_COOKING = 'cooking';
+    public const STATUS_COOKED = 'cooking';
+    public const STATUS_DELIVERED = 'delivered';
+    public const STATUS_ARCHIVED = 'archived';
+
+
     protected $fillable = ['pickup_at', 'status', 'image_path', 'user_id', 'payment_method'];
 
     protected $dates = [

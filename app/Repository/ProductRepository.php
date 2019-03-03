@@ -30,10 +30,12 @@ class ProductRepository
 
     public static function getAllProductsBySideGrouped(): Collection
     {
-        $sidesCategories = TaxonomyRepository::getTaxonomiesByType('side');
-        $result = new Collection();
-        foreach ($sidesCategories as $side) {
-            $result->put($side->slug, self::getSidesBySlug($side->slug));
+        $sidesCategories = TaxonomyRepository::getProductsByType('tag', 'side');
+        $result = collect();
+        foreach ($sidesCategories as $category) {
+            foreach ($category->products()->get() as $product) {
+                $result->put($product->slug, $product);
+            }
         }
 
         return $result;

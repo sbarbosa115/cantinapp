@@ -1,4 +1,4 @@
-let mix = require('laravel-mix');
+const mix = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
@@ -12,17 +12,18 @@ let mix = require('laravel-mix');
  */
 
 mix.react('resources/assets/restaurant/js/app.js', 'public/dist/restaurant/js/app.js')
-    .sass('resources/assets/restaurant/sass/app.scss', 'public/dist/restaurant/css/app.css');
+  .sass('resources/assets/restaurant/sass/app.scss', 'public/dist/restaurant/css/app.css');
 
 mix.react('resources/assets/frontend/js/app.js', 'public/dist/frontend/js/app.js')
-    .sass('resources/assets/frontend/sass/app.scss', 'public/dist/frontend/css/app.css');
+  .react('resources/assets/frontend/js/home/index.js', 'public/dist/frontend/js/home/index.js')
+  .sass('resources/assets/frontend/sass/app.scss', 'public/dist/frontend/css/app.css');
 
 
 if (mix.inProduction()) {
-    mix.version();
-    mix.disableNotifications();
+  mix.version();
+  mix.disableNotifications();
 } else {
-    mix.webpackConfig({
-        devtool: 'source-map'
-    });
+  mix.webpackConfig({
+    devtool: 'source-map',
+  });
 }

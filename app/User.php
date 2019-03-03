@@ -18,7 +18,7 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'password', 'restaurant_id',
+        'name', 'email', 'username', 'password', 'restaurant_id'
     ];
 
     protected $hidden = [
@@ -29,13 +29,14 @@ class User extends Authenticatable
     {
         parent::boot();
         static::addGlobalScope(function ($query) {
-            $query->where('restaurant_id', '=', session('restaurant_id'));
+            if (session()->has('restaurant_id')) {
+                $query->where('restaurant_id', '=', session()->get('restaurant_id'));
+            }
         });
         static::creating(function ($item) {
             if (!$item->restaurant_id) {
-                $item->restaurant_id = session('restaurant_id');
+                $item->restaurant_id = session()->get('restaurant_id');
             }
-
         });
     }
 

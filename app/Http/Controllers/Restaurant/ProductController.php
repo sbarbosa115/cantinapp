@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Restaurant;
 
 use App\Http\Requests\ProductStoreRequest;
 use App\Model\Product;
+use App\Model\Taxonomy;
+use App\Repositories\TaxonomyRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -19,7 +21,10 @@ class ProductController extends Controller
 
     public function create(): View
     {
-        return view('restaurant.product.create', ['product' => new Product()]);
+        return view('restaurant.product.create', [
+            'product' => new Product(),
+            'categories' => TaxonomyRepository::getCategories()
+        ]);
     }
 
     public function store(ProductStoreRequest $request): RedirectResponse
@@ -40,7 +45,10 @@ class ProductController extends Controller
             abort(404);
         }
 
-        return view('restaurant.product.create', ['product' => $product]);
+        return view('restaurant.product.create', [
+            'product' => $product,
+            'categories' => TaxonomyRepository::getCategories()
+        ]);
     }
 
     public function update(ProductStoreRequest $request, Product $product): RedirectResponse

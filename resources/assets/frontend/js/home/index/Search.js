@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ScrollableAnchor from 'react-scrollable-anchor';
+import PropTypes from 'prop-types';
 import Product from './Product';
 import WelcomeHeader from './WelcomeHeader';
 
@@ -8,26 +9,11 @@ class Search extends Component {
     super(props);
 
     this.state = {
-      items: [],
+      items: props.categories,
       query: false,
     };
 
     this.onSearch = this.onSearch.bind(this);
-  }
-
-  componentDidMount() {
-    fetch(route('frontend.taxonomies.categories')).then(res => res.json()).then(
-      (result) => {
-        this.setState({
-          items: result,
-        });
-      },
-      (error) => {
-        this.setState({
-          error,
-        });
-      },
-    );
   }
 
   onSearch(e) {
@@ -37,7 +23,7 @@ class Search extends Component {
   }
 
   render() {
-    const { query, items} = this.state;
+    const { query, items } = this.state;
     const _products = [];
 
     items.forEach((category) => {
@@ -133,3 +119,7 @@ class Search extends Component {
 }
 
 export default Search;
+
+Search.propTypes = {
+  categories: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+};

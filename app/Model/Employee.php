@@ -26,14 +26,21 @@ class Employee extends Authenticatable
     {
         parent::boot();
         static::addGlobalScope(function ($query) {
-            $query->where('restaurant_id', '=', session('restaurant_id'));
+            if(session()->has('restaurant_id')) {
+                $query->where('restaurant_id', '=', session()->get('restaurant_id'));
+            }
+        });
+
+        static::creating(function ($item) {
+            if (!$item->restaurant_id) {
+                $item->restaurant_id = session()->get('restaurant_id');
+            }
         });
     }
 
     public function setPasswordAttribute($password): void
     {
         $this->attributes['password'] = bcrypt($password);
-        $this->attributes['restaurant_id'] = session('restaurant_id');
         $this->attributes['remember_token'] = str_random(128);
     }
 

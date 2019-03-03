@@ -45,10 +45,9 @@ return [
             'driver' => 'token',
             'provider' => 'users',
         ],
-
         'employee' => [
             'driver' => 'session',
-            'provider' => "employees",
+            'provider' => 'employees',
         ],
     ],
 

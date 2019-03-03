@@ -7,9 +7,13 @@ class DatabaseSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run()
+    public function run(): void
     {
-        $this->call(UserSeeder::class);
-        $this->call(TaxonomiesSeeder::class);
+        $this->call([
+            RestaurantSeeder::class,
+            UserSeeder::class,
+            EmployeeSeeder::class,
+            TaxonomiesSeeder::class
+        ]);
     }
 }

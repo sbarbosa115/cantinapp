@@ -147,9 +147,9 @@ class OrderService
 
         $result = 'incomplete';
         if ($null === \count($orderStatus)) {
-            $result = 'pending';
+            $result = Order::PAYMENT_STATUS_PENDING;
         } elseif ($balance === \count($orderStatus)) {
-            $result = 'paid';
+            $result = Order::PAYMENT_STATUS_PAID;
         }
 
         return $result;

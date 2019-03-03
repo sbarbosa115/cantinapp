@@ -2,27 +2,28 @@
 
 namespace Tests;
 
+use App\User;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Foundation\Testing\TestCase as BaseCase;
-use Illuminate\Support\Facades\Artisan;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 
 class TestCase extends BaseCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
+    use RefreshDatabase;
 
     public function createApplication()
     {
-        $app = require __DIR__.'/../bootstrap/app.php';
+        $app = require __DIR__.'/../bootstrap/test.php';
 
-        $app->make(Kernel::class)->bootstrap();
+        $kernel = $app->make(Kernel::class);
+
+        $kernel->call('migrate');
+        $kernel->call('db:seed');
+
+        $kernel->bootstrap();
+
         Hash::setRounds(4);
-
-        Artisan::call('migrate');
-        Artisan::call('db:seed');
 
         return $app;
     }

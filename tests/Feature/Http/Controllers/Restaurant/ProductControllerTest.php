@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Http\Controllers\Frontend;
 
-use App\User;
-use Illuminate\Http\Response;
+use App\Model\Employee;
+use App\Model\Product;
 use Tests\TestCase;
 
 class ProductControllerTest extends TestCase
@@ -11,19 +11,20 @@ class ProductControllerTest extends TestCase
 
     public function testCreateProduct(): void
     {
-        $user = User::where('email', 'juanlopez@example.com')->first();
-        $this->actingAs($user);
-        $response = $this->call('POST', url('/restaurant/product/create'), [
-            'name' => 'TEST NEW PRODUCT',
+        $employee = Employee::where('username', 'frank')->first();
+        $this->actingAs($employee, 'employee');
+
+        $this->call('POST', url('/restaurant/product/create'), [
+            'name' => 'TEST NEW PRODUCT 0056565888',
             'description' => 'TEST NEW PRODUCT DESCRIPTION',
             'price' => 15,
             'tags' => '["some"]',
             'category' => '1',
-        ]);
+        ])->assertRedirect(url('/restaurant/product'));
 
-        $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());
-        $this->followingRedirects();
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $products = Product::where('name', 'TEST NEW PRODUCT 0056565888')->get();
+        $this->assertCount(1, $products);
     }
+
 
 }

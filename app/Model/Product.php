@@ -28,8 +28,17 @@ class Product extends Model
     public static function boot(): void
     {
         parent::boot();
+        parent::boot();
         static::addGlobalScope(function ($query) {
-            $query->where('restaurant_id', '=', session('restaurant_id'));
+            if(session()->has('restaurant_id')) {
+                $query->where('restaurant_id', '=', session()->get('restaurant_id'));
+            }
+        });
+
+        static::creating(function ($item) {
+            if (!$item->restaurant_id) {
+                $item->restaurant_id = session()->get('restaurant_id');
+            }
         });
     }
 
@@ -94,9 +103,9 @@ class Product extends Model
         return $taxonomiesIds;
     }
 
-    protected function attachCategory(int $category): array
+    protected function attachCategory(int $categoryId): array
     {
-        $taxonomy = Taxonomy::find($category);
+        $taxonomy = Taxonomy::find($categoryId);
         if (!$taxonomy instanceof Taxonomy) {
             throw new ClassNotFoundException('Invalid category id');
         }

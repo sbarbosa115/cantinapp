@@ -53,6 +53,6 @@ class LoginController extends Controller
     {
         Auth::guard()->logout();
 
-        return redirect('/login');
+        return redirect()->route('frontend.login');
     }
 }

@@ -2,10 +2,8 @@
 
 use Illuminate\Database\Seeder;
 
-class UserSeeder extends Seeder
+class EmployeeSeeder extends Seeder
 {
-    /** @var $restaurant \App\Model\Restaurant */
-    protected $restaurant;
 
     /**
      * Run the database seeds.
@@ -17,11 +15,11 @@ class UserSeeder extends Seeder
             throw new InvalidArgumentException('Restaurant not was found');
         }
 
-        \App\User::create([
-            'name' => 'Juan Lopez',
-            'email' => 'juanlopez@example.com',
-            'username' => 'juanlopez',
-            'password' => bcrypt('123456'),
+        \App\Model\Employee::create([
+            'name' => 'Frank Rodriguez',
+            'email' => 'frank@example.com',
+            'username' => 'frank',
+            'password' => '123456',
             'restaurant_id' => $restaurant->id,
         ]);
     }

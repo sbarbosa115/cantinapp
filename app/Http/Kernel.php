@@ -3,7 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\AddSubdomainToSession;
-use App\Http\Middleware\Employee;
+use App\Http\Middleware\EmployeeGuard;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\TrimStrings;
@@ -38,7 +38,6 @@ class Kernel extends HttpKernel
             EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
-            // \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
@@ -54,7 +53,7 @@ class Kernel extends HttpKernel
             VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \Illuminate\Session\Middleware\StartSession::class,
-            Employee::class,
+            EmployeeGuard::class,
             AddSubdomainToSession::class,
         ],
 

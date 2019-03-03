@@ -69,7 +69,7 @@ class OrderServiceTest extends TestCase
             'side' => [
                 ['10', '12', '14'], ['10', '12', '14'],
             ],
-            'comment' => null,InteractsWithDatabase
+            'comment' => null,
         ];
 
         $product = Product::find($data['product_id']);

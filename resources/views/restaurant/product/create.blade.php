@@ -31,7 +31,7 @@
     <label for="message-text" class="form-control-label">Category:</label>
     <select class="form-control" name="category">
         <option value="">Choose a category to this product.</option>
-        @foreach($product->categories()->get() as $category)
+        @foreach($categories as $category)
             <option value="{{$category->id}}">{{ucfirst($category->name)}} ({{ucfirst($category->type)}})</option>
         @endforeach
     </select>
