@@ -10,6 +10,7 @@
         id="index-products"
         role="main"
         data-categories="{{ json_encode($categories) }}"
+        data-sides="{{ json_encode($sides) }}"
     ></main>
 @endsection
 

@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 /* global window */
 window.$ = window.jQuery = require('./lib/jquery.min');
 
@@ -20,6 +22,7 @@ require('./lib/jquery.fancybox');
 
 window.axios = require('axios');
 
+window.trans = string => _.get(window.i18n, string);
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 const token = window.document.head.querySelector('meta[name="csrf-token"]');

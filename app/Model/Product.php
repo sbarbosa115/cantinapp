@@ -28,7 +28,6 @@ class Product extends Model
     public static function boot(): void
     {
         parent::boot();
-        parent::boot();
         static::addGlobalScope(function ($query) {
             if(session()->has('restaurant_id')) {
                 $query->where('restaurant_id', '=', session()->get('restaurant_id'));

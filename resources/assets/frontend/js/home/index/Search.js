@@ -9,7 +9,8 @@ class Search extends Component {
     super(props);
 
     this.state = {
-      items: props.categories,
+      sides: props.sides,
+      categories: props.categories,
       query: false,
     };
 
@@ -17,34 +18,22 @@ class Search extends Component {
   }
 
   onSearch(e) {
-    this.setState({
-      query: e.target.value,
-    });
+    const query = e.target.value || false;
+    this.setState({ query });
   }
 
   render() {
-    const { query, items } = this.state;
-    const _products = [];
+    const { query, categories, sides } = this.state;
+    const products = [];
 
-    items.forEach((category) => {
-      category.products.forEach((item) => {
-        if (item.status !== 'disabled') {
-          _products.push(item);
+    categories.forEach((category) => {
+      category.products.filter(product => (product.status !== 'disabled')).forEach((product) => {
+        if (
+          (query && product.name.toLowerCase().search(query.toLowerCase()) > -1) || query === false
+        ) {
+          products.push(<Product sides={sides} key={product.id} product={product} />);
         }
       });
-    });
-
-    const products = [];
-    _products.forEach((item) => {
-      if (query && item.name.toLowerCase().search(query.toLowerCase()) > -1) {
-        products.push(
-          <Product key={item.id} product={item} />,
-        );
-      } else if (!query) {
-        products.push(
-          <Product key={item.id} product={item} />,
-        );
-      }
     });
 
     return (
@@ -74,12 +63,10 @@ class Search extends Component {
                           {query && (
                           <div>
                             <span className="subtext">
-                              Your search for '<strong>{query}</strong>' revealed the following:
+                              {`Your search for <strong>${query}</strong> revealed the following:`}
                             </span>
                             <span className="results">
-                              {products.length}
-                              {' '}
-                              results found
+                              {`${products.length} results found`}
                             </span>
                           </div>
                           )}
@@ -89,22 +76,13 @@ class Search extends Component {
                         </div>
                         {products.length > 0
                         && (
-                        <div className="search-bottom-toolbar">
-                          <div className="search-pagination col-sm-6" />
-                          <div className="search-counter col-sm-6">
-                            Items 1 to
-                            {' '}
-                            {products.length}
-                            {' '}
-                            of
-                            {' '}
-                            {_products.length}
-                            {' '}
-                            total
+                          <div className="search-bottom-toolbar">
+                            <div className="search-pagination col-sm-6" />
+                            <div className="search-counter col-sm-6">
+                              {`Items 1 to ${products.length} total`}
+                            </div>
                           </div>
-                        </div>
-                        )
-                        }
+                        )}
                       </div>
                     </div>
                   </div>
@@ -122,4 +100,5 @@ export default Search;
 
 Search.propTypes = {
   categories: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  sides: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };

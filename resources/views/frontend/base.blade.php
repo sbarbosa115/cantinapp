@@ -99,8 +99,8 @@
     </div>
 </footer>
 
-<div class="modal fade" id="modal-messages"></div>
 @routes
+<script src="{{ route('assets.lang') }}"></script>
 <script type="text/javascript" src="{{ asset('dist/frontend/js/app.js') }}"></script>
 @yield('javascript')
 

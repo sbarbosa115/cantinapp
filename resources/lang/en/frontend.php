@@ -29,6 +29,14 @@ return [
     ],
     'homepage' => [
         'title' => 'A new way to get you Colombian Cantina.',
+        'add_products_to_order' => 'Add product to current order',
+        'quantity' => 'Quantity',
+        'dish' => 'Dish',
+        'dishes' => 'Dishes',
+        'new' => 'New',
+        'select_side' => 'Select Side',
+        'add_to_order' => 'Add to Order',
+        'special_order_requirements' => 'Do you have a special requirement in this Order?',
     ],
     'register' => [
       'register' => 'Register',

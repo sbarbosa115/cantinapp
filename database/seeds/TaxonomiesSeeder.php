@@ -92,13 +92,13 @@ class TaxonomiesSeeder extends Seeder
     public function loadSidesAndDesserts(): void
     {
         $products = [
-            $this->createDish('Mango Juicy', 'juice', ['side'], '1.jpg', 'side'),
-            $this->createDish('Pineapple juice', 'juice', ['side'],'1.jpg', 'side'),
-            $this->createDish('Guava juice', 'juice', ['side'],'1.jpg', 'side'),
-            $this->createDish('White rice', 'meals', ['side'],'1.jpg', 'side'),
-            $this->createDish('French fries', 'meals', ['side'],'1.jpg', 'side'),
-            $this->createDish('Rice milk', 'dessert', ['side'],'1.jpg', 'side'),
-            $this->createDish('Banana split', 'dessert', ['side'],'1.jpg', 'side'),
+            $this->createDish('Mango Juicy', 'side', ['juice'], '1.jpg', 'side'),
+            $this->createDish('Pineapple juice', 'side', ['juice'],'1.jpg', 'side'),
+            $this->createDish('Guava juice', 'side', ['juice'],'1.jpg', 'side'),
+            $this->createDish('White rice', 'side', ['meals'],'1.jpg', 'side'),
+            $this->createDish('French fries', 'side', ['meals'],'1.jpg', 'side'),
+            $this->createDish('Rice milk', 'side', ['dessert'],'1.jpg', 'side'),
+            $this->createDish('Banana split', 'side', ['dessert'],'1.jpg', 'side'),
         ];
 
         foreach ($products as $productData) {
