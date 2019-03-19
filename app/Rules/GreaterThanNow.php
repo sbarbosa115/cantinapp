@@ -15,11 +15,12 @@ class GreaterThanNow implements Rule
      *
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
-        $orderDate = Carbon::createFromFormat('Y-m-d H:i:s', $value);
-        $now = Carbon::now();
+        $orderDate = Carbon::now();
+        $orderDate->setTimeFromTimeString($value);
 
+        $now = Carbon::now();
         return $orderDate > $now;
     }
 
@@ -28,7 +29,7 @@ class GreaterThanNow implements Rule
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return 'The given date is lower that current date.';
     }

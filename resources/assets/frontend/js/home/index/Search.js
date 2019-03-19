@@ -24,6 +24,7 @@ class Search extends Component {
 
   render() {
     const { query, categories, sides } = this.state;
+    const { signedIn } = this.props;
     const products = [];
 
     categories.forEach((category) => {
@@ -31,7 +32,12 @@ class Search extends Component {
         if (
           (query && product.name.toLowerCase().search(query.toLowerCase()) > -1) || query === false
         ) {
-          products.push(<Product sides={sides} key={product.id} product={product} />);
+          products.push(<Product
+            sides={sides}
+            key={`product-${product.id}`}
+            product={product}
+            signedIn={signedIn}
+          />);
         }
       });
     });
@@ -101,4 +107,5 @@ export default Search;
 Search.propTypes = {
   categories: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   sides: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  signedIn: PropTypes.bool.isRequired,
 };

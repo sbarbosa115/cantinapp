@@ -42,6 +42,7 @@
     "react-datetime-bootstrap": "^1.4.5",
     "react-dom": "^15.4.2",
     "react-scrollable-anchor": "^0.6.1",
+    "react-tabs": "^3.0.0",
     "react-toastify": "^4.4.0",
     "react-widgets": "^4.4.4",
     "react-widgets-moment": "^4.0.20",

@@ -9,7 +9,7 @@ class CreateBalanceTable extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('balances', function (Blueprint $table) {
             $table->increments('id');
@@ -18,14 +18,14 @@ class CreateBalanceTable extends Migration
             $table->integer('user_id')->index()->default(0);
             $table->integer('product_id')->index()->default(0);
             $table->integer('order_id')->index()->default(0);
-            $table->enum('status', ['available', 'spent']);
+            $table->enum('status', ['available', 'spent', 'debt']);
         });
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('balances');
     }

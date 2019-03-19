@@ -78,14 +78,8 @@ Route::name('frontend.')->namespace('Frontend')->group(function () {
     Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
 });
 
-Route::name('frontend.')->namespace('Frontend')->middleware(['web'])->group(function () {
-    Route::get('order', 'OrderController@show')->name('order.show');
+Route::name('frontend.')->namespace('Frontend')->middleware('auth')->group(function () {
+    Route::get('order', 'OrderController@index')->name('order.index');
     Route::post('order', 'OrderController@store')->name('order.store');
-    Route::get('order/add/{id}', 'OrderController@product')->name('order.add');
-    Route::post('order/add/product', 'OrderController@addProduct')->name('order.add.product');
-    Route::get('order/check/balance', 'OrderController@checkBalance')->name('order.check.balance');
-
-    Route::get('api/categories', 'TaxonomyController@categories')->name('taxonomies.categories');
-    Route::get('api/order/products', 'OrderController@products')->name('order.products');
 });
 

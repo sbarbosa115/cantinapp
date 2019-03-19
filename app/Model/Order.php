@@ -70,6 +70,11 @@ class Order extends Model
         return $this->hasMany(OrderProduct::class);
     }
 
+    public function balances(): HasMany
+    {
+        return $this->hasMany(Balance::class);
+    }
+
     /**
      * @return float|int
      */

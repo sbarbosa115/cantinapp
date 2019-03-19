@@ -13,7 +13,8 @@ class DatabaseSeeder extends Seeder
             RestaurantSeeder::class,
             UserSeeder::class,
             EmployeeSeeder::class,
-            TaxonomiesSeeder::class
+            TaxonomiesSeeder::class,
+            BalanceSeeder::class,
         ]);
     }
 }

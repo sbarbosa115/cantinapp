@@ -8,11 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Balance extends Model
 {
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    public const STATUS_AVAILABLE = 'available';
+    public const STATUS_DEBT = 'debt';
+    public const STATUS_SPENT = 'spent';
+
     protected $fillable = ['user_id', 'product_id', 'order_id', 'status'];
 
     public function product(): BelongsTo

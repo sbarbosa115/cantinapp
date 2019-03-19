@@ -15,10 +15,10 @@ class MaxOrderDate implements Rule
      *
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
-        $orderDate = Carbon::createFromFormat('Y-m-d H:i:s', $value);
-        $limit = Carbon::now()->addDays(10);
+        $orderDate = Carbon::createFromFormat('H:i', $value);
+        $limit = Carbon::now()->endOfDay();
 
         return $orderDate < $limit;
     }

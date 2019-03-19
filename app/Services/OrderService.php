@@ -2,161 +2,84 @@
 
 namespace App\Services;
 
-use App\Facades\BalanceService;
 use App\Model\Balance;
 use App\Model\Order;
 use App\Model\Product;
 use App\Model\Side;
 use App\User;
-use Illuminate\Support\Collection;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Facades\BalanceService;
 
 class OrderService
 {
-    public function addProductToCurrentOrder(array $userOrder, Product $product): void
+    private const DEFAULT_SIDE_QUANTITY_BY_PRODUCT = 1;
+
+    public function createOrder(array $orderData): Order
     {
-        $order = $this->getCurrentSessionOrder();
-        foreach ($userOrder['side'] as $key => $side) {
-            $sideProduct = clone $product;
-            $this->addProductDetails($side, $userOrder, $sideProduct, $key);
-            $order->push($sideProduct);
-        }
-        $this->syncCurrentUserOrder($order);
-    }
-
-    public function deleteProductFromCurrentOrder(?Collection $order, Product $product): void
-    {
-        if (null === $order) {
-            $order = $this->getCurrentSessionOrder();
-        }
-
-        $order = $order->reject(function ($element) use ($product) {
-            return $element->id === $product->id;
-        });
-
-        if (!$order) {
-            $this->syncCurrentUserOrder($order);
-        }
-    }
-
-    public function getCurrentSessionOrder(): Collection
-    {
-        $result = collect([]);
-        if (session()->has('order')) {
-            $result = session()->get('order');
-        }
-
-        return $result;
-    }
-
-    public function flushCurrentSessionOrder(): void
-    {
-        session()->forget('order');
-    }
-
-    protected function addProductDetails(array $sides, array $userOrder, Product $product, int $index): void
-    {
-        $product->comment = $userOrder['comment'][$index];
-        $product->quantity = $userOrder['quantity'];
-
-        $this->addSidesToProduct($sides, $product);
-    }
-
-    protected function syncCurrentUserOrder(Collection $products): void
-    {
-        session()->put('order', $products);
-    }
-
-    public function addSidesToProduct(array $sides, Product $product): void
-    {
-        $collection = new Collection();
-        foreach ($sides as $side) {
-            $productSide = Product::find($side);
-            if ($productSide) {
-                $collection->push($productSide);
-            }
-        }
-        $product->orderProductSides = $collection;
-    }
-
-    public function totalOrder(): array
-    {
-        $total = 0;
-        $tax = 0;
-        $products = $this->getCurrentSessionOrder();
-        if ($products->count() > 0) {
-            foreach ($products as $product) {
-                $total = ($product->price * 1) + $total;
-            }
-            if (config('customer.tax')) {
-                $tax = $total * config('customer.tax') / 100;
-            }
-        }
-
-        return ['tax' => $tax, 'total' => number_format($total, 2)];
-    }
-
-    public function createOrder(array $details): Order
-    {
-        $products = $this->getCurrentSessionOrder();
         /** @var $user User */
         $user = Auth::user();
+        $orderDate = Carbon::now()->setTimeFromTimeString($orderData['pickup_at']);
         $order = Order::create([
-            'status' => 'created',
-            'pickup_at' => $details['pickup_at'],
-            'payment_method' => $details['payment_method'],
+            'status' => Order::STATUS_CREATED,
+            'pickup_at' => $orderDate->format('Y-m-d H:i:s'),
+            'payment_method' => Order::PAYMENT_METHOD_CANTINA,
             'user_id' => $user->id,
         ]);
 
-        $orderStatus = [];
-        foreach ($products as $product) {
-            $comment = $product->comment ?? 'N/A';
-            /* @var $order Order */
-            $order->products()->attach([$product->id => ['quantity' => 1, 'comment' => $comment]]);
-            /** @var $orderProducts Collection */
-            $orderProducts = $order->products()->withPivot('id')->get();
-            foreach ($product->orderProductSides as $productSide) {
-                Side::create([
-                    'order_product_id' => $orderProducts->last()->pivot->id,
-                    'product_id' => $productSide->id,
-                    'quantity' => 1,
-                    'order_id' => $order->id,
-                ]);
-            }
-            $orderStatus[] = BalanceService::removeUserBalance($user, $product, $order);
+        $product = Product::find($orderData['id']);
+
+        if (!$product instanceof Product) {
+            throw new \InvalidArgumentException('This product was not found.');
         }
-        $order->payment_status = $this->calculateStatus($orderStatus);
-        $order->save();
-        $this->flushCurrentSessionOrder();
+
+        foreach ($orderData['sides'] as $dish) {
+            foreach ($dish as $key => $side) {
+                if ($key === 'comment') {
+                    $order->products()->attach([$product->id => ['quantity' => 1, 'comment' => $side]]);
+                } else {
+
+                    if (!array_key_exists('id', $side)) {
+                        throw new \InvalidArgumentException('The id key was not found.');
+                    }
+
+                    $sideProduct = Product::find($side['id']);
+                    if (!$sideProduct instanceof Product) {
+                        throw new \InvalidArgumentException('This side-product was not found.');
+                    }
+
+                    Side::create([
+                        'order_product_id' => $product->id,
+                        'product_id' => $sideProduct->id,
+                        'quantity' => self::DEFAULT_SIDE_QUANTITY_BY_PRODUCT,
+                        'order_id' => $order->id,
+                    ]);
+                }
+            }
+        }
+
+        $this->calculateOrderStatus($order);
 
         return $order;
     }
 
-    protected function calculateStatus(array $orderStatus): String
+    public function calculateOrderStatus(Order $order): void
     {
-        $null = 0;
-        $balance = 0;
-        foreach ($orderStatus as $status) {
-            if (null === $status) {
-                ++$null;
-            }
-            if ($status instanceof Balance) {
-                ++$balance;
-            }
+        $orderProducts = $order->productsOrder()->get();
+        foreach ($orderProducts as $orderProduct) {
+            BalanceService::syncUserAndBalance($orderProduct->product, $order);
         }
 
-        $result = 'incomplete';
-        if ($null === \count($orderStatus)) {
-            $result = Order::PAYMENT_STATUS_PENDING;
-        } elseif ($balance === \count($orderStatus)) {
-            $result = Order::PAYMENT_STATUS_PAID;
+        foreach ($order->balances()->get() as $balances) {
+            if($balances->status === Balance::STATUS_SPENT) {
+                $order->payment_status = Order::PAYMENT_STATUS_PAID;
+            }
+            if ($balances->status === Balance::STATUS_DEBT && $order->payment_status !== Order::PAYMENT_STATUS_PENDING) {
+                $order->payment_status = Order::PAYMENT_STATUS_PENDING;
+            }
+
         }
-
-        return $result;
+        $order->save();
     }
 
-    public function totalOrderProducts(): void
-    {
-        $this->getCurrentSessionOrder()->count();
-    }
 }
