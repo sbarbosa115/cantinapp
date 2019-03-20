@@ -26,60 +26,62 @@
                         </thead>
                         <tbody>
                         @foreach($orders as $order)
-                            <tr>
+                            <tr class="@if($order->hasPendingBalances()) bg-danger @endif">
                                 <td>{{$order->created_at->diffForHumans()}}</td>
                                 <td>{{$order->pickup_at->diffForHumans()}}</td>
                                 <td>{{$order->status}}</td>
                                 <td>{{$order->user->name}}</td>
                                 <td>
-                                    @if($order->payment_method == 'cantina')
-                                        <span data-toggle="tooltip" title="Balance Available">
-                                            {{$order->user->balances()->count()}}
-                                        </span>
-                                         /
-                                        <span data-toggle="tooltip" title="Quantity in this order">
-                                            {{$order->getTotalQuantityOrder()}}
-                                        </span>
-                                    @else
-                                        No
-                                    @endif
+                                    <span data-toggle="tooltip" title="Balance Available">
+                                        {{$order->user->balances()->count()}}
+                                    </span>
                                 </td>
                                 <td>
                                     <a class="btn btn-primary btn-sm" href="{{ route('restaurant.orders.detail', ['id' => $order->id]) }}" data-toggle="modal">
-                                        <i class="fa fa-eye" aria-hidden="true"></i> {{ __('restaurant.detail') }}
+                                        <i class="fa fa-eye" aria-hidden="true"></i> {{ trans('restaurant.detail') }}
                                     </a>
                                     <a class="btn btn-primary btn-sm" href="{{ route('restaurant.orders.print', ['id' => $order->id]) }}" target="_blank">
-                                        <i class="fa fa-print" aria-hidden="true"></i> {{ __('restaurant.print') }}
+                                        <i class="fa fa-print" aria-hidden="true"></i> {{ trans('restaurant.print') }}
                                     </a>
                                     @if($order->status === 'created')
                                         <a class="btn btn-danger btn-sm" href="{{ route('restaurant.orders.change', ['id' => $order->id, 'status' => 'cooking']) }}" data-toggle="change">
-                                            {{ __('restaurant.cooking') }}
+                                            {{ trans('restaurant.cooking') }}
                                         </a>
                                     @elseif($order->status === 'cooking')
                                         <a class="btn btn-success btn-sm" href="{{ route('restaurant.orders.change', ['id' => $order->id, 'status' => 'cooked']) }}" data-toggle="change">
-                                            {{ __('restaurant.cooked') }}
+                                            {{ trans('restaurant.cooked') }}
                                         </a>
                                     @elseif($order->status === 'cooked')
-                                        @if($order->payment_method === 'cantina' && $order->user->balances()->count() < $order->getTotalQuantityOrder())
-                                            <a class="btn btn-success btn-sm disabled" href="#" data-toggle="change">
-                                                {{ __('restaurant.re_charge') }}
+                                        @if($order->hasPendingBalances() === false)
+                                            <a class="btn btn-success btn-sm" href="{{ route('restaurant.orders.change', ['id' => $order->id, 'status' => 'delivered']) }}" data-toggle="change">
+                                                {{ trans('restaurant.delivered') }}
                                             </a>
                                         @else
-                                            <a class="btn btn-success btn-sm" href="{{ route('restaurant.orders.change', ['id' => $order->id, 'status' => 'delivered']) }}" data-toggle="change">Delivered</a>
+                                            <a class="btn btn-success btn-sm disabled" href="#" data-toggle="change">
+                                                {{ trans('restaurant.must_recharge_before') }}
+                                            </a>
                                         @endif
                                     @else
                                         <a class="btn btn-default btn-sm disabled" data-toggle="change">
-                                            {{ __('restaurant.pending_to_archive') }}
+                                            {{ trans('restaurant.pending_to_archive') }}
                                         </a>
                                     @endif
-                                    @if($order->payment_method === 'cantina' && $order->user->balances()->count() < $order->getTotalQuantityOrder())
+                                    @if($order->user->balances()->count() === 0)
                                         <a class="btn btn-success btn-sm load-balance" href="{{ route('restaurant.balance.create', ['id' => $order->user_id]) }}">
-                                            <i class="fa fa-credit-card" aria-hidden="true"></i> Load
+                                            <i class="fa fa-credit-card" aria-hidden="true"></i>
+                                            {{ trans('restaurant.load') }}
                                         </a>
                                     @endif
                                 </td>
                             </tr>
                         @endforeach
+                        @if($orders->count() === 0)
+                            <tr>
+                                <td colspan="6" class="text-center">
+                                    {{ trans('restaurant.no_orders') }}
+                                </td>
+                            </tr>
+                        @endif
                         </tbody>
                     </table>
                 </div>

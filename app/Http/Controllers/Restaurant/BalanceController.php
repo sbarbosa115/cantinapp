@@ -34,7 +34,7 @@ class BalanceController extends Controller
         BalanceService::addUserBalance($user, $quantity);
         $request->session()->flash('success', "The user {$user->name} now has a new account balance.");
 
-        return redirect()->route('restaurant.balance.index');
+        return redirect()->route('restaurant.orders.index');
     }
 
     public function log($id): View

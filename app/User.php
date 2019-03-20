@@ -42,8 +42,19 @@ class User extends Authenticatable
 
     public function balances(): HasMany
     {
-        return $this->hasMany(Balance::class)->where('status', '=', Balance::STATUS_AVAILABLE);
+        return $this->hasMany(Balance::class)->where('status',Balance::STATUS_AVAILABLE);
     }
+
+    public function balancesDebt(): HasMany
+    {
+        return $this->hasMany(Balance::class)->where('status', Balance::STATUS_DEBT);
+    }
+
+    public function balancesSpent(): HasMany
+    {
+        return $this->hasMany(Balance::class)->where('status', Balance::STATUS_SPENT);
+    }
+
 
     public function sendPasswordResetNotification($token): void
     {

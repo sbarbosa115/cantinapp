@@ -14,4 +14,12 @@ class OrderRepository
             ->orderBy('created_at', 'ASC')
             ->get();
     }
+
+    public static function getNewestOrders(): Collection
+    {
+        return Order::whereNotIn('status', [Order::STATUS_DELIVERED])
+            ->orderBy('created_at', 'DESC')
+            ->orderBy('pickup_at', 'ASC')
+            ->get();
+    }
 }

@@ -40,11 +40,7 @@ class ProductController extends Controller
 
     public function edit($id): View
     {
-        $product = Product::find($id);
-        if (!$product) {
-            abort(404);
-        }
-
+        $product = Product::findOrFail($id);
         return view('restaurant.product.create', [
             'product' => $product,
             'categories' => TaxonomyRepository::getCategories()
@@ -56,6 +52,7 @@ class ProductController extends Controller
         $data = $request->validated();
         $this->uploadImage($data);
         $product->update($data);
+
         $product->attachTaxonomies($data['tags'], $data['category']);
         $request->session()->flash('success', 'The action was completed successfully.');
 

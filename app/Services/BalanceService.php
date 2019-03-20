@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Model\Balance;
 use App\Model\Order;
 use App\Model\Product;
+use App\Repository\BalanceRepository;
 use App\User;
 
 class BalanceService
@@ -17,7 +18,16 @@ class BalanceService
 
     public function addUserBalance(User $user, int $quantity): void
     {
-        for ($i = 0; $i < $quantity; ++$i) {
+        $debtsBalances = BalanceRepository::getDebtsByUser($user);
+        $cont = 0;
+        foreach ($debtsBalances as $debtBalance) {
+            $debtBalance->status = Balance::STATUS_SPENT;
+            $debtBalance->save();
+            $cont++;
+        }
+
+        $newAvailableBalances = $quantity - $cont;
+        for ($i = 0; $i < $newAvailableBalances; ++$i) {
             $this->createBalance([
                 'user_id' => $user->id,
                 'status' => Balance::STATUS_AVAILABLE,

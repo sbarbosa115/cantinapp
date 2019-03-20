@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import momentLocalizer from 'react-widgets-moment';
 import moment from 'moment';
+import _ from 'lodash';
 import {
   Tab, Tabs, TabList, TabPanel,
 } from 'react-tabs';
@@ -31,9 +32,13 @@ class Product extends Component {
       quantity: [0],
       tabSelectedIndex: 0,
       pickUpDate: null,
+      orderCreated: null,
+      orderNotCreated: null,
     };
 
     this.handleCloseAddProductModal = this.handleCloseAddProductModal.bind(this);
+    this.handleCloseOrderNotCreatedModal = this.handleCloseOrderNotCreatedModal.bind(this);
+    this.handleCloseOrderCreatedModal = this.handleCloseOrderCreatedModal.bind(this);
     this.syncSelectedProductSides = this.syncSelectedProductSides.bind(this);
     this.setQuantity = this.setQuantity.bind(this);
   }
@@ -87,11 +92,11 @@ class Product extends Component {
   setQuantity(e) {
     const { productSelected, quantity } = this.state;
     if (productSelected !== null && productSelected.sides !== undefined) {
-      for (const side in productSelected.sides) {
-        if (side > (quantity.length - 1)) {
-          delete productSelected.sides[side];
+      Object.keys(productSelected.sides).forEach((sideId) => {
+        if (sideId > (quantity.length - 1)) {
+          delete productSelected.sides[sideId];
         }
-      }
+      });
     }
 
     this.setState({
@@ -107,7 +112,7 @@ class Product extends Component {
       window.location.href = route('frontend.login');
     } else {
       this.setState({
-        productSelected: product,
+        productSelected: _.clone(product),
       });
     }
   }
@@ -156,6 +161,14 @@ class Product extends Component {
     this.setState({ productSelected: null });
   }
 
+  handleCloseOrderCreatedModal() {
+    this.setState({ orderCreated: null });
+  }
+
+  handleCloseOrderNotCreatedModal() {
+    this.setState({ orderNotCreated: null });
+  }
+
   handleValidation() {
     const { productSelected, pickUpDate } = this.state;
     if (productSelected === null) {
@@ -180,14 +193,26 @@ class Product extends Component {
   handleSubmitOrder() {
     const { productSelected, pickUpDate } = this.state;
     productSelected.pickup_at = moment(pickUpDate).format('HH:mm');
-    axios.post(route('frontend.order.store'), productSelected).then((response) => {
-      console.log(response);
-    });
+    axios.post(route('frontend.order.store'), productSelected).then(
+      (response) => {
+        this.setState({
+          orderCreated: response.data,
+          productSelected: null,
+        });
+      },
+      () => {
+        this.setState({
+          orderNotCreated: true,
+          productSelected: null,
+        });
+      },
+    );
   }
 
   render() {
     const {
       product, productSelected, quantity, tabSelectedIndex,
+      orderCreated, orderNotCreated,
     } = this.state;
 
     const roundedUp = Math.ceil(moment().minute() / 15) * 15;
@@ -368,6 +393,58 @@ class Product extends Component {
                 </div>
                 {sidesNav}
                 <div className="clearfix" />
+              </Modal.Body>
+            </Modal>
+          )
+        }
+        {
+          orderCreated && (
+            <Modal
+              show
+              onHide={this.handleCloseOrderCreatedModal}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="ModalHeader">
+                  { trans('frontend.homepage.order_created') }
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <div className="form-row">
+                  <div className="form-group col-md-12 text-center">
+                    <h4>
+                      {`${trans('frontend.homepage.order_created_copy_a')}
+                         ${moment(orderCreated.order.pickup_at, 'YYYY-MM-DD HH:mm').fromNow()}
+                         ${trans('frontend.homepage.order_created_copy_b')}`}
+                    </h4>
+                    <img src="/images/cooking.jpg" alt="Cooking your order" className="img-responsive" />
+                  </div>
+                  <div className="clearfix" />
+                </div>
+              </Modal.Body>
+            </Modal>
+          )
+        }
+        {
+          orderNotCreated && (
+            <Modal
+              show
+              onHide={this.handleCloseOrderNotCreatedModal}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="ModalHeader">
+                  { trans('frontend.homepage.order_not_created') }
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <div className="form-row">
+                  <div className="form-group col-md-12 text-center">
+                    <h4>
+                      {`${trans('frontend.homepage.order_not_created_copy')}`}
+                    </h4>
+                    <img src="/images/error.png" alt="Error trying to create your order" className="img-responsive" />
+                  </div>
+                  <div className="clearfix" />
+                </div>
               </Modal.Body>
             </Modal>
           )

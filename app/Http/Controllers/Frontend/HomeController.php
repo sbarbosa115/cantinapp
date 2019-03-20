@@ -17,4 +17,9 @@ class HomeController extends Controller
             'sides' => $sides,
         ]);
     }
+
+    public function profile(): View
+    {
+        return view('frontend.home.my-profile');
+    }
 }

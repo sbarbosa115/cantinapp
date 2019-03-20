@@ -33,7 +33,7 @@ class Order extends Model
 
     public const STATUS_CREATED = 'created';
     public const STATUS_COOKING = 'cooking';
-    public const STATUS_COOKED = 'cooking';
+    public const STATUS_COOKED = 'cooked';
     public const STATUS_DELIVERED = 'delivered';
     public const STATUS_ARCHIVED = 'archived';
 
@@ -73,6 +73,18 @@ class Order extends Model
     public function balances(): HasMany
     {
         return $this->hasMany(Balance::class);
+    }
+
+    public function hasPendingBalances(): bool
+    {
+        $orderBalances = $this->hasMany(Balance::class)->get();
+        $isThereAPendingBalance = false;
+        foreach ($orderBalances as $orderBalance) {
+            if($orderBalance->status === Balance::STATUS_DEBT) {
+                $isThereAPendingBalance = true;
+            }
+        }
+        return $isThereAPendingBalance;
     }
 
     /**
