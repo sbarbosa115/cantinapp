@@ -5,19 +5,6 @@
 @section('content')
     <div class="page-container" id="PageContainer">
         <main class="main-content" id="MainContent" role="main">
-            <section class="heading-content">
-                <div class="heading-wrapper">
-                    <div class="container">
-                        <div class="row">
-                            <div class="page-heading-inner heading-group">
-                                <div class="breadcrumb-group">
-                                    <h1 class="hidden">Create Order</h1>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
             <section class="order-layout">
                 <div class="order-wrapper">
                     <div class="container">
@@ -36,17 +23,23 @@
                                                     <th>{{ trans('frontend.orders.products') }}</th>
                                                     <th>{{ trans('frontend.orders.date') }}</th>
                                                     <th>{{ trans('frontend.orders.quantity') }}</th>
+                                                    <th>{{ trans('frontend.orders.status') }}</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                     @foreach($orders as $order)
-                                                        <tr id="10324769618" class="odd">
+                                                        <tr id="{{ $order->id }}" class="odd">
                                                             <td class="td-product">
-                                                                {{ $order->products()->pluck('name') }}
+                                                                {{ implode(',', $order->products()->pluck('name')->toArray()) }}
                                                             </td>
-                                                            <td class="sku note">{{ $order->create_at->format('Y-m-d H:i:s') }}</td>
-                                                            <td class="money">
+                                                            <td class="sku note">
+                                                                {{ $order->created_at->diffForHumans() }}
+                                                            </td>
+                                                            <td class="money text-center">
                                                                 {{ $order->products()->count() }}
+                                                            </td>
+                                                            <td class="money">
+                                                                {{ $order->status }}
                                                             </td>
                                                         </tr>
                                                     @endforeach

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Http\Controllers\Frontend;
+namespace Tests\Unit\Http\Controllers\Frontend;
 
 use Illuminate\Http\Response;
 use Tests\TestCase;

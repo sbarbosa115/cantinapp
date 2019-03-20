@@ -11,6 +11,11 @@
                     <span>{{ trans('frontend.menu.my_orders') }}</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('frontend.order.profile') }}">
+                    <span>{{ trans('frontend.menu.my_profile') }}</span>
+                </a>
+            </li>
         </ul>
     </div>
     <div class="nav-icon">

@@ -32,7 +32,15 @@
     <select class="form-control" name="category">
         <option value="">Choose a category to this product.</option>
         @foreach($categories as $category)
-            <option value="{{$category->id}}">{{ucfirst($category->name)}} ({{ucfirst($category->type)}})</option>
+            @if($product->category->count() > 0 && $product->category->first()->id === $category->id)
+                <option value="{{$category->id}}" selected>
+                    {{ucfirst($category->name)}} ({{ucfirst($category->type)}})
+                </option>
+            @else
+                <option value="{{$category->id}}">
+                    {{ucfirst($category->name)}} ({{ucfirst($category->type)}})
+                </option>
+            @endif
         @endforeach
     </select>
     @if($errors->first('category'))
@@ -49,6 +57,9 @@
 </div>
 
 <div class="form-group">
+    <div class="alert alert-danger  " role="alert">
+        If you are adding a Side (using side category option) DO NOT FORGET ADD the  available sub category here -Juice or Meals-
+    </div>
     <label for="message-text" class="form-control-label">Tags:</label>
     <textarea name="tags" id="tags" placeholder="Put tags separed by ,"></textarea>
     @if($errors->first('tags'))
@@ -67,11 +78,6 @@
     <script>
         document.getElementById('tags').value = "{!! implode(', ', $product->tags()->get()->pluck('name')->toArray()) !!}";
         const input = document.querySelector('textarea[name=tags]'),
-        tagify = new Tagify(input, {
-            callbacks        : {
-                add    : console.log,  // callback when adding a tag
-                remove : console.log   // callback when removing a tag
-            }
-        });
+        tagify = new Tagify(input);
     </script>
 @endsection

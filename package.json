@@ -17,8 +17,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
-    "laravel-mix": "^2.1.14",
-    "lodash": "^4.17.10"
+    "laravel-mix": "^2.1.14"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.2.0",
@@ -33,7 +32,6 @@
     "icon.font": "^1.1.0",
     "jgrowl": "^1.4.6",
     "jquery": "^3.3.1",
-    "loadsh": "^0.0.3",
     "moment": "^2.22.2",
     "prop-types": "^15.7.2",
     "react": "^15.4.2",
@@ -46,6 +44,7 @@
     "react-toastify": "^4.4.0",
     "react-widgets": "^4.4.4",
     "react-widgets-moment": "^4.0.20",
-    "startbootstrap-sb-admin": "^5.0.2"
+    "startbootstrap-sb-admin": "^5.0.2",
+    "lodash": "^4.17.11"
   }
 }

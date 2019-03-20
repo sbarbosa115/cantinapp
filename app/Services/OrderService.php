@@ -34,9 +34,10 @@ class OrderService
         }
 
         foreach ($orderData['sides'] as $dish) {
+            $comment = '';
             foreach ($dish as $key => $side) {
                 if ($key === 'comment') {
-                    $order->products()->attach([$product->id => ['quantity' => 1, 'comment' => $side]]);
+                    $comment = $side;
                 } else {
 
                     if (!array_key_exists('id', $side)) {
@@ -56,6 +57,7 @@ class OrderService
                     ]);
                 }
             }
+            $order->products()->attach([$product->id => ['quantity' => 1, 'comment' => $comment]]);
         }
 
         $this->calculateOrderStatus($order);
