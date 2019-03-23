@@ -16,6 +16,24 @@ class BalanceService
         Balance::create($balanceData);
     }
 
+    private function updatePendingPaidOrder(User $user): void
+    {
+        foreach ($user->orders(Order::PAYMENT_STATUS_PENDING)->get() as $order) {
+            /** @var $balance Balance */
+            $shouldThisOrderBeChangedToPaid = true;
+            foreach ($order->balances() as $balance) {
+                if ($balance === Balance::STATUS_DEBT) {
+                    $shouldThisOrderBeChangedToPaid = false;
+                }
+            }
+
+            if($shouldThisOrderBeChangedToPaid === true) {
+                $order->payment_status = Order::PAYMENT_STATUS_PAID;
+                $order->save();
+            }
+        }
+    }
+
     public function addUserBalance(User $user, int $quantity): void
     {
         $debtsBalances = BalanceRepository::getDebtsByUser($user);
@@ -33,6 +51,8 @@ class BalanceService
                 'status' => Balance::STATUS_AVAILABLE,
             ]);
         }
+
+        $this->updatePendingPaidOrder($user);
     }
 
     public function syncUserAndBalance(Product $product, Order $order): ?Balance

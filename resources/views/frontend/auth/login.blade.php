@@ -1,5 +1,9 @@
 @extends('frontend.base')
 
+@section('head_javascripts')
+    <script src="https://www.google.com/recaptcha/api.js?render=6Ld7gpkUAAAAACfITAkm0O8OqlEgCwq5SCHoop_Z"></script>
+@endsection
+
 @section('content')
 
 <div class="page-container" id="PageContainer">
@@ -14,10 +18,10 @@
                             <div class="customers-content">
                                 <div id="login" class="customers">
                                     <h2>{{ trans('frontend.menu.log_in') }}</h2>
-                                    <form method="post" action="{{ route('frontend.login') }}" accept-charset="UTF-8">
+                                    <form method="post" action="{{ route('frontend.login') }}" accept-charset="UTF-8" id="sign-in">
                                         {{ csrf_field() }}
                                         <div class="clearfix large_form form-item">
-                                            <input type="email" value="" placeholder="Email Address" name="email" id="customer_email" class="text">
+                                            <input type="email" value="" placeholder="Email Address" name="email" id="customer_email" class="text" required>
                                             @if ($errors->has('email'))
                                                 <span class="help-block">
                                                     <strong>{{ $errors->first('email') }}</strong>
@@ -25,7 +29,7 @@
                                             @endif
                                         </div>
                                         <div class="clearfix large_form form-item form-password">
-                                            <input type="password" value="" placeholder="Password" name="password" id="customer_password" class="text" size="16">
+                                            <input type="password" value="" placeholder="Password" name="password" id="customer_password" class="text" size="16" required>
                                             <span class="cs-icon icon-eye"></span>
                                             @if ($errors->has('password'))
                                                 <span class="help-block">
@@ -95,5 +99,19 @@
         </script>
     </main>
 </div>
-
 @endsection()
+
+
+@section('javascript')
+    <script>
+        $('#sign-in').submit(function(event) {
+          event.preventDefault();
+
+          grecaptcha.ready(function() {
+            grecaptcha.execute('6Ld7gpkUAAAAACfITAkm0O8OqlEgCwq5SCHoop_Z', {action: 'login_frontend'}).then(function(token) {
+              $('#sign-in').prepend(`<input type="hidden" name="g-recaptcha-response" value="${token}" />`).unbind('submit').submit();
+            });
+          });
+        })
+    </script>
+@endsection

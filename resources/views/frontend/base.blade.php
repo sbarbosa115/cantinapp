@@ -11,6 +11,8 @@
     <link href="https://fonts.googleapis.com/css?family=Playball:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Bitter:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="{{  asset('dist/frontend/css/app.css') }}" rel="stylesheet" type="text/css" media="all">
+    @yield('head_javascripts')
+
 </head>
 
 <body class="fastfood_1 @yield('body_class')">
@@ -98,6 +100,16 @@
         </section>
     </div>
 </footer>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-136825704-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-136825704-1');
+</script>
 
 @routes
 <script src="{{ route('assets.lang') }}"></script>

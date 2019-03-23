@@ -51,6 +51,8 @@ class OrderTest extends TestCase
         $balancesDebt = $user->balancesDebt()->get()->count();
         $this->assertEquals(0, $balancesDebt);
 
+        // We need to refresh the Order to get it updated.
+        $order = Order::find($order->id);
         $this->assertEquals(Order::PAYMENT_STATUS_PAID, $order->payment_status);
     }
 

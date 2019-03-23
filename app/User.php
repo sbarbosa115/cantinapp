@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Model\Balance;
+use App\Model\Order;
 use App\Notifications\PasswordReset;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -55,6 +56,10 @@ class User extends Authenticatable
         return $this->hasMany(Balance::class)->where('status', Balance::STATUS_SPENT);
     }
 
+    public function orders(string $paymentStatus): HasMany
+    {
+        return $this->hasMany(Order::class)->where('payment_status', $paymentStatus);
+    }
 
     public function sendPasswordResetNotification($token): void
     {

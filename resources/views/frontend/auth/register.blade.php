@@ -1,5 +1,9 @@
 @extends('frontend.base')
 
+@section('head_javascripts')
+    <script src="https://www.google.com/recaptcha/api.js?render=6Ld7gpkUAAAAACfITAkm0O8OqlEgCwq5SCHoop_Z"></script>
+@endsection
+
 @section('content')
 <main class="main-content" id="MainContent" role="main">
     <section class="customers-layout register-layout">
@@ -11,7 +15,7 @@
                             <div id="register" class="customers">
                                 <h2>{{ trans('frontend.register.register') }}</h2>
 
-                                <form class="form-horizontal" method="POST" action="{{ route('frontend.register') }}">
+                                <form class="form-horizontal" method="POST" action="{{ route('frontend.register') }}" id="register-form">
                                     {{ csrf_field() }}
 
                                     <div class="clearfix large_form form-item">
@@ -72,4 +76,19 @@
     </section>
 </main>
 
+@endsection
+
+
+@section('javascript')
+    <script>
+      $('#register-form').submit(function(event) {
+        event.preventDefault();
+
+        grecaptcha.ready(function() {
+          grecaptcha.execute('6Ld7gpkUAAAAACfITAkm0O8OqlEgCwq5SCHoop_Z', {action: 'register'}).then(function(token) {
+            $('#register-form').prepend(`<input type="hidden" name="g-recaptcha-response" value="${token}" />`).unbind('submit').submit();
+          });
+        });
+      })
+    </script>
 @endsection
