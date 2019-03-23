@@ -17,16 +17,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                    @foreach($order->productsOrder()->get() as $product)
+                    @foreach($order->productsOrder()->get() as $productOrder)
                         <tr>
-                            <td class="text-center">{{ $product->quantity }}</td>
-                            @if($product->product()->get()->first())
-                                <td>{{ $product->product()->get()->first()->name }}</td>
-                            @else
-                                <td>N/A</td>
-                            @endif
-                            <td>{{ $product->sidesAsString()  }}</td>
-                            <td>{{ $product->comment }}</td>
+                            <td class="text-center">{{ $productOrder->quantity }}</td>
+                            <td>{{ $productOrder->product->name }}</td>
+                            <td>{{ $productOrder->sidesAsString() }}</td>
+                            <td>{{ $productOrder->comment }}</td>
                         </tr>
                     @endforeach
                 </tbody>

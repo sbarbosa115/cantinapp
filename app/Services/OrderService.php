@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Model\Balance;
 use App\Model\Order;
+use App\Model\OrderProduct;
 use App\Model\Product;
 use App\Model\Side;
 use App\User;
@@ -35,29 +36,35 @@ class OrderService
 
         foreach ($orderData['sides'] as $dish) {
             $comment = '';
-            foreach ($dish as $key => $side) {
-                if ($key === 'comment') {
-                    $comment = $side;
-                } else {
-
-                    if (!array_key_exists('id', $side)) {
-                        throw new \InvalidArgumentException('The id key was not found.');
-                    }
-
-                    $sideProduct = Product::find($side['id']);
-                    if (!$sideProduct instanceof Product) {
-                        throw new \InvalidArgumentException('This side-product was not found.');
-                    }
-
-                    Side::create([
-                        'order_product_id' => $product->id,
-                        'product_id' => $sideProduct->id,
-                        'quantity' => self::DEFAULT_SIDE_QUANTITY_BY_PRODUCT,
-                        'order_id' => $order->id,
-                    ]);
-                }
+            if(array_key_exists('comment', $dish)) {
+                $comment = $dish['comment'];
+                unset($dish['comment']);
             }
-            $order->products()->attach([$product->id => ['quantity' => 1, 'comment' => $comment]]);
+
+            $orderProduct = OrderProduct::create([
+                'product_id' => $product->id,
+                'quantity' => self::DEFAULT_SIDE_QUANTITY_BY_PRODUCT,
+                'comment' => $comment,
+                'order_id' => $order->id,
+            ]);
+
+            foreach ($dish as $key => $side) {
+                if (!array_key_exists('id', $side)) {
+                    throw new \InvalidArgumentException('The id key was not found.');
+                }
+
+                $sideProduct = Product::find($side['id']);
+                if (!$sideProduct instanceof Product) {
+                    throw new \InvalidArgumentException('This side-product was not found.');
+                }
+
+                Side::create([
+                    'order_product_id' => $orderProduct->id,
+                    'product_id' => $sideProduct->id,
+                    'quantity' => self::DEFAULT_SIDE_QUANTITY_BY_PRODUCT,
+                    'order_id' => $order->id,
+                ]);
+            }
         }
 
         $this->calculateOrderStatus($order);
