@@ -67,9 +67,11 @@ Route::name('restaurant.')->prefix('restaurant')->namespace('Restaurant')->middl
 Route::name('frontend.')->namespace('Frontend')->group(function () {
     Route::get('/', 'HomeController@index')->name('home.index');
     Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
-    Route::post('/login', 'Auth\LoginController@login')->name('login.submit');
+    Route::post('/login', 'Auth\LoginController@login')->name('login.submit')
+        ->middleware(['recaptcha']);
     Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-    Route::post('/register', 'Auth\RegisterController@register')->name('register.create');
+    Route::post('/register', 'Auth\RegisterController@register')->name('register.create')
+        ->middleware(['recaptcha']);
     Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');

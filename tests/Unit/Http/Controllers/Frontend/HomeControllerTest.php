@@ -8,12 +8,13 @@ use Tests\TestCase;
 class HomeControllerTest extends TestCase
 {
 
-    public function testPublicRoutes(): void
+    public function testProtectedRoutes(): void
     {
+        $this->loginAsUser();
+
         $urls = [
-            '/',
-            '/login',
-            '/register',
+            route('frontend.order.index'),
+            route('frontend.order.profile'),
         ];
 
         foreach ($urls as $url) {

@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\AddSubdomainToSession;
+use App\Http\Middleware\CheckRecaptchaBeforeKeepOn;
 use App\Http\Middleware\EmployeeGuard;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -77,5 +78,6 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'recaptcha' => CheckRecaptchaBeforeKeepOn::class,
     ];
 }

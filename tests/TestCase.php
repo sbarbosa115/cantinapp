@@ -16,6 +16,12 @@ class TestCase extends BaseCase
 {
     use RefreshDatabase;
 
+    protected $userCredentials = [
+        'email' => 'juanlopez@example.com',
+        'password' => '123456',
+    ];
+
+
     public function createApplication()
     {
         $app = require __DIR__.'/../bootstrap/test.php';
@@ -62,15 +68,15 @@ class TestCase extends BaseCase
         return array_diff($orderPayload, $customData);
     }
 
-    public function loginAsUser(string $email = 'juanlopez@example.com'): self
+    public function loginAsUser(string $email = 'juanlopez@example.com'): void
     {
-        $user = User::where('email', $email);
+        $user = User::where('email', $email)->first();
         $this->actingAs($user);
     }
 
-    public function loginAsRestaurantEmployee(string $email = 'frank@example.com'): self
+    public function loginAsRestaurantEmployee(string $email = 'frank@example.com'): void
     {
-        $user = Employee::where('email', $email);
+        $user = Employee::where('email', $email)->first();
         $this->actingAs($user);
     }
 }
