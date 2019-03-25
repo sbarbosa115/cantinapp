@@ -131,5 +131,8 @@
                 }
             });
         });
+        setTimeout(function() {
+          window.location.reload(true);
+        }, 20000);
     </script>
 @endsection('javascript')
