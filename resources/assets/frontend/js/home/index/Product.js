@@ -457,6 +457,7 @@ class Product extends Component {
 export default Product;
 
 Product.propTypes = {
+  productsAvailable: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   product: PropTypes.shape({}).isRequired,
   sides: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   signedIn: PropTypes.bool.isRequired,

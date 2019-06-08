@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ScrollableAnchor from 'react-scrollable-anchor';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import Product from './Product';
 import WelcomeHeader from './WelcomeHeader';
 
@@ -22,6 +23,11 @@ class Search extends Component {
     this.setState({ query });
   }
 
+  getAllProducts() {
+    const { categories } = this.state;
+    return _.first(categories.map(category => category.products.map(product => product)));
+  }
+
   render() {
     const { query, categories, sides } = this.state;
     const { signedIn } = this.props;
@@ -33,6 +39,7 @@ class Search extends Component {
           (query && product.name.toLowerCase().search(query.toLowerCase()) > -1) || query === false
         ) {
           products.push(<Product
+            productsAvailable={this.getAllProducts()}
             sides={sides}
             key={`product-${product.id}`}
             product={product}

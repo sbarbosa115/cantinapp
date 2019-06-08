@@ -32,6 +32,7 @@
     "icon.font": "^1.1.0",
     "jgrowl": "^1.4.6",
     "jquery": "^3.3.1",
+    "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "prop-types": "^15.7.2",
     "react": "^15.4.2",
@@ -44,7 +45,6 @@
     "react-toastify": "^4.4.0",
     "react-widgets": "^4.4.4",
     "react-widgets-moment": "^4.0.20",
-    "startbootstrap-sb-admin": "^5.0.2",
-    "lodash": "^4.17.11"
+    "startbootstrap-sb-admin": "^5.0.2"
   }
 }
