@@ -6,17 +6,18 @@ services:
     volumes:
       - .:/var/www/html:delegated
     environment:
+      - VIRTUAL_HOST=demo.cantinapp.local
+      - VIRTUAL_PORT=80
+      - HTTPS_METHOD=noredirect
       - DEBUG=true
     command: >
       sh -c '
-        /etc/init.d/nginx start
-        /etc/init.d/php7.2-fpm start
+        /etc/init.d/nginx start && /etc/init.d/php7.2-fpm start
         composer install
-        composer deploy-application
+        composer create-storage-folders
         supervisord
       '
-    ports:
-      - 80:80
+    container_name: demo.cantinapp.local
   db:
     image: mysql:5.7
     volumes:
@@ -31,3 +32,8 @@ services:
     - web
     ports:
       - 6603:3306
+
+networks:
+  default:
+    external:
+      name: nginx-proxy

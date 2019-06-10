@@ -23,7 +23,7 @@ class ProductController extends Controller
     {
         return view('restaurant.product.create', [
             'product' => new Product(),
-            'categories' => TaxonomyRepository::getCategories()
+            'categories' => Taxonomy\Category::all()
         ]);
     }
 
@@ -31,8 +31,9 @@ class ProductController extends Controller
     {
         $data = $request->validated();
         $this->uploadImage($data);
+        /** @var $product Product */
         $product = Product::create($data);
-        $product->attachTaxonomies($data['tags'], $data['category']);
+        $product->attachTags(json_decode($data['tags'], true));
         $request->session()->flash('success', 'The action was completed successfully.');
 
         return redirect()->route('restaurant.product.index');
@@ -43,7 +44,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         return view('restaurant.product.create', [
             'product' => $product,
-            'categories' => TaxonomyRepository::getCategories()
+            'categories' => Taxonomy\Category::all()
         ]);
     }
 
@@ -52,8 +53,7 @@ class ProductController extends Controller
         $data = $request->validated();
         $this->uploadImage($data);
         $product->update($data);
-
-        $product->attachTaxonomies($data['tags'], $data['category']);
+        $product->attachTags(json_decode($data['tags'], true));
         $request->session()->flash('success', 'The action was completed successfully.');
 
         return redirect()->route('restaurant.product.index');

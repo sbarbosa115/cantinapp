@@ -39,10 +39,11 @@
                                 <td>{{$product->name}}</td>
                                 <td>{{$product->description}}</td>
                                 <td>{{$product->price}}</td>
-                                @if($product->category()->count())
-                                    <td>{{ucfirst($product->category()->first()->name)}}</td>
-                                @else
-                                    <td>No category</td>
+                                @if($product->type === \App\Model\Product\Side::TYPE_SIDE)
+                                    <td>Side</td>
+                                @endif
+                                @if($product->type === \App\Model\Product\Meal::TYPE_MEAL)
+                                    <td>Meal</td>
                                 @endif
                                 <td width="21%">
                                     <a class="btn btn-primary btn-sm" href="{{ route('restaurant.product.edit', ['id' => $product->id]) }}">Edit</a>

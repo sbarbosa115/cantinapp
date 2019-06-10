@@ -28,23 +28,18 @@
 </div>
 
 <div class="form-group">
-    <label for="message-text" class="form-control-label">Category:</label>
-    <select class="form-control" name="category">
+    <label for="message-text" class="form-control-label">Type:</label>
+    <select class="form-control" name="type">
         <option value="">Choose a category to this product.</option>
-        @foreach($categories as $category)
-            @if($product->category->count() > 0 && $product->category->first()->id === $category->id)
-                <option value="{{$category->id}}" selected>
-                    {{ucfirst($category->name)}} ({{ucfirst($category->type)}})
-                </option>
-            @else
-                <option value="{{$category->id}}">
-                    {{ucfirst($category->name)}} ({{ucfirst($category->type)}})
-                </option>
-            @endif
-        @endforeach
+        <option value="{{\App\Model\Product\Side::TYPE_SIDE}}" @if(old('type', $product->type) === \App\Model\Product\Side::TYPE_SIDE) selected @endif>
+            Side
+        </option>
+        <option value="{{\App\Model\Product\Meal::TYPE_MEAL}}" @if(old('type', $product->type) === \App\Model\Product\Meal::TYPE_MEAL) selected @endif>
+            Meal
+        </option>
     </select>
-    @if($errors->first('category'))
-        <div class="form-control-feedback">{{$errors->first('category')}}</div>
+    @if($errors->first('type'))
+        <div class="form-control-feedback">{{$errors->first('type')}}</div>
     @endif
 </div>
 
@@ -61,7 +56,13 @@
         If you are adding a Side (using side category option) DO NOT FORGET ADD the  available sub category here -Juice or Meals-
     </div>
     <label for="message-text" class="form-control-label">Tags:</label>
-    <textarea name="tags" id="tags" placeholder="Put tags separed by ,"></textarea>
+    @if(old('tags'))
+        <textarea name="tags" id="tags" placeholder="Put tags separated by ,">{{ implode(',', json_decode(old('tags'), true)) }}</textarea>
+    @endif
+    @if($product->tags())
+        <textarea name="tags" id="tags" placeholder="Put tags separated by ,">{{ implode(', ', $product->tags()->get()->pluck('name')->toArray()) }}</textarea>
+    @endif
+
     @if($errors->first('tags'))
         <div class="form-control-feedback">{{$errors->first('tags')}}</div>
     @endif
@@ -76,7 +77,6 @@
 
 @section('javascript')
     <script>
-        document.getElementById('tags').value = "{!! implode(', ', $product->tags()->get()->pluck('name')->toArray()) !!}";
         const input = document.querySelector('textarea[name=tags]'),
         tagify = new Tagify(input);
     </script>

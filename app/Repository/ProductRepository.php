@@ -54,7 +54,6 @@ class ProductRepository
             ->toArray();
 
         return Product::hydrate($productsStdClass)->filter(function(Product $product) {
-            $product->tags = $product->tags()->get()->toArray();
             return $product;
         });
     }

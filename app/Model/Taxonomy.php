@@ -4,6 +4,7 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Str;
 
 /**
  * @method static where(string $string, string $string1, string $string2)
@@ -15,13 +16,13 @@ class Taxonomy extends Model
     public static function boot(): void
     {
         parent::boot();
-        static::addGlobalScope(function ($query) {
+        static::addGlobalScope(static function ($query) {
             if(session()->has('restaurant_id')) {
                 $query->where('restaurant_id', '=', session()->get('restaurant_id'));
             }
         });
 
-        static::creating(function ($item) {
+        static::creating(static function ($item) {
             if (!$item->restaurant_id) {
                 $item->restaurant_id = session()->get('restaurant_id');
             }
@@ -36,7 +37,7 @@ class Taxonomy extends Model
     public function setNameAttribute($value): void
     {
         $this->attributes['name'] = $value;
-        $this->attributes['slug'] = str_slug($value);
+        $this->attributes['slug'] = Str::slug($value);
         $this->attributes['restaurant_id'] = session('restaurant_id');
     }
 }
