@@ -55,3 +55,25 @@ section.home-welcome-layout .page-title {
 .alert {
   text-align: center;
 }
+
+//// Menu /////
+
+nav {
+  border: none;
+
+  .navbar-inverse {
+    background-color: none;
+    border-color: #080808;
+  }
+
+  .container-fluid {
+    background: #9d1414;
+    border: none;
+  }
+
+  .logo {
+    img {
+      width: 100px;
+    }
+  }
+}

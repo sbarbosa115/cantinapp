@@ -1,6 +1,5 @@
 import React from 'react';
 
-/* global trans */
 const WelcomeHeader = () => (
   <section className="home-welcome-layout zoomIn animated" data-animate="zoomIn" data-delay="200">
     <div className="container">

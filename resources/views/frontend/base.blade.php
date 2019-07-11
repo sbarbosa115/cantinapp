@@ -111,7 +111,6 @@
   gtag('config', 'UA-136825704-1');
 </script>
 
-@routes
 <script src="{{ route('assets.lang') }}"></script>
 <script type="text/javascript" src="{{ asset('dist/frontend/js/app.js') }}"></script>
 @yield('javascript')

@@ -32,6 +32,7 @@ return [
     ],
     'homepage' => [
         'title' => 'A new way to get you Colombian Cantina.',
+        'no_results' => 'No results were found.',
         'add_products_to_order' => 'Add product to current order',
         'quantity' => 'Quantity',
         'dish' => 'Dish',

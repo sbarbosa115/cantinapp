@@ -1,24 +1,14 @@
 import _ from 'lodash';
 
-/* global window */
-window.$ = window.jQuery = require('./lib/jquery.min');
+window.$ = window.jQuery = require('jquery');
 
 require('hammerjs');
-require('moment');
+require('bootstrap3/dist/js/bootstrap.min');
 require('./lib/classie');
-require('./lib/bootstrap.min');
 require('./lib/application-appear');
 require('./lib/jquery.themepunch.plugins');
 require('./lib/jquery.themepunch.revolution.min');
 require('./lib/cs.script');
-require('./lib/jquery.currencies.min');
-require('./lib/linkOptionSelectors');
-require('./lib/owl.carousel.min.js');
-require('./lib/scripts');
-require('./lib/social-buttons');
-require('./lib/jquery.touchSwipe.min');
-require('./lib/jquery.fancybox');
-
 
 window.axios = require('axios');
 
