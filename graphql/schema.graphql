@@ -53,7 +53,6 @@ type Beverage {
 	tags: [Tag!]! @belongsToMany
 }
 
-
 type Category {
 	id: ID!
 	name: String!

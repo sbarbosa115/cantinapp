@@ -26,7 +26,7 @@ const Product = ({ product, modalAddProductHandlerToOrder }) => (
                     type="button"
                     className="_btn add-to-cart"
                     data-parent=".parent-fly"
-                    onClick={() => modalAddProductHandlerToOrder()}
+                    onClick={() => modalAddProductHandlerToOrder(product)}
                     title={trans('frontend.homepage.add_to_order')}
                   >
                     {trans('frontend.homepage.add_to_order')}

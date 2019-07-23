@@ -53,7 +53,7 @@
 
 <div class="form-group">
     <div class="alert alert-danger  " role="alert">
-        If you are adding a Side (using side category option) DO NOT FORGET ADD the  available sub category here -Juice or Meals-
+        If you are adding a Side (using side category option) DO NOT FORGET ADD the  available sub category here -Juice or MealsList-
     </div>
     <label for="message-text" class="form-control-label">Tags:</label>
     @if(old('tags'))
