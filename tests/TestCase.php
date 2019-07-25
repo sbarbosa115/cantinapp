@@ -41,28 +41,23 @@ class TestCase extends BaseCase
 
     public function createOrderData(
         array $customData = [],
-        int $dishesAmount = 1,
-        bool $ignoreComments = false
+        int $dishesAmount = 1
     ): array {
         $product = Product::find(1);
-        $sides = ProductRepository::getSides()->take(4);
-        $sidesData = [];
 
-        for ($dishesCeil = 0; $dishesCeil < $dishesAmount; $dishesCeil++) {
-            foreach ($sides as $side) {
-                $sidesData[$dishesCeil][] = [
-                    'id' => $side->id,
-                ];
-            }
-            if(!$ignoreComments) {
-                $sidesData[$dishesCeil]['comment'] = 'RANDOM COMMENT';
-            }
+        $products = [];
+        for($count = 0; $count < $dishesAmount; $count++) {
+            $products[] = [
+                'product_id' => $product->id,
+                'sides' => Product\Side::all()->pluck('id')->toArray(),
+                'beverages' => Product\Beverage::all()->pluck('id')->toArray(),
+                'comment' => 'TEST-COMMENT-TO-THIS-ORDER',
+            ];
         }
 
         $orderPayload = [
-            'id' => $product->id,
             'pickup_at' => Carbon::now()->addMinutes(15)->format('H:i'),
-            'sides' => $sidesData
+            'products' => $products
         ];
 
         return array_diff($orderPayload, $customData);

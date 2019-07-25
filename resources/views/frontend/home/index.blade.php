@@ -11,6 +11,7 @@
         role="main"
         data-categories="{{ json_encode($categories) }}"
         data-sides="{{ json_encode($sides) }}"
+        data-data-provider="{{ asset('graphql') }}"
         @if(Auth::check())
             data-signed-in="true"
         @else

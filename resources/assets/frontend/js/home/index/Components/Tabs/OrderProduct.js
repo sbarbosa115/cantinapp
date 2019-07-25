@@ -4,7 +4,7 @@ import {
   Tab, Tabs, TabList, TabPanel,
 } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import uuid from 'react-tabs/esm/helpers/uuid';
+import uuid from 'uuid/v4';
 import { setDefaultTab } from '../../Actions/order';
 import TextareaProduct from '../Base/TextareaProduct';
 import MealsDropdown from '../Base/MealsDropdown';
@@ -67,15 +67,6 @@ const OrderProduct = ({ store, forceUpdate }) => {
                   elementKey={productItem.id}
                   value={productItem.comment}
                 />
-              </div>
-              <div className="form-group">
-                <button
-                  type="button"
-                  className="btn btn-success btn-lg btn-block"
-                  onClick={() => console.log(store.getState())}
-                >
-                  {trans('frontend.homepage.create_order')}
-                </button>
               </div>
             </TabPanel>
           ))}

@@ -19,7 +19,7 @@ return [
       'logout' => 'Logout',
       'log_in' => 'Log In',
       'password_recovery' => 'Password Recovery',
-      'register' => 'Register',
+      'register' => 'Sign Up',
       'not_account' => "You don't have account?",
       'create_account' => 'Create account now',
       'forgot_password' => 'Forgot Password',
@@ -56,6 +56,12 @@ return [
         'order_created_copy_b' => 'to be pick up.',
         'order_not_created' => 'Error, the order was not created.',
         'order_not_created_copy' => 'Opps we had a problem trying to create your order. please try again.',
+        'footer' => [
+            'about_caption' => 'With Cantinapp organize the canteen of your customers, easy, fast and safe, contact us for a free consultation for your business',
+            'address' => 'Palm springs Fl 33461 USA',
+            'phone' => '(561) 667-6583',
+            'email' => 'info@herclasolutions.com',
+        ],
     ],
     'orders' => [
         'products' => 'Products',

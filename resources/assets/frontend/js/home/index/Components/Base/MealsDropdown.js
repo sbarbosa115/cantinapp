@@ -30,6 +30,7 @@ const MealsDropdown = ({
               store.dispatch(setProductId(Number(e.target.value), elementKey));
             }}
             defaultValue={value}
+            required
           >
             {data.meals
               .map(product => (

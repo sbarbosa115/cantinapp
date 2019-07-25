@@ -1,37 +1,44 @@
-<div class="nav-top">
-    <div class="nav-menu">
-        <ul class="navigation-links ">
-            <li class="nav-item">
-                <a href="{{ url('/') }}">
-                    <span>{{ trans('frontend.menu.home') }}</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('frontend.order.index') }}">
-                    <span>{{ trans('frontend.menu.my_orders') }}</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('frontend.order.profile') }}">
-                    <span>{{ trans('frontend.menu.my_profile') }}</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="nav-icon">
-        <div class="icon_accounts">
-            <div class="m_login-account">
-                <span class="dropdown-toggle login-icon" data-toggle="dropdown">
-                    <i class="fa fa-ellipsis-v"></i>
-                    <i class="sub-dropdown1 visible-sm visible-md visible-lg"></i>
-                    <i class="sub-dropdown visible-sm visible-md visible-lg"></i>
-                </span>
-                @if(Auth::user())
-                    @include('frontend.partials._menu-desktop-logged')
-                @else
-                    @include('frontend.partials._menu-desktop-login')
-                @endif
-            </div>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-menu">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navigation-menu">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="{{ url('/') }}">
+                        {{ trans('frontend.menu.home') }}
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('frontend.order.index') }}">
+                        {{ trans('frontend.menu.my_orders') }}
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('frontend.order.profile') }}">
+                        {{ trans('frontend.menu.my_profile') }}
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="{{ route('frontend.register') }}">
+                        <span class="glyphicon glyphicon-user"></span>
+                        {{ trans('frontend.menu.register') }}
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('frontend.login') }}">
+                        <span class="glyphicon glyphicon-log-in"></span>
+                        {{ trans('frontend.menu.log_in') }}
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
-</div>
+</nav>

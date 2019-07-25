@@ -23,6 +23,7 @@ const SidesDropdown = ({
       return (
         // eslint-disable-next-line jsx-a11y/label-has-for
         <label htmlFor={label}>
+          {!value && <i className="fa fa-arrow-right" aria-hidden="true" />}
           {`${trans('frontend.homepage.side')} (${sideIndex + 1})`}
           <select
             className="form-control"
@@ -30,6 +31,7 @@ const SidesDropdown = ({
               store.dispatch(addSideToProduct(sideIndex, Number(e.target.value), elementKey));
             }}
             defaultValue={value}
+            required
           >
             {data.sides.length !== 0 && (
               <option>{trans('frontend.homepage.select_side')}</option>
@@ -67,6 +69,6 @@ SidesDropdown.defaultProps = {
   label: 'Meals',
   value: null,
   sideIndex: 0,
-}
+};
 
 export default SidesDropdown;

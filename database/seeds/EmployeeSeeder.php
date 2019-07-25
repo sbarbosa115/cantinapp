@@ -1,5 +1,7 @@
 <?php
 
+use App\Model\Employee;
+use App\Model\Restaurant;
 use Illuminate\Database\Seeder;
 
 class EmployeeSeeder extends Seeder
@@ -10,12 +12,12 @@ class EmployeeSeeder extends Seeder
      */
     public function run(): void
     {
-        $restaurant = \App\Model\Restaurant::where('domain', 'demo')->first();
-        if (! $restaurant instanceof \App\Model\Restaurant) {
+        $restaurant = Restaurant::where('domain', 'demo')->first();
+        if (! $restaurant instanceof Restaurant) {
             throw new InvalidArgumentException('Restaurant not was found');
         }
 
-        \App\Model\Employee::create([
+        Employee::create([
             'name' => 'Frank Rodriguez',
             'email' => 'frank@example.com',
             'username' => 'frank',

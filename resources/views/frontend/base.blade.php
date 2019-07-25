@@ -26,18 +26,8 @@
                     <div class="container clearfix">
                         <div class="row">
                             <div class="main-header-inner">
-                                <div class="nav-logo">
-                                    <a href="{{ url('/') }}">
-                                        <img src="{{ asset('images/logo.svg') }}" alt="" title="Cantinapp" />
-                                    </a>
-                                    <h1 style="display:none">
-                                        <a href="/">Cantinapp </a>
-                                    </h1>
-                                </div>
 
                                 @include('frontend.partials.menu-desktop')
-
-                                @include('frontend.partials.menu-mobile')
 
                             </div>
                         </div>
@@ -68,20 +58,20 @@
                                         <img src="{{ asset('images/logo.svg') }}" alt="" />
                                     </div>
                                     <div class="about-caption">
-                                        Con cantinapp organiza la cantina de tus clientes, facil, rapido y seguro, contactanos para una consulta gratis para tu negocio
+                                        {{ trans('frontend.homepage.footer.about_caption') }}
                                     </div>
                                     <div class="about-contact">
                                         <div class="item">
                                             <span class="cs-icon icon-marker"></span>
-                                            <address>Palm springs Fl 33461 USA</address>
+                                            <address>{{ trans('frontend.homepage.footer.address') }}</address>
                                         </div>
                                         <div class="item">
                                             <span class="cs-icon icon-phone"></span>
-                                            <a href="tel:(084)0123456789">(561) 667-6583</a>
+                                            <a href="tel:{{ trans('frontend.homepage.footer.phone') }}">{{ trans('frontend.homepage.footer.phone') }}</a>
                                         </div>
                                         <div class="item">
                                             <span class="cs-icon icon-mail"></span>
-                                            <a href="mailto:Info@herclasolutions.com">info@herclasolutions.com</a>
+                                            <a href="mailto:{{ trans('frontend.homepage.footer.email') }}">{{ trans('frontend.homepage.footer.email') }}</a>
                                         </div>
                                     </div>
                                 </div>

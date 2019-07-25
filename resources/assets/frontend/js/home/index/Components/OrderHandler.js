@@ -108,7 +108,7 @@ class OrderHandler extends Component {
 export default OrderHandler;
 
 OrderHandler.propTypes = {
-  signedIn: PropTypes.bool.isRequired,
+  signedIn: PropTypes.bool,
   sidesNumber: PropTypes.number,
   beveragesNumber: PropTypes.number,
 };
@@ -116,4 +116,5 @@ OrderHandler.propTypes = {
 OrderHandler.defaultProps = {
   sidesNumber: 3,
   beveragesNumber: 1,
+  signedIn: false,
 };
