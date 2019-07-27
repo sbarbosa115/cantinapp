@@ -27,7 +27,6 @@ const MealsList = ({ querySearch, modalAddProductHandlerToOrder }) => (
               <Product
                 key={`product-${product.id}`}
                 modalAddProductHandlerToOrder={modalAddProductHandlerToOrder}
-                signedIn={false}
                 product={product}
               />
             ))}

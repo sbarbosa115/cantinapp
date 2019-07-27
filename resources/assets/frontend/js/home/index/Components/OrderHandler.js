@@ -6,10 +6,12 @@ import { Provider } from 'react-redux';
 import Products from './Products';
 import WelcomeHeader from './WelcomeHeader';
 import createOrder from '../Reducers/order';
-import AddProductModal from './Modals';
+import AddProductModal from './Modals/AddProductModal';
 import { addProduct } from '../Actions/order';
 import Product from '../Model/Product';
 import { ConfigurationProvider } from '../Context/Configuration';
+import OrderCreated from './Modals/OrderCreated';
+import OrderFailed from './Modals/OrderFailed';
 
 const store = createStore(createOrder);
 
@@ -20,6 +22,8 @@ class OrderHandler extends Component {
     this.state = {
       querySearch: null,
       showModalAddProductHandler: false,
+      showModalOrderCreated: false,
+      showModalOrderFail: false,
       clickedProduct: {},
     };
 
@@ -37,9 +41,10 @@ class OrderHandler extends Component {
   }
 
   render() {
-    const { showModalAddProductHandler, clickedProduct } = this.state;
+    const {
+      showModalAddProductHandler, showModalOrderCreated, clickedProduct, showModalOrderFail,
+    } = this.state;
     let { querySearch } = this.state;
-
     return (
       <ConfigurationProvider value={this.props}>
         <Provider store={store}>
@@ -54,7 +59,7 @@ class OrderHandler extends Component {
                         <div id="search">
                           <div className="expanded-message">
                             <div className="search-field">
-                              <form className="search" action="#" style={{ position: 'relative' }}>
+                              <form className="search" style={{ position: 'relative' }}>
                                 <input
                                   type="text"
                                   className="search_box"
@@ -95,8 +100,39 @@ class OrderHandler extends Component {
             <AddProductModal
               closeHandler={() => this.setState({ showModalAddProductHandler: false })}
               product={clickedProduct}
-              store={store}
-              forceUpdate={() => this.forceUpdate()}
+              openModalOrderCreated={() => {
+                this.setState({
+                  showModalOrderCreated: true,
+                });
+              }}
+              openModalOrderFail={() => {
+                this.setState({
+                  showModalOrderFail: true,
+                });
+              }}
+            />
+          )}
+          {showModalOrderCreated && (
+            <OrderCreated
+              orderCreated={{
+                order: {
+                  pickup_at: '2019-07-26 20:59',
+                },
+              }}
+              onCloseHandler={() => {
+                this.setState({
+                  showModalOrderCreated: false,
+                });
+              }}
+            />
+          )}
+          {showModalOrderFail && (
+            <OrderFailed
+              onCloseHandler={() => {
+                this.setState({
+                  showModalOrderFail: false,
+                });
+              }}
             />
           )}
         </Provider>
@@ -111,6 +147,11 @@ OrderHandler.propTypes = {
   signedIn: PropTypes.bool,
   sidesNumber: PropTypes.number,
   beveragesNumber: PropTypes.number,
+  pathCreateOrder: PropTypes.string.isRequired,
+  pathLogin: PropTypes.string.isRequired,
+  imageSuccess: PropTypes.string.isRequired,
+  imageError: PropTypes.string.isRequired,
+  imageHeader: PropTypes.string.isRequired,
 };
 
 OrderHandler.defaultProps = {

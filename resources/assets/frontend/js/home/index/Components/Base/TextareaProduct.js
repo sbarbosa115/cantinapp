@@ -1,6 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { handleProductComment } from '../../Actions/order';
+import { connect } from 'react-redux';
+import { HANDLE_PRODUCT_COMMENT } from '../../Actions/order';
+
+const mapStateToProps = state => ({
+  ...state,
+});
+
+const mapDispatchToProps = dispatch => ({
+  handleProductComment: (value, elementKey) => dispatch({
+    type: HANDLE_PRODUCT_COMMENT,
+    comment: value,
+    productKey: elementKey,
+  }),
+});
 
 class TextareaProduct extends Component {
   constructor(props) {
@@ -12,30 +25,26 @@ class TextareaProduct extends Component {
   }
 
   render() {
-    const { value } = this.state;
-    const { label, elementKey, store } = this.props;
+    const {
+      label, elementKey, handleProductComment, order,
+    } = this.props;
     return (
       <label htmlFor={label}>
         {trans('frontend.homepage.special_dish_requirements')}
         <textarea
           className="form-control"
           onChange={(event) => {
-            store.dispatch(handleProductComment(value, elementKey));
-            this.setState({
-              value: event.target.value,
-            });
+            handleProductComment(event.target.value, elementKey);
           }}
-          value={value}
+          value={order.products.filter(productItem => productItem.id === elementKey)
+            .reduce((acc, productItem) => (productItem.comment), null)}
         />
       </label>
     );
   }
 }
 
-export default TextareaProduct;
-
 TextareaProduct.propTypes = {
-  store: PropTypes.shape({}).isRequired,
   label: PropTypes.string,
   value: PropTypes.string,
   elementKey: PropTypes.string.isRequired,
@@ -45,3 +54,5 @@ TextareaProduct.defaultProps = {
   label: 'label',
   value: '',
 };
+
+export default connect(mapStateToProps, mapDispatchToProps)(TextareaProduct);

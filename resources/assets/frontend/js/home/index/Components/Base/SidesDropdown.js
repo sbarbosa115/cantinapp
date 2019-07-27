@@ -1,11 +1,25 @@
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addSideToProduct } from '../../Actions/order';
+import { ADD_SIDE_TO_PRODUCT } from '../../Actions/order';
+
+const mapStateToProps = state => ({
+  ...state,
+});
+
+const mapDispatchToProps = dispatch => ({
+  addSideToProduct: (sideIndex, sideId, productKey) => dispatch({
+    type: ADD_SIDE_TO_PRODUCT,
+    sideIndex,
+    sideId,
+    productKey,
+  }),
+});
 
 const SidesDropdown = ({
-  store, label, value, elementKey, sideIndex,
+  label, value, elementKey, sideIndex, addSideToProduct,
 }) => (
   <Query
     query={gql`
@@ -19,19 +33,17 @@ const SidesDropdown = ({
     {({ loading, error, data }) => {
       if (loading) return <p>Loading...</p>;
       if (error) return <p>Error :(</p>;
-
       return (
         // eslint-disable-next-line jsx-a11y/label-has-for
         <label htmlFor={label}>
-          {!value && <i className="fa fa-arrow-right" aria-hidden="true" />}
+          {!value && <i className="fa fa-arrow-right animated rotateIn" aria-hidden="true" />}
           {`${trans('frontend.homepage.side')} (${sideIndex + 1})`}
           <select
             className="form-control"
             onChange={(e) => {
-              store.dispatch(addSideToProduct(sideIndex, Number(e.target.value), elementKey));
+              addSideToProduct(sideIndex, Number(e.target.value), elementKey);
             }}
-            defaultValue={value}
-            required
+            defaultValue={value || ''}
           >
             {data.sides.length !== 0 && (
               <option>{trans('frontend.homepage.select_side')}</option>
@@ -58,7 +70,6 @@ const SidesDropdown = ({
 );
 
 SidesDropdown.propTypes = {
-  store: PropTypes.shape({}).isRequired,
   label: PropTypes.string,
   value: PropTypes.number,
   sideIndex: PropTypes.number,
@@ -71,4 +82,5 @@ SidesDropdown.defaultProps = {
   sideIndex: 0,
 };
 
-export default SidesDropdown;
+
+export default connect(mapStateToProps, mapDispatchToProps)(SidesDropdown);

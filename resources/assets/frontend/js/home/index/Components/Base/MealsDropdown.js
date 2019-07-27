@@ -2,10 +2,23 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { setProductId } from '../../Actions/order';
+import { connect } from 'react-redux';
+import {SET_PRODUCT_ID, setProductId} from '../../Actions/order';
+
+const mapStateToProps = state => ({
+  ...state,
+});
+
+const mapDispatchToProps = dispatch => ({
+  setProductId: (productId, productKey) => dispatch({
+    type: SET_PRODUCT_ID,
+    productId,
+    productKey,
+  }),
+});
 
 const MealsDropdown = ({
-  store, label, value, elementKey,
+  label, value, elementKey, setProductId,
 }) => (
   <Query
     query={gql`
@@ -27,10 +40,10 @@ const MealsDropdown = ({
           <select
             className="form-control"
             onChange={(e) => {
-              store.dispatch(setProductId(Number(e.target.value), elementKey));
+              setProductId(Number(e.target.value), elementKey);
+              forceUpdate();
             }}
             defaultValue={value}
-            required
           >
             {data.meals
               .map(product => (
@@ -54,7 +67,6 @@ const MealsDropdown = ({
 );
 
 MealsDropdown.propTypes = {
-  store: PropTypes.shape({}).isRequired,
   label: PropTypes.string,
   value: PropTypes.number,
   elementKey: PropTypes.string.isRequired,
@@ -65,4 +77,4 @@ MealsDropdown.defaultProps = {
   value: null,
 }
 
-export default MealsDropdown;
+export default connect(mapStateToProps, mapDispatchToProps)(MealsDropdown);

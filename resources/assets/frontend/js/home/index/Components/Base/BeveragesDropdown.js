@@ -1,11 +1,25 @@
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import { connect } from 'react-redux';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { addBeverageToProduct } from '../../Actions/order';
+import {ADD_BEVERAGE_TO_PRODUCT } from '../../Actions/order';
+
+const mapStateToProps = state => ({
+  ...state,
+});
+
+const mapDispatchToProps = dispatch => ({
+  addBeverageToProduct: (beverageIndex, beverageId, productKey) => dispatch({
+    type: ADD_BEVERAGE_TO_PRODUCT,
+    beverageIndex,
+    beverageId,
+    productKey,
+  }),
+});
 
 const BeveragesDropdown = ({
-  store, label, value, elementKey, beverageIndex,
+  label, value, elementKey, beverageIndex, addBeverageToProduct,
 }) => (
   <Query
     query={gql`
@@ -23,17 +37,14 @@ const BeveragesDropdown = ({
       return (
         // eslint-disable-next-line jsx-a11y/label-has-for
         <label htmlFor={label}>
-          {!value && <i className="fa fa-arrow-right" aria-hidden="true" />}
+          {!value && <i className="fa fa-arrow-right animated rotateIn" aria-hidden="true" />}
           {`${trans('frontend.homepage.beverage')} (${beverageIndex + 1})`}
           <select
             className="form-control"
             onChange={(e) => {
-              store.dispatch(
-                addBeverageToProduct(beverageIndex, Number(e.target.value), elementKey),
-              );
+              addBeverageToProduct(beverageIndex, Number(e.target.value), elementKey);
             }}
-            defaultValue={value}
-            required
+            defaultValue={value || ''}
           >
             {data.beverages.length !== 0 && (
               <option>{`${trans('frontend.homepage.select_beverage')}`}</option>
@@ -54,10 +65,9 @@ const BeveragesDropdown = ({
       );
     }}
   </Query>
-);
+)
 
 BeveragesDropdown.propTypes = {
-  store: PropTypes.shape({}).isRequired,
   label: PropTypes.string,
   value: PropTypes.number,
   beverageIndex: PropTypes.number,
@@ -70,4 +80,4 @@ BeveragesDropdown.defaultProps = {
   beverageIndex: 0,
 };
 
-export default BeveragesDropdown;
+export default connect(mapStateToProps, mapDispatchToProps)(BeveragesDropdown);

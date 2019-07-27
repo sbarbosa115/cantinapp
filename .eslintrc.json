@@ -1,5 +1,10 @@
 {
-    "extends": "airbnb",
+    "plugins": [
+        "react-redux"
+    ],
+    "extends": [
+        "airbnb", "plugin:react-redux/recommended"
+    ],
     "rules": {
         "func-names": ["error", "never"],
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
