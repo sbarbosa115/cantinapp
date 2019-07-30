@@ -26,6 +26,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+            @guest
                 <li>
                     <a href="{{ route('frontend.register') }}">
                         <span class="glyphicon glyphicon-user"></span>
@@ -38,6 +39,15 @@
                         {{ trans('frontend.menu.log_in') }}
                     </a>
                 </li>
+            @endguest
+            @auth
+                <li>
+                    <a href="{{ route('frontend.order.profile') }}">
+                        <i class="fa fa-balance-scale" aria-hidden="true"></i>
+                        {{ trans('frontend.menu.balance') }} ({{ count(Auth::user()->balances) }})
+                    </a>
+                </li>
+            @endauth
             </ul>
         </div>
     </div>

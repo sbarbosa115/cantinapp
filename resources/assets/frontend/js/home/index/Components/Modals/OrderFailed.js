@@ -1,14 +1,30 @@
+import { connect } from 'react-redux';
 import React from 'react';
 import Modal from 'react-bootstrap-modal';
 import PropTypes from 'prop-types';
 import { ConfigurationConsumer } from '../../Context/Configuration';
+import { SHOW_MODAL_ORDER_FAILED } from '../../Actions/modal';
 
-const OrderFailed = ({ onCloseHandler }) => (
+const mapStateToProps = state => ({
+  ...state,
+});
+
+const mapDispatchToProps = dispatch => ({
+  toggleOrderFailedModal: flag => dispatch({
+    type: SHOW_MODAL_ORDER_FAILED,
+    orderFailed: flag,
+  }),
+});
+
+const OrderFailed = ({ forceUpdate, toggleOrderFailedModal }) => (
   <ConfigurationConsumer>
     {({ imageError }) => (
       <Modal
         show
-        onHide={onCloseHandler}
+        onHide={() => {
+          toggleOrderFailedModal(false);
+          forceUpdate();
+        }}
       >
         <Modal.Header closeButton>
           <Modal.Title id="ModalHeader">
@@ -32,7 +48,13 @@ const OrderFailed = ({ onCloseHandler }) => (
 );
 
 OrderFailed.propTypes = {
-  onCloseHandler: PropTypes.func.isRequired,
+  forceUpdate: PropTypes.func,
+  toggleOrderFailedModal: PropTypes.func,
 };
 
-export default OrderFailed;
+OrderFailed.defaultProps = {
+  forceUpdate: () => (''),
+  toggleOrderFailedModal: () => (''),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(OrderFailed);

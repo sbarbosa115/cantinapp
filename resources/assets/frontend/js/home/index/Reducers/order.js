@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux';
 import {
   ADD_PRODUCT, CREATE_EMPTY_PRODUCTS, HANDLE_PRODUCT_COMMENT, SET_DEFAULT_TAB, SET_PICK_UP_TIME,
   SET_PRODUCT_ID, ADD_SIDE_TO_PRODUCT, ADD_BEVERAGE_TO_PRODUCT,
@@ -10,7 +9,7 @@ const initialState = {
   products: [],
 };
 
-function order(state = initialState, action) {
+export default function order(state = initialState, action) {
   switch (action.type) {
     case ADD_PRODUCT: {
       const { product } = action;
@@ -95,9 +94,3 @@ function order(state = initialState, action) {
       return state;
   }
 }
-
-const createOrder = combineReducers({
-  order,
-});
-
-export default createOrder;

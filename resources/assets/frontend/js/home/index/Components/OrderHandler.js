@@ -5,15 +5,21 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import Products from './Products';
 import WelcomeHeader from './WelcomeHeader';
-import createOrder from '../Reducers/order';
+import initReducers from '../Reducers/reducers';
 import AddProductModal from './Modals/AddProductModal';
 import { addProduct } from '../Actions/order';
 import Product from '../Model/Product';
 import { ConfigurationProvider } from '../Context/Configuration';
 import OrderCreated from './Modals/OrderCreated';
 import OrderFailed from './Modals/OrderFailed';
+import { SHOW_MODAL_CREATE_ORDER } from '../Actions/modal';
 
-const store = createStore(createOrder);
+const store = createStore(initReducers);
+
+const toggleCreateOrderModal = (flag = false) => ({
+  type: SHOW_MODAL_CREATE_ORDER,
+  createOrder: flag,
+});
 
 class OrderHandler extends Component {
   constructor(props) {
@@ -21,9 +27,6 @@ class OrderHandler extends Component {
 
     this.state = {
       querySearch: null,
-      showModalAddProductHandler: false,
-      showModalOrderCreated: false,
-      showModalOrderFail: false,
       clickedProduct: {},
     };
 
@@ -31,20 +34,17 @@ class OrderHandler extends Component {
   }
 
   modalAddProductHandlerToOrder(product = {}) {
-    const { showModalAddProductHandler } = this.state;
     store.dispatch(addProduct(new Product(Number(product.id))));
-
+    store.dispatch(toggleCreateOrderModal(true));
     this.setState({
-      showModalAddProductHandler: !showModalAddProductHandler,
       clickedProduct: product,
     });
   }
 
   render() {
-    const {
-      showModalAddProductHandler, showModalOrderCreated, clickedProduct, showModalOrderFail,
-    } = this.state;
+    const { clickedProduct } = this.state;
     let { querySearch } = this.state;
+    const { modals } = store.getState();
     return (
       <ConfigurationProvider value={this.props}>
         <Provider store={store}>
@@ -96,43 +96,23 @@ class OrderHandler extends Component {
               </div>
             </section>
           </ScrollableAnchor>
-          {showModalAddProductHandler && (
+          {modals.createOrder && (
             <AddProductModal
-              closeHandler={() => this.setState({ showModalAddProductHandler: false })}
+              forceUpdate={() => this.forceUpdate()}
               product={clickedProduct}
               openModalOrderCreated={() => {
-                this.setState({
-                  showModalOrderCreated: true,
-                });
-              }}
-              openModalOrderFail={() => {
-                this.setState({
-                  showModalOrderFail: true,
-                });
+                store.dispatch(toggleCreateOrderModal(true));
               }}
             />
           )}
-          {showModalOrderCreated && (
+          {modals.orderCreated && (
             <OrderCreated
-              orderCreated={{
-                order: {
-                  pickup_at: '2019-07-26 20:59',
-                },
-              }}
-              onCloseHandler={() => {
-                this.setState({
-                  showModalOrderCreated: false,
-                });
-              }}
+              forceUpdate={() => this.forceUpdate()}
             />
           )}
-          {showModalOrderFail && (
+          {modals.orderFailed && (
             <OrderFailed
-              onCloseHandler={() => {
-                this.setState({
-                  showModalOrderFail: false,
-                });
-              }}
+              forceUpdate={() => this.forceUpdate()}
             />
           )}
         </Provider>
@@ -140,8 +120,6 @@ class OrderHandler extends Component {
     );
   }
 }
-
-export default OrderHandler;
 
 OrderHandler.propTypes = {
   signedIn: PropTypes.bool,
@@ -159,3 +137,5 @@ OrderHandler.defaultProps = {
   beveragesNumber: 1,
   signedIn: false,
 };
+
+export default OrderHandler;

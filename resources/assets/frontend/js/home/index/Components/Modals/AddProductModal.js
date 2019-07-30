@@ -9,6 +9,7 @@ import roundedUp from '../../../Utils/DateUtils';
 import OrderProduct from '../Tabs/OrderProduct';
 import Product from '../../Model/Product';
 import { ConfigurationConsumer } from '../../Context/Configuration';
+import { SHOW_MODAL_CREATE_ORDER, SHOW_MODAL_ORDER_ADDED, SHOW_MODAL_ORDER_FAILED } from '../../Actions/modal';
 
 const isOrderValid = ({ order, sidesNumber, beveragesNumber }) => (
   !((order.products
@@ -23,24 +24,43 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setPickUpTime: time => dispatch({
-    type: SET_PICK_UP_TIME,
-    time,
-  }),
+  setPickUpTime: time => (
+    dispatch({
+      type: SET_PICK_UP_TIME,
+      pickUpTime: time,
+    })
+  ),
   createEmptyProducts: products => dispatch({
     type: CREATE_EMPTY_PRODUCTS,
     products,
   }),
+  toggleOrderCreatedModal: (flag = false, orderCreated) => dispatch({
+    type: SHOW_MODAL_ORDER_ADDED,
+    orderCreated: flag,
+    orderCreatedData: orderCreated,
+  }),
+  toggleOrderFailedModal: (flag = false) => dispatch({
+    type: SHOW_MODAL_ORDER_FAILED,
+    orderFailed: flag,
+  }),
+  toggleCreateOrderModal: (flag = false) => dispatch({
+    type: SHOW_MODAL_CREATE_ORDER,
+    createOrder: flag,
+  }),
 });
 
 const AddProductModal = ({
-  closeHandler, order, setPickUpTime, createEmptyProducts
+  order, setPickUpTime, createEmptyProducts, toggleOrderFailedModal, toggleOrderCreatedModal,
+  toggleCreateOrderModal, forceUpdate,
 }) => (
   <ConfigurationConsumer>
     {({ sidesNumber, beveragesNumber, pathCreateOrder }) => (
       <Modal
         show
-        onHide={closeHandler}
+        onHide={() => {
+          toggleCreateOrderModal(false);
+          forceUpdate();
+        }}
       >
         <Modal.Header closeButton>
           <Modal.Title id="ModalHeader">
@@ -111,7 +131,17 @@ const AddProductModal = ({
                         method: 'post',
                         body: JSON.stringify(order),
                       }).then(response => response.json())
-                        .then(response => console.log(response));
+                        .then((response) => {
+                          if (response.status === 'ok') {
+                            toggleCreateOrderModal(false);
+                            toggleOrderCreatedModal(true, response.order);
+                            forceUpdate();
+                          } else {
+                            toggleCreateOrderModal(false);
+                            toggleOrderFailedModal(true);
+                            forceUpdate();
+                          }
+                        });
                     }
                   }}
                   disabled={
@@ -132,10 +162,27 @@ const AddProductModal = ({
 
 AddProductModal.propTypes = {
   order: PropTypes.shape({
-    pickup_at: PropTypes.string.isRequired,
+    pickup_at: PropTypes.string,
   }),
-  closeHandler: PropTypes.func.isRequired,
+  setPickUpTime: PropTypes.func,
+  createEmptyProducts: PropTypes.func,
+  forceUpdate: PropTypes.func,
+  toggleOrderCreatedModal: PropTypes.func,
+  toggleOrderFailedModal: PropTypes.func,
+  toggleCreateOrderModal: PropTypes.func,
 };
 
+
+AddProductModal.defaultProps = {
+  order: {
+    pickup_at: null,
+  },
+  setPickUpTime: () => (''),
+  forceUpdate: () => (''),
+  createEmptyProducts: () => (''),
+  toggleOrderCreatedModal: () => (''),
+  toggleOrderFailedModal: () => (''),
+  toggleCreateOrderModal: () => (''),
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddProductModal);

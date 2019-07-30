@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {SET_PRODUCT_ID, setProductId} from '../../Actions/order';
+import { SET_PRODUCT_ID } from '../../Actions/order';
 
 const mapStateToProps = state => ({
   ...state,
@@ -41,7 +41,6 @@ const MealsDropdown = ({
             className="form-control"
             onChange={(e) => {
               setProductId(Number(e.target.value), elementKey);
-              forceUpdate();
             }}
             defaultValue={value}
           >
@@ -70,11 +69,13 @@ MealsDropdown.propTypes = {
   label: PropTypes.string,
   value: PropTypes.number,
   elementKey: PropTypes.string.isRequired,
+  setProductId: PropTypes.func,
 };
 
 MealsDropdown.defaultProps = {
   label: 'Meals',
   value: null,
-}
+  setProductId: () => (''),
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(MealsDropdown);

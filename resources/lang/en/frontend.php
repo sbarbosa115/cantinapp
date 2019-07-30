@@ -18,6 +18,7 @@ return [
       'items_this_order' => 'item(s) in this order',
       'logout' => 'Logout',
       'log_in' => 'Log In',
+      'balance' => 'Balance',
       'password_recovery' => 'Password Recovery',
       'register' => 'Sign Up',
       'not_account' => "You don't have account?",
