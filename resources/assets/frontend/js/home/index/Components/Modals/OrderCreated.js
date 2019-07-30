@@ -4,13 +4,16 @@ import Modal from 'react-bootstrap-modal';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { ConfigurationConsumer } from '../../Context/Configuration';
-import { SHOW_MODAL_ORDER_ADDED } from '../../Actions/modal';
+import { RESET_MODAL_STATE, SHOW_MODAL_ORDER_ADDED } from '../../Actions/modal';
 
 const mapDispatchToProps = dispatch => ({
   toggleOrderCreatedModal: (flag = false, orderCreated) => dispatch({
     type: SHOW_MODAL_ORDER_ADDED,
     orderCreated: flag,
     orderCreatedData: orderCreated,
+  }),
+  resetOrderState: () => dispatch({
+    type: RESET_MODAL_STATE,
   }),
 });
 
@@ -19,13 +22,16 @@ const mapStateToProps = state => ({
   orderCreatedData: state.modals.orderCreatedData,
 });
 
-const OrderCreated = ({ orderCreatedData, forceUpdate, toggleOrderCreatedModal }) => (
+const OrderCreated = ({
+  orderCreatedData, forceUpdate, toggleOrderCreatedModal, resetOrderState,
+}) => (
   <ConfigurationConsumer>
     {({ imageSuccess }) => (
       <Modal
         show
         onHide={() => {
           toggleOrderCreatedModal(false);
+          resetOrderState();
           forceUpdate();
         }}
       >
@@ -55,6 +61,7 @@ const OrderCreated = ({ orderCreatedData, forceUpdate, toggleOrderCreatedModal }
 OrderCreated.propTypes = {
   forceUpdate: PropTypes.func,
   toggleOrderCreatedModal: PropTypes.func,
+  resetOrderState: PropTypes.func,
   orderCreatedData: PropTypes.shape({
     pickup_at: PropTypes.string,
   }),
@@ -68,6 +75,7 @@ OrderCreated.defaultProps = {
   },
   forceUpdate: () => (''),
   toggleOrderCreatedModal: () => (''),
+  resetOrderState: () => (''),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderCreated);

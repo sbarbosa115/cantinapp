@@ -1,6 +1,6 @@
 import {
   ADD_PRODUCT, CREATE_EMPTY_PRODUCTS, HANDLE_PRODUCT_COMMENT, SET_DEFAULT_TAB, SET_PICK_UP_TIME,
-  SET_PRODUCT_ID, ADD_SIDE_TO_PRODUCT, ADD_BEVERAGE_TO_PRODUCT,
+  SET_PRODUCT_ID, ADD_SIDE_TO_PRODUCT, ADD_BEVERAGE_TO_PRODUCT, RESET_ORDER_STATE
 } from '../Actions/order';
 
 const initialState = {
@@ -90,6 +90,10 @@ export default function order(state = initialState, action) {
         products,
       });
     }
+    case RESET_ORDER_STATE:
+      return Object.assign({}, state, {
+        ...initialState,
+      });
     default:
       return state;
   }
