@@ -5,13 +5,14 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "ext-json": "*",
         "php": ">=7.2.0",
+        "ext-json": "*",
         "doctrine/dbal": "^2.9",
         "fideloper/proxy": "^4.0",
-        "laravel/framework": "5.7.*",
+        "laravel/framework": "5.8.*",
         "laravel/tinker": "~1.0",
         "niklasravnsborg/laravel-pdf": "^2.0",
+        "nuwave/lighthouse": "^3.7",
         "tightenco/ziggy": "^0.6.7"
     },
     "require-dev": {
@@ -19,7 +20,7 @@
         "friendsofphp/php-cs-fixer": "^2.14",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~6.0"
+        "phpunit/phpunit": "^8"
     },
     "autoload": {
         "classmap": [
@@ -52,15 +53,23 @@
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover"
         ],
-        "deploy-application": [
+        "create-storage-folders": [
             "@php -r \"if(!file_exists('./storage')) { mkdir('./storage', 0777, true); }\"",
             "@php -r \"if(!file_exists('./storage/framework')) { mkdir('./storage/framework', 0777, true); }\"",
             "@php -r \"if(!file_exists('./storage/framework/sessions')) { mkdir('./storage/framework/sessions', 0777, true); }\"",
             "@php -r \"if(!file_exists('./storage/framework/views')) { mkdir('./storage/framework/views', 0777, true); }\"",
             "@php -r \"if(!file_exists('./storage/logs')) { mkdir('./storage/logs', 0777, true); }\"",
+            "chmod 777 -R ./storage"
+        ],
+        "deploy-application": [
+            "git pull",
+            "composer create-storage-folders",
+            "php artisan migrate",
+            "composer dump-autoload",
+            "php artisan cache:clear",
             "chmod 777 -R ./storage",
-            "@php artisan migrate",
-            "yarn"
+            "yarn",
+            "yarn run production"
         ]
     },
     "config": {

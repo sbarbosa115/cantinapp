@@ -1,0 +1,69 @@
+type Query {
+	products: [Product!]! @all(model: "App\\Model\\Product")
+	product (id: Int! @eq): Product @find(model: "App\\Model\\Product")
+	meals: [Meal!]! @all(model: "App\\Model\\Product\\Meal")
+	meal (id: Int! @eq): Meal @find(model: "App\\Model\\Product\\Meal")
+	sides: [Side!]! @all(model: "App\\Model\\Product\\Side")
+	side (id: Int! @eq): Side @find(model: "App\\Model\\Product\\Side")
+	beverages: [Beverage!]! @all(model: "App\\Model\\Product\\Beverage")
+	beverage (id: Int! @eq): Beverage @find(model: "App\\Model\\Product\\Beverage")
+}
+
+type Product {
+	id: ID!
+	name: String!
+	slug: String
+	description: String!
+	price: Float!
+	image_path: String
+	categories: [Category!]! @belongsToMany
+	tags: [Tag!]! @belongsToMany
+}
+
+type Meal {
+	id: ID!
+	name: String!
+	slug: String
+	description: String!
+	price: Float!
+	image_path: String
+	categories: [Category!]! @belongsToMany
+	tags: [Tag!]! @belongsToMany
+}
+
+type Side {
+	id: ID!
+	name: String!
+	slug: String
+	description: String!
+	price: Float!
+	image_path: String
+	categories: [Category!]! @belongsToMany
+	tags: [Tag!]! @belongsToMany
+}
+
+type Beverage {
+	id: ID!
+	name: String!
+	slug: String
+	description: String!
+	price: Float!
+	image_path: String
+	categories: [Category!]! @belongsToMany
+	tags: [Tag!]! @belongsToMany
+}
+
+type Category {
+	id: ID!
+	name: String!
+	slug: String!
+	description: String!
+}
+
+type Tag {
+	id: ID!
+	name: String!
+	slug: String!
+	description: String!
+}
+

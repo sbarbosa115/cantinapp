@@ -39,7 +39,7 @@ class OrderControllerTest extends TestCase
         $this->assertEquals(Order::PAYMENT_STATUS_PAID, $order->payment_status);
 
         $orderProduct = $order->productsOrder()->get()->first();
-        $this->assertEquals('RANDOM COMMENT', $orderProduct->comment);
+        $this->assertEquals('TEST-COMMENT-TO-THIS-ORDER', $orderProduct->comment);
     }
 
     public function testCreateOrderNoComments(): void

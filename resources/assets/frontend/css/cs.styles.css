@@ -6075,7 +6075,7 @@ ul.filter-content.filter-color .color-swatch {
     margin-bottom: 5px
 }
 
-.product .product-title a {
+.product .product-title span {
     display: inline-block;
     *display: inline;
     zoom: 1;

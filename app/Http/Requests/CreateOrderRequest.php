@@ -29,12 +29,12 @@ class CreateOrderRequest extends FormRequest
             'pickup_at' => [
                 'required', 'date_format:H:i', new GreaterThanNow(), new MaxOrderDate(),
             ],
-            'id'  => [
-                'required'
-            ],
-            'sides' => [
-                'required', 'array'
-            ],
+            'products.*.product_id' => 'required|numeric',
+            'products.*.sides' => 'required|array',
+            'products.*.sides.*' => 'integer',
+            'products.*.beverages' => 'required|array',
+            'products.*.beverages.*' => 'integer',
+            'products.*.comment' => 'nullable',
         ];
     }
 }

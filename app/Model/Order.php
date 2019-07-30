@@ -47,10 +47,7 @@ class Order extends Model
     public static function boot(): void
     {
         parent::boot();
-        static::addGlobalScope(function ($query) {
-            $query->where('restaurant_id', '=', session('restaurant_id'));
-        });
-        static::creating(function ($item) {
+        static::creating(static function ($item) {
             $item->restaurant_id = session('restaurant_id');
         });
     }

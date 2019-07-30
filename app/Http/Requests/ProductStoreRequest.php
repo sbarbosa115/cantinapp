@@ -29,7 +29,7 @@ class ProductStoreRequest extends FormRequest
             'price' => 'required|numeric',
             'image' => 'image',
             'tags' => 'nullable|json',
-            'category' => 'required',
+            'type' => 'required',
         ];
     }
 }
