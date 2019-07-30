@@ -4,9 +4,9 @@
     "/dist/frontend/js/app.js": "/dist/frontend/js/app.js",
     "/dist/frontend/js/app.js.map": "/dist/frontend/js/app.js.map",
     "/dist/restaurant/js/app.js": "/dist/restaurant/js/app.js",
-    "/dist/restaurant/css/app.css": "/dist/restaurant/css/app.css",
     "/dist/frontend/css/app.css": "/dist/frontend/css/app.css",
     "/dist/restaurant/js/app.js.map": "/dist/restaurant/js/app.js.map",
-    "/dist/restaurant/css/app.css.map": "/dist/restaurant/css/app.css.map",
-    "/dist/frontend/css/app.css.map": "/dist/frontend/css/app.css.map"
+    "/dist/frontend/css/app.css.map": "/dist/frontend/css/app.css.map",
+    "/dist/restaurant/css/app.css": "/dist/restaurant/css/app.css",
+    "/dist/restaurant/css/app.css.map": "/dist/restaurant/css/app.css.map"
 }

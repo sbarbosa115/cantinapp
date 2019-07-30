@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
-import { CREATE_EMPTY_PRODUCTS, SET_PICK_UP_TIME } from '../../Actions/order';
+import { CREATE_EMPTY_PRODUCTS, RESET_ORDER_STATE, SET_PICK_UP_TIME } from '../../Actions/order';
 import roundedUp from '../../../Utils/DateUtils';
 import OrderProduct from '../Tabs/OrderProduct';
 import Product from '../../Model/Product';
@@ -47,11 +47,14 @@ const mapDispatchToProps = dispatch => ({
     type: SHOW_MODAL_CREATE_ORDER,
     createOrder: flag,
   }),
+  resetOrderState: () => dispatch({
+    type: RESET_ORDER_STATE,
+  }),
 });
 
 const AddProductModal = ({
   order, setPickUpTime, createEmptyProducts, toggleOrderFailedModal, toggleOrderCreatedModal,
-  toggleCreateOrderModal, forceUpdate,
+  toggleCreateOrderModal, resetOrderState, forceUpdate,
 }) => (
   <ConfigurationConsumer>
     {({ sidesNumber, beveragesNumber, pathCreateOrder }) => (
@@ -59,6 +62,7 @@ const AddProductModal = ({
         show
         onHide={() => {
           toggleCreateOrderModal(false);
+          resetOrderState();
           forceUpdate();
         }}
       >
@@ -135,6 +139,7 @@ const AddProductModal = ({
                           if (response.status === 'ok') {
                             toggleCreateOrderModal(false);
                             toggleOrderCreatedModal(true, response.order);
+                            resetOrderState();
                             forceUpdate();
                           } else {
                             toggleCreateOrderModal(false);
@@ -170,6 +175,7 @@ AddProductModal.propTypes = {
   toggleOrderCreatedModal: PropTypes.func,
   toggleOrderFailedModal: PropTypes.func,
   toggleCreateOrderModal: PropTypes.func,
+  resetOrderState: PropTypes.func,
 };
 
 
@@ -183,6 +189,7 @@ AddProductModal.defaultProps = {
   toggleOrderCreatedModal: () => (''),
   toggleOrderFailedModal: () => (''),
   toggleCreateOrderModal: () => (''),
+  resetOrderState: () => (''),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddProductModal);

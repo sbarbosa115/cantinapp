@@ -6,6 +6,7 @@ export const SET_PRODUCT_ID = 'SET_PRODUCT_ID';
 export const HANDLE_PRODUCT_COMMENT = 'HANDLE_PRODUCT_COMMENT';
 export const ADD_SIDE_TO_PRODUCT = 'ADD_SIDE_TO_PRODUCT';
 export const ADD_BEVERAGE_TO_PRODUCT = 'ADD_BEVERAGE_TO_PRODUCT';
+export const RESET_ORDER_STATE = 'RESET_ORDER_STATE';
 
 export const addProduct = product => ({
   type: ADD_PRODUCT,
