@@ -12,7 +12,7 @@ const mapDispatchToProps = dispatch => ({
     orderCreated: flag,
     orderCreatedData: orderCreated,
   }),
-  resetOrderState: () => dispatch({
+  resetModalState: () => dispatch({
     type: RESET_MODAL_STATE,
   }),
 });
@@ -23,7 +23,7 @@ const mapStateToProps = state => ({
 });
 
 const OrderCreated = ({
-  orderCreatedData, forceUpdate, toggleOrderCreatedModal, resetOrderState,
+  orderCreatedData, forceUpdate, toggleOrderCreatedModal, resetModalState,
 }) => (
   <ConfigurationConsumer>
     {({ imageSuccess }) => (
@@ -31,7 +31,7 @@ const OrderCreated = ({
         show
         onHide={() => {
           toggleOrderCreatedModal(false);
-          resetOrderState();
+          resetModalState();
           forceUpdate();
         }}
       >
@@ -61,7 +61,7 @@ const OrderCreated = ({
 OrderCreated.propTypes = {
   forceUpdate: PropTypes.func,
   toggleOrderCreatedModal: PropTypes.func,
-  resetOrderState: PropTypes.func,
+  resetModalState: PropTypes.func,
   orderCreatedData: PropTypes.shape({
     pickup_at: PropTypes.string,
   }),
@@ -75,7 +75,7 @@ OrderCreated.defaultProps = {
   },
   forceUpdate: () => (''),
   toggleOrderCreatedModal: () => (''),
-  resetOrderState: () => (''),
+  resetModalState: () => (''),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderCreated);
