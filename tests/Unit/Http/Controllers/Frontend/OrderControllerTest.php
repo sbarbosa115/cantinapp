@@ -12,8 +12,7 @@ class OrderControllerTest extends TestCase
 {
     public function testIndexLogged(): void
     {
-        $user = User::where('email', 'juanlopez@example.com')->first();
-        $this->actingAs($user);
+        $this->actingAs($this->getUser());
         $response = $this->get(route('frontend.order.index'));
         $response->assertStatus(Response::HTTP_OK);
     }
@@ -27,8 +26,7 @@ class OrderControllerTest extends TestCase
     public function testCreateOrderFromJson(): void
     {
         $orderPayload = $this->createOrderData();
-        $user = User::where('email', 'juanlopez@example.com')->first();
-        $this->actingAs($user);
+        $this->actingAs($this->getUser());
         $response = $this->json('POST', route('frontend.order.store'), $orderPayload);
         $response->assertStatus(Response::HTTP_OK)->assertJson(['status' => 'ok']);
 
@@ -45,8 +43,7 @@ class OrderControllerTest extends TestCase
     public function testCreateOrderNoComments(): void
     {
         $orderPayload = $this->createOrderData([], 1, true);
-        $user = User::where('email', 'juanlopez@example.com')->first();
-        $this->actingAs($user);
+        $this->actingAs($this->getUser());
         $response = $this->json('POST', route('frontend.order.store'), $orderPayload);
         $response->assertStatus(Response::HTTP_OK)->assertJson(['status' => 'ok']);
 
@@ -60,8 +57,8 @@ class OrderControllerTest extends TestCase
 
     public function testCreateOrderFromRunOutBalance(): void
     {
-        $user = User::where('email', 'juanlopez@example.com')->first();
-        $this->actingAs($user);
+        $user = $this->getUser();
+        $this->actingAs($this->getUser());
 
         $availableBalance = $user->balances()->get()->count() + 1;
         $orderPayload = $this->createOrderData([], $availableBalance);
@@ -74,6 +71,16 @@ class OrderControllerTest extends TestCase
 
         $order = Order::find($orderCreated['order']['id']);;
         $this->assertEquals(Order::PAYMENT_STATUS_PENDING, $order->payment_status);
+    }
+
+    public function testFailingOnCreateFirstOrderWithNoBalance(): void
+    {
+        $this->actingAs($this->getUser('user-2@example.com'));
+
+        $orderPayload = $this->createOrderData([], 1, true);
+        $response = $this->json('POST', route('frontend.order.store'), $orderPayload);
+
+        $response->assertForbidden();
     }
 
 }

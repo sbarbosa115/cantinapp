@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http\Controllers\Frontend;
 
 use App\Facades\BalanceService;
+use App\Facades\OrderService;
 use App\Model\Balance;
 use App\Model\Order;
 use App\User;
@@ -15,8 +16,7 @@ class OrderTest extends TestCase
 
     private function createOrder(int $dishesAmount = 5): Order
     {
-        $user = User::where('email', 'juanlopez@example.com')->first();
-        $this->actingAs($user);
+        $this->actingAs($this->getUser());
 
         $orderPayload = $this->createOrderData([], $dishesAmount);
         $response = $this->json('POST', route('frontend.order.store'), $orderPayload);
@@ -24,36 +24,45 @@ class OrderTest extends TestCase
         return Order::find($orderCreated['order']['id']);
     }
 
+    public function removeBalances(User $user): void
+    {
+        foreach ($user->allBalances()->get() as $balance) {
+            $balance->forceDelete();
+        }
+    }
+
     public function testCreateOrderAndRemoveBalance(): void
     {
-        $user = User::where('email', 'juanlopez@example.com')->first();
-        $originalBalances = $user->balances()->get();
-        $originalBalancesCount = 0;
+        $user = $this->getUser();
+        $this->actingAs($user);
+        $this->removeBalances($user);
+        BalanceService::addUserBalance($user, 5);
+        $this->assertEquals(5, $user->balances()->count());
+        $this->assertEquals(0, $user->balancesSpent()->count());
+        $this->assertEquals(0, $user->balancesDebt()->count());
 
-        foreach ($originalBalances as $balance) {
-            $balance->status = Balance::STATUS_SPENT;
-            $balance->save();
-            $originalBalancesCount++;
-        }
+        $order = OrderService::createOrder($this->createOrderData([], 2));
+        $this->assertEquals(3, $user->balances()->count());
+        $this->assertEquals(2, $user->balancesSpent()->count());
+        $this->assertEquals(0, $user->balancesDebt()->count());
+        $this->assertEquals(Order::PAYMENT_STATUS_PAID, $order->payment_status);
 
-        $balancesAvailable = $user->balances()->get()->count();
-        $this->assertEquals(0, $balancesAvailable);
+        $order = OrderService::createOrder($this->createOrderData([], 3));
+        $this->assertEquals(0, $user->balances()->count());
+        $this->assertEquals(5, $user->balancesSpent()->count());
+        $this->assertEquals(0, $user->balancesDebt()->count());
+        $this->assertEquals(Order::PAYMENT_STATUS_PAID, $order->payment_status);
 
-        $order = $this->createOrder();
-        $balancesDebt = $user->balancesDebt()->get()->count();
-        $this->assertEquals(5, $balancesDebt);
+        $order = OrderService::createOrder($this->createOrderData([], 2));
+        $this->assertEquals(0, $user->balances()->count());
+        $this->assertEquals(5, $user->balancesSpent()->count());
+        $this->assertEquals(2, $user->balancesDebt()->count());
+        $this->assertEquals(Order::PAYMENT_STATUS_PENDING, $order->payment_status);
 
         BalanceService::addUserBalance($user, 5);
-        $balancesSpent = $user->balancesSpent()->get()->count();
-        $this->assertEquals($originalBalancesCount + 5, $balancesSpent);
-        $balancesAvailable = $user->balances()->get()->count();
-        $this->assertEquals(0, $balancesAvailable);
-        $balancesDebt = $user->balancesDebt()->get()->count();
-        $this->assertEquals(0, $balancesDebt);
-
-        // We need to refresh the Order to get it updated.
-        $order = Order::find($order->id);
-        $this->assertEquals(Order::PAYMENT_STATUS_PAID, $order->payment_status);
+        $this->assertEquals(3, $user->balances()->count());
+        $this->assertEquals(7, $user->balancesSpent()->count());
+        $this->assertEquals(0, $user->balancesDebt()->count());
     }
 
 }

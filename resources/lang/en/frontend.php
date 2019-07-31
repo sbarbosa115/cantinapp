@@ -56,7 +56,11 @@ return [
         'order_created_copy_a' => 'We got your order, it will be ready on ',
         'order_created_copy_b' => 'to be pick up.',
         'order_not_created' => 'Error, the order was not created.',
-        'order_not_created_copy' => 'Opps we had a problem trying to create your order. please try again.',
+        'order_not_created_copy' => 'Opps! we had a problem trying to create your order. please try again.',
+        'order_not_forbidden_copy' => 'Opps! You are a new user, you must prepay your Cantina before ordering, visit us or call us [(561) 667-6583] to take your payment.',
+        'form_errors' => [
+            'label' => 'There are some errors in this request, please review them below'
+        ],
         'footer' => [
             'about_caption' => 'With Cantinapp organize the canteen of your customers, easy, fast and safe, contact us for a free consultation for your business',
             'address' => 'Palm springs Fl 33461 USA',

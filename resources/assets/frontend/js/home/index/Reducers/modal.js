@@ -1,6 +1,6 @@
 import {
   SHOW_MODAL_CREATE_ORDER, SHOW_MODAL_ORDER_ADDED, SHOW_MODAL_ORDER_FAILED,
-  RESET_MODAL_STATE,
+  RESET_MODAL_STATE, SHOW_MODAL_ORDER_FORBIDDEN,
 } from '../Actions/modal';
 
 const initialState = {
@@ -24,6 +24,10 @@ export default function modals(state = initialState, action) {
     case SHOW_MODAL_ORDER_FAILED:
       return Object.assign({}, state, {
         orderFailed: action.orderFailed,
+      });
+    case SHOW_MODAL_ORDER_FORBIDDEN:
+      return Object.assign({}, state, {
+        orderForbidden: action.orderForbidden,
       });
     case RESET_MODAL_STATE:
       return Object.assign({}, state, {

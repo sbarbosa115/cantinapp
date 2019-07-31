@@ -17,10 +17,9 @@ class TestCase extends BaseCase
     use RefreshDatabase;
 
     protected $userCredentials = [
-        'email' => 'juanlopez@example.com',
+        'email' => 'user@example.com',
         'password' => '123456',
     ];
-
 
     public function createApplication()
     {
@@ -63,7 +62,7 @@ class TestCase extends BaseCase
         return array_diff($orderPayload, $customData);
     }
 
-    public function loginAsUser(string $email = 'juanlopez@example.com'): void
+    public function loginAsUser(string $email = 'user@example.com'): void
     {
         $user = User::where('email', $email)->first();
         $this->actingAs($user);
@@ -73,5 +72,11 @@ class TestCase extends BaseCase
     {
         $user = Employee::where('email', $email)->first();
         $this->actingAs($user);
+    }
+
+    public function getUser(
+        string $user = 'user@example.com'
+    ): User {
+        return User::where('email', $user)->first();
     }
 }

@@ -14,7 +14,7 @@ class BalanceSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::where('email', 'juanlopez@example.com')->first();
+        $user = User::where('email', 'user@example.com')->first();
 
         for ($i = 0; $i < self::INITIAL_USER_BALANCE; ++$i) {
             Balance::create([

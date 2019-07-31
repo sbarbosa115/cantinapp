@@ -29,6 +29,7 @@ class CreateOrderRequest extends FormRequest
             'pickup_at' => [
                 'required', 'date_format:H:i', new GreaterThanNow(), new MaxOrderDate(),
             ],
+            'products' => 'required|between:1,3',
             'products.*.product_id' => 'required|numeric',
             'products.*.sides' => 'required|array',
             'products.*.sides.*' => 'integer',
