@@ -43,6 +43,11 @@ class User extends Authenticatable
         });
     }
 
+    public function allBalances(): HasMany
+    {
+        return $this->hasMany(Balance::class);
+    }
+
     public function balances(): HasMany
     {
         return $this->hasMany(Balance::class)->where('status',Balance::STATUS_AVAILABLE);
@@ -71,5 +76,10 @@ class User extends Authenticatable
     public function restaurant(): BelongsTo
     {
         $this->belongsTo(Restaurant::class);
+    }
+
+    public function allOrders(): HasMany
+    {
+        return $this->hasMany(Order::class);
     }
 }

@@ -2,16 +2,14 @@
 
 namespace App\Policies;
 
-use App\Model\Restaurant;
 use App\User;
-use Illuminate\Auth\Access\HandlesAuthorization;
 
 class OrderPolicy
 {
-    use HandlesAuthorization;
 
-    public function all(User $user, Restaurant $restaurant): bool
+    public function create(User $user): bool
     {
-        return $user->restaurant()->id === $restaurant->id;
+        return ($user->allOrders()->count() > 0)
+            || ($user->allOrders()->count() === 0 && $user->balances()->count() > 0);
     }
 }

@@ -13,6 +13,7 @@ import { ConfigurationProvider } from '../Context/Configuration';
 import OrderCreated from './Modals/OrderCreated';
 import OrderFailed from './Modals/OrderFailed';
 import { SHOW_MODAL_CREATE_ORDER } from '../Actions/modal';
+import OrderForbidden from './Modals/OrderForbbiden';
 
 const store = createStore(initReducers);
 
@@ -112,6 +113,11 @@ class OrderHandler extends Component {
           )}
           {modals.orderFailed && (
             <OrderFailed
+              forceUpdate={() => this.forceUpdate()}
+            />
+          )}
+          {modals.orderForbidden && (
+            <OrderForbidden
               forceUpdate={() => this.forceUpdate()}
             />
           )}

@@ -53,6 +53,7 @@ class BalanceService
         }
 
         $this->updatePendingPaidOrder($user);
+
     }
 
     public function syncUserAndBalance(Product $product, Order $order): ?Balance

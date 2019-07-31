@@ -13,7 +13,7 @@ class BalanceServiceTest extends TestCase
 
     public function testAddBalanceToUser(): void
     {
-        $user = User::where('email', 'juanlopez@example.com')->first();
+        $user = $this->getUser();
         $originalBalances = $user->balances()->get()->count();
 
         BalanceService::addUserBalance($user, 5);
