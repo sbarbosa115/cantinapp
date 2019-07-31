@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Playball:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Bitter:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link href="{{  asset('dist/frontend/css/app.css') }}" rel="stylesheet" type="text/css" media="all">
+    <link href="{{ mix('dist/frontend/css/app.css') }}" rel="stylesheet" type="text/css" media="all">
     @yield('head_javascripts')
 
 </head>
@@ -84,7 +84,7 @@
         <section class="copy-right clearfix">
             <div class="copy-right-wrapper">
                 <div class="copy-right-inner">
-                    <div class="footer_copyright">Copyright &copy; {{ date('Y') }} <a href="/" title="">Cantinapp</a>. All Rights Reserved</div>
+                    <div class="footer_copyright">Copyright &copy; {{ date('Y') }} <a href="/" title="Cantinapp">Cantinapp</a>. All Rights Reserved</div>
                 </div>
             </div>
         </section>
@@ -102,7 +102,7 @@
 </script>
 
 <script src="{{ route('assets.lang') }}"></script>
-<script type="text/javascript" src="{{ asset('dist/frontend/js/app.js') }}"></script>
+<script type="text/javascript" src="{{ mix('dist/frontend/js/app.js') }}"></script>
 @yield('javascript')
 
 </body>

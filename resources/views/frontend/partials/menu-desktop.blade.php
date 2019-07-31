@@ -47,6 +47,11 @@
                         {{ trans('frontend.menu.balance') }} ({{ count(Auth::user()->balances) }})
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('frontend.logout') }}">
+                        {{ trans('frontend.menu.logout') }}
+                    </a>
+                </li>
             @endauth
             </ul>
         </div>
