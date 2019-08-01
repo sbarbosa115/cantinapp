@@ -25,7 +25,7 @@
 
 @section('javascript')
 
-    <script type="text/javascript" src="{{ asset('dist/frontend/js/home/index.js') }}"></script>
+    <script type="text/javascript" src="{{ mix('dist/frontend/js/home/index.js') }}"></script>
 @endsection
 
 

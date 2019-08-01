@@ -71,9 +71,4 @@
     </div>
 @endsection
 
-@section('javascript')
-
-    <script type="text/javascript" src="{{ asset('dist/frontend/js/home/index.js') }}"></script>
-@endsection
-
 
