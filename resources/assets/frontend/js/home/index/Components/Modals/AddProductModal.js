@@ -66,6 +66,7 @@ const AddProductModal = ({
   toggleCreateOrderModal, toggleOrderForbiddenModal, resetOrderState, forceUpdate,
 }) => {
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
   return (
     <ConfigurationConsumer>
       {({ sidesNumber, beveragesNumber, pathCreateOrder }) => (
@@ -117,9 +118,10 @@ const AddProductModal = ({
                       id="dishesNumber"
                       className="form-control"
                       onChange={(e) => {
+                        const defaultProduct = order.products.find(product => product.id);
                         const products = Array(Number(e.target.value))
                           .fill(null)
-                          .map(() => (new Product()));
+                          .map(() => (new Product(defaultProduct.product_id)));
                         createEmptyProducts(products);
                       }}
                     >
@@ -146,6 +148,7 @@ const AddProductModal = ({
                       if (
                         isOrderValid({ order, sidesNumber, beveragesNumber })
                       ) {
+                        setLoading(true);
                         const token = window.document.head.querySelector('meta[name="csrf-token"]');
                         fetch(pathCreateOrder, {
                           headers: {
@@ -169,6 +172,7 @@ const AddProductModal = ({
                               forceUpdate();
                             } else if (response.message) {
                               setErrors(response.errors);
+                              setLoading(false);
                             } else {
                               toggleCreateOrderModal(false);
                               toggleOrderFailedModal(true);
@@ -178,9 +182,11 @@ const AddProductModal = ({
                       }
                     }}
                     disabled={
-                      !isOrderValid({ order, sidesNumber, beveragesNumber })
+                      !isOrderValid({ order, sidesNumber, beveragesNumber }) || loading
                     }
                   >
+                    {loading && <i className="fa fa-spinner fa-spin" />}
+                    &nbsp;
                     {trans('frontend.homepage.create_order')}
                   </button>
                 </div>
@@ -191,12 +197,13 @@ const AddProductModal = ({
         </Modal>
       )}
     </ConfigurationConsumer>
-  )
+  );
 };
 
 AddProductModal.propTypes = {
   order: PropTypes.shape({
     pickup_at: PropTypes.string,
+    products: PropTypes.array,
   }),
   setPickUpTime: PropTypes.func,
   createEmptyProducts: PropTypes.func,
@@ -212,6 +219,7 @@ AddProductModal.propTypes = {
 AddProductModal.defaultProps = {
   order: {
     pickup_at: null,
+    products: [],
   },
   setPickUpTime: () => (''),
   forceUpdate: () => (''),
