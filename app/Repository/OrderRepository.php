@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Model\Order;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 class OrderRepository
@@ -20,6 +21,15 @@ class OrderRepository
         return Order::whereNotIn('status', [Order::STATUS_DELIVERED])
             ->orderBy('created_at', 'DESC')
             ->orderBy('pickup_at', 'ASC')
+            ->get();
+    }
+
+    public static function getTotalOrdersTodayByUser(User $user): Collection
+    {
+        $todayFrom = (new Carbon('today'))->startOfDay();
+        $todayEnd = (new Carbon('today'))->endOfDay();
+        return Order::where('user_id', $user->id)
+            ->whereBetween('created_at', [$todayFrom, $todayEnd])
             ->get();
     }
 }

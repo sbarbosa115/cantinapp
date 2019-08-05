@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\DailyLimitOrder;
 use App\Rules\GreaterThanNow;
 use App\Rules\MaxOrderDate;
 use Illuminate\Foundation\Http\FormRequest;
@@ -29,7 +30,9 @@ class CreateOrderRequest extends FormRequest
             'pickup_at' => [
                 'required', 'date_format:H:i', new GreaterThanNow(), new MaxOrderDate(),
             ],
-            'products' => 'required|between:1,3',
+            'products' => [
+                'required', 'between:1,3', new DailyLimitOrder()
+            ],
             'products.*.product_id' => 'required|numeric',
             'products.*.sides' => 'required|array',
             'products.*.sides.*' => 'integer',

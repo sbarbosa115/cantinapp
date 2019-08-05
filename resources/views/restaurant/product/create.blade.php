@@ -37,6 +37,9 @@
         <option value="{{\App\Model\Product\Meal::TYPE_MEAL}}" @if(old('type', $product->type) === \App\Model\Product\Meal::TYPE_MEAL) selected @endif>
             Meal
         </option>
+        <option value="{{\App\Model\Product\Beverage::TYPE_BEVERAGE}}" @if(old('type', $product->type) === \App\Model\Product\Beverage::TYPE_BEVERAGE) selected @endif>
+            Beverage
+        </option>
     </select>
     @if($errors->first('type'))
         <div class="form-control-feedback">{{$errors->first('type')}}</div>
@@ -52,9 +55,7 @@
 </div>
 
 <div class="form-group">
-    <div class="alert alert-danger  " role="alert">
-        If you are adding a Side (using side category option) DO NOT FORGET ADD the  available sub category here -Juice or MealsList-
-    </div>
+
     <label for="message-text" class="form-control-label">Tags:</label>
     @if(old('tags'))
         <textarea name="tags" id="tags" placeholder="Put tags separated by ,">{{ implode(',', json_decode(old('tags'), true)) }}</textarea>
@@ -76,8 +77,5 @@
 @endsection('form')
 
 @section('javascript')
-    <script>
-        const input = document.querySelector('textarea[name=tags]'),
-        tagify = new Tagify(input);
-    </script>
+    <script type="text/javascript" src="{{ mix('dist/restaurant/js/product/handler.js') }}"></script>
 @endsection

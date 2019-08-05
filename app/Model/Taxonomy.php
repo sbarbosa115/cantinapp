@@ -13,6 +13,8 @@ class Taxonomy extends Model
 {
     protected $fillable = ['name', 'slug', 'description', 'type'];
 
+    public const TYPE_TAG = 'tag';
+
     public static function boot(): void
     {
         parent::boot();

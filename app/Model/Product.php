@@ -3,6 +3,12 @@
 namespace App\Model;
 
 use App\Model\Product\ProductBase;
+use App\Model\Taxonomy\Category;
+use App\Model\Taxonomy\Tag;
+use App\Scopes\ProductByRestaurantScope;
+use App\Scopes\ProductEnabledScope;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
 /**
@@ -15,22 +21,28 @@ use Illuminate\Support\Str;
  * @method static find($id)
  * @method static findOrFail(int $id)
  */
-class Product extends ProductBase
+class Product extends Model
 {
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = ['name', 'description', 'image_path', 'price', 'slug', 'product_id' , 'type'];
+    protected $fillable = ['name', 'description', 'image_path', 'price', 'slug', 'product_id', 'type'];
+
+    protected $table = 'products';
+
+    public const STATUS_DISABLED = 'disabled';
+
+    public const STATUS_ENABLED = 'enabled';
 
     public static function boot(): void
     {
         parent::boot();
-        static::addGlobalScope(static function ($query) {
-            if(session()->has('restaurant_id')) {
+
+        static::addGlobalScope('restaurant', static function ($query) {
+            if (session()->has('restaurant_id')) {
                 $query->where('restaurant_id', '=', session()->get('restaurant_id'));
             }
+        });
+
+        static::addGlobalScope('available', static function ($query) {
+            $query->where('status', '=', 'enabled');
         });
 
         static::creating(static function ($item) {
@@ -44,6 +56,21 @@ class Product extends ProductBase
     {
         $this->attributes['name'] = $value;
         $this->attributes['slug'] = Str::slug($value);
-        $this->attributes['restaurant_id'] = session('restaurant_id');
     }
+
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class, 'product_taxonomy', 'product_id', 'taxonomy_id');
+    }
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class, 'product_taxonomy', 'product_id', 'taxonomy_id');
+    }
+
+    public function taxonomies(): BelongsToMany
+    {
+        return $this->belongsToMany(Taxonomy::class);
+    }
+
 }
