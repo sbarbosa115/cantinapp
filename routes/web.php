@@ -40,7 +40,7 @@ Route::name('restaurant.')->prefix('restaurant')->namespace('Restaurant')->middl
     Route::post('/product/edit/{product}', 'ProductController@update')->name('product.update');
     Route::delete('/product/delete/{id}', 'ProductController@destroy')->name('product.delete');
     Route::get('/product/sides/{product}', 'ProductController@sides')->name('product.sides');
-    Route::get('/product/change/status/{status}/{product}', 'ProductController@changeStatus')->name('product.change.status');
+    Route::get('/product/change-status/{status}/{product}', 'ProductController@changeStatus')->name('product.change.status');
 
     Route::get('/order', 'OrdersController@index')->name('orders.index');
     Route::get('/order/detail/{id}', 'OrdersController@detail')->name('orders.detail');

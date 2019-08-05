@@ -5,9 +5,9 @@
 
     <div class="content-wrapper">
         <div class="container-fluid">
-            <form method="post" enctype="multipart/form-data">
+            <form method="post" enctype="multipart/form-data" id="form-handler">
                 {!! csrf_field() !!}
-                @yield("form")
+                @yield('form')
             </form>
         </div>
     </div>

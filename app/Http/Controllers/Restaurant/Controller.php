@@ -11,14 +11,4 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function uploadImage(array &$data, $path = '/uploads'): void
-    {
-        if (isset($data['image'])) {
-            $image = $data['image'];
-            $name = md5(time().rand(0, 9999)).'.'.$image->getClientOriginalExtension();
-            $destinationPath = public_path($path);
-            $image->move($destinationPath, $name);
-            $data['image_path'] = "{$path}/{$name}";
-        }
-    }
 }

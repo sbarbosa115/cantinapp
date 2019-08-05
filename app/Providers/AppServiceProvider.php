@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Services\BalanceService;
 use App\Services\OrderService;
+use App\Services\ProductService;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -13,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot()
+    public function boot(): void
     {
         Schema::defaultStringLength(191);
     }
@@ -21,14 +22,18 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register()
+    public function register(): void
     {
-        App::bind('orderService', function () {
+        App::bind('orderService', static function () {
             return new OrderService();
         });
 
-        App::bind('balanceService', function () {
+        App::bind('balanceService', static function () {
             return new BalanceService();
+        });
+
+        App::bind('productService', static function () {
+            return new ProductService();
         });
     }
 }

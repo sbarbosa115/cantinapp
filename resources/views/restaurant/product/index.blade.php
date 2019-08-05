@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-xl-3 col-sm-6 mb-3">
                     <div class="card text-white bg-primary o-hidden h-100">
-                        <a class="card-footer text-white clearfix small z-1" href="{{ route("restaurant.product.create") }}" id="create-item">
+                        <a class="card-footer text-white clearfix small z-1" href="{{ route('restaurant.product.create') }}" id="create-item">
                             <span class="float-left">Create new product</span>
                             <span class="float-right">
                             <i class="fas fa-store"></i>
@@ -44,6 +44,9 @@
                                 @endif
                                 @if($product->type === \App\Model\Product\Meal::TYPE_MEAL)
                                     <td>Meal</td>
+                                @endif
+                                @if($product->type === \App\Model\Product\Beverage::TYPE_BEVERAGE)
+                                    <td>Beverage</td>
                                 @endif
                                 <td width="21%">
                                     <a class="btn btn-primary btn-sm" href="{{ route('restaurant.product.edit', ['id' => $product->id]) }}">Edit</a>

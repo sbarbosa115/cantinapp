@@ -12,6 +12,7 @@ const mix = require('laravel-mix');
  */
 
 mix.react('resources/assets/restaurant/js/app.js', 'public/dist/restaurant/js/app.js')
+  .js('resources/assets/restaurant/js/product/handler.js', 'public/dist/restaurant/js/product/handler.js')
   .sass('resources/assets/restaurant/sass/app.scss', 'public/dist/restaurant/css/app.css');
 
 mix.react('resources/assets/frontend/js/app.js', 'public/dist/frontend/js/app.js')

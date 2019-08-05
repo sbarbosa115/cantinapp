@@ -71,7 +71,7 @@ class TestCase extends BaseCase
     public function loginAsRestaurantEmployee(string $email = 'frank@example.com'): void
     {
         $user = Employee::where('email', $email)->first();
-        $this->actingAs($user);
+        $this->actingAs($user, 'employee');
     }
 
     public function getUser(

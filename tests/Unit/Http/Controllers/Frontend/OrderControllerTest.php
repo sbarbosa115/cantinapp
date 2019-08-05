@@ -60,8 +60,15 @@ class OrderControllerTest extends TestCase
         $user = $this->getUser();
         $this->actingAs($this->getUser());
 
-        $availableBalance = $user->balances()->get()->count() + 1;
-        $orderPayload = $this->createOrderData([], $availableBalance);
+        $orderPayload = $this->createOrderData([], 2);
+        $response = $this->json('POST', route('frontend.order.store'), $orderPayload);
+        $response->assertStatus(Response::HTTP_OK)->assertJson(['status' => 'ok']);
+
+        $orderPayload = $this->createOrderData([], 2);
+        $response = $this->json('POST', route('frontend.order.store'), $orderPayload);
+        $response->assertStatus(Response::HTTP_OK)->assertJson(['status' => 'ok']);
+
+        $orderPayload = $this->createOrderData([], 2);
         $response = $this->json('POST', route('frontend.order.store'), $orderPayload);
         $response->assertStatus(Response::HTTP_OK)->assertJson(['status' => 'ok']);
 

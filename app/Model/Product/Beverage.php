@@ -2,10 +2,12 @@
 
 namespace App\Model\Product;
 
+use App\Model\Product;
+
 /**
  * @method static where(string $string, string $string1, string $string2)
  */
-class Beverage extends ProductBase
+class Beverage extends Product
 {
     public const TYPE_BEVERAGE = 3;
 
