@@ -63,10 +63,10 @@
         "deploy-application": [
             "git pull",
             "composer create-storage-folders",
-            "php artisan migrate",
+            "composer upgrade",
             "composer dump-autoload",
+            "php artisan migrate --force",
             "php artisan cache:clear",
-            "chmod 777 -R ./storage",
             "yarn",
             "yarn run production"
         ]
