@@ -92,6 +92,8 @@ return [
       'email' => 'Email',
       'password' => 'Password',
       'password_confirmation' => 'Confirm Password',
+      'i_agree_terms_and_conditions' => 'I agree terms and conditions',
+      'submit' => 'Submit',
       'return_to_store' => 'Return to Store',
     ],
     'notifications' => [

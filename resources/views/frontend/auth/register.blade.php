@@ -15,7 +15,7 @@
                             <div id="register" class="customers">
                                 <h2>{{ trans('frontend.register.register') }}</h2>
 
-                                <form class="form-horizontal" method="POST" action="{{ route('frontend.register') }}" id="register-form">
+                                <form class="form-horizontal" method="POST" action="{{ route('frontend.register') }}" id="register-form" data-gtoken="{{ env('GOOGLE_RE_CAPTCHA_KEY') }}">
                                     {{ csrf_field() }}
 
                                     <div class="clearfix large_form form-item">
@@ -33,37 +33,63 @@
 
                                         @if ($errors->has('email'))
                                             <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
+                                                <strong>{{ $errors->first('email') }}</strong>
+                                            </span>
                                         @endif
                                     </div>
 
                                     <div class="clearfix large_form form-password form-item">
                                         <input type="password" class="form-control password text" placeholder="{{ trans('frontend.register.password') }}" name="password" required>
                                         <span class="cs-icon icon-eye"></span>
-
                                         @if ($errors->has('password'))
                                             <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
+                                                <strong>{{ $errors->first('password') }}</strong>
+                                            </span>
                                         @endif
                                     </div>
 
                                     <div class="clearfix large_form form-password form-item">
-                                        <input id="password_confirmation" type="password" class="form-control password text" placeholder="{{ trans('frontend.register.password_confirmation') }}"
-                                               name="password_confirmation" required>
+                                        <input
+                                                id="password_confirmation"
+                                                type="password"
+                                                class="form-control password text"
+                                                placeholder="{{ trans('frontend.register.password_confirmation') }}"
+                                                name="password_confirmation"
+                                                required
+                                        >
                                         <span class="cs-icon icon-eye"></span>
-
                                         @if ($errors->has('password_confirmation'))
                                             <span class="help-block">
-                                        <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                    </span>
+                                                <strong>{{ $errors->first('password_confirmation') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" value="" name="accept_terms">
+                                            &nbsp;<a href="{{ asset('downloadable/CantinappTermsOfUse and PrivacyNotice.pdf') }}" target="_blank" class="terms-conditions">
+                                                {{ trans('frontend.register.i_agree_terms_and_conditions') }}
+                                            </a>
+                                        </label>
+                                        @if ($errors->has('accept_terms'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first('accept_terms') }}</strong>
+                                            </span>
                                         @endif
                                     </div>
 
                                     <div class="action_bottom">
-                                        <input class="_btn" value="Create" type="submit">
-                                        <span class="note"><span class="or">or</span><a href="{{ route('frontend.home.index') }}">{{ trans('frontend.register.return_to_store') }}</a></span>
+                                        <input type="hidden" name="g-recaptcha-response" value="" />
+                                        <button type="submit" class="_btn" type="submit" id="submit-register-form" disabled>
+                                            {{ trans('frontend.register.submit') }}
+                                        </button>
+                                        <span class="note">
+                                            <span class="or">{{ trans('frontend.or') }}</span>
+                                            <a href="{{ route('frontend.home.index') }}">
+                                                {{ trans('frontend.register.return_to_store') }}
+                                            </a>
+                                        </span>
                                     </div>
                                 </form>
                             </div>
@@ -75,20 +101,8 @@
         </div>
     </section>
 </main>
-
 @endsection
 
-
 @section('javascript')
-    <script>
-      $('#register-form').submit(function(event) {
-        event.preventDefault();
-
-        grecaptcha.ready(function() {
-          grecaptcha.execute('6Ld7gpkUAAAAACfITAkm0O8OqlEgCwq5SCHoop_Z', {action: 'register'}).then(function(token) {
-            $('#register-form').prepend(`<input type="hidden" name="g-recaptcha-response" value="${token}" />`).unbind('submit').submit();
-          });
-        });
-      })
-    </script>
+    <script type="text/javascript" src="{{ mix('dist/frontend/js/auth/register.js') }}"></script>
 @endsection

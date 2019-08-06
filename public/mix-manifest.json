@@ -10,5 +10,7 @@
     "/dist/frontend/css/app.css": "/dist/frontend/css/app.css",
     "/dist/restaurant/js/product/handler.js.map": "/dist/restaurant/js/product/handler.js.map",
     "/dist/restaurant/css/app.css.map": "/dist/restaurant/css/app.css.map",
-    "/dist/frontend/css/app.css.map": "/dist/frontend/css/app.css.map"
+    "/dist/frontend/css/app.css.map": "/dist/frontend/css/app.css.map",
+    "/dist/frontend/js/auth/register.js": "/dist/frontend/js/auth/register.js",
+    "/dist/frontend/js/auth/register.js.map": "/dist/frontend/js/auth/register.js.map"
 }
