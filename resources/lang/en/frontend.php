@@ -66,6 +66,7 @@ return [
             'address' => 'Palm springs Fl 33461 USA',
             'phone' => '(561) 667-6583',
             'email' => 'info@herclasolutions.com',
+            'terms_and_conditions' => 'Terms and conditions',
         ],
     ],
     'orders' => [
