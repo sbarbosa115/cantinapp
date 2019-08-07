@@ -84,7 +84,14 @@
         <section class="copy-right clearfix">
             <div class="copy-right-wrapper">
                 <div class="copy-right-inner">
-                    <div class="footer_copyright">Copyright &copy; {{ date('Y') }} <a href="/" title="Cantinapp">Cantinapp</a>. All Rights Reserved</div>
+                    <div class="footer_copyright">
+                        Copyright &copy; {{ date('Y') }}
+                        <a href="/" title="Cantinapp">Cantinapp</a>.
+                        All Rights Reserved |
+                        <a href="{{ asset('downloadable/CantinappTermsOfUse and PrivacyNotice.pdf') }}" target="_blank" title="{{ trans('frontend.homepage.footer.terms_and_conditions') }}">
+                            {{ trans('frontend.homepage.footer.terms_and_conditions') }}
+                        </a>.
+                    </div>
                 </div>
             </div>
         </section>
