@@ -4,6 +4,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { SET_PRODUCT_ID } from '../../Actions/order';
+import { ConfigurationConsumer } from '../../Context/Configuration';
+import MealsICanSeeQuery from '../../Queries/MealsICanSeeQuery';
 
 const mapStateToProps = state => ({
   ...state,
@@ -20,49 +22,47 @@ const mapDispatchToProps = dispatch => ({
 const MealsDropdown = ({
   label, value, elementKey, setProductId,
 }) => (
-  <Query
-    query={gql`
-      {
-        meals {
-          id name image_path
-        }
-      }
-    `}
-  >
-    {({ loading, error, data }) => {
-      if (loading) return <p>Loading...</p>;
-      if (error) return <p>Error :(</p>;
+  <ConfigurationConsumer>
+    {({ sourceProductsId }) => (
+      <Query
+        query={gql`${MealsICanSeeQuery(sourceProductsId)}`}
+      >
+        {({ loading, error, data }) => {
+          if (loading) return <p>Loading...</p>;
+          if (error) return <p>Error :(</p>;
 
-      return (
-        // eslint-disable-next-line jsx-a11y/label-has-for
-        <label htmlFor={label}>
-          {trans('frontend.homepage.this_plate')}
-          <select
-            className="form-control"
-            onChange={(e) => {
-              setProductId(Number(e.target.value), elementKey);
-            }}
-            defaultValue={value}
-          >
-            {data.meals
-              .map(product => (
-                <option
-                  key={product.id}
-                  value={product.id}
-                >
-                  {product.name}
-                </option>
-              ))}
-            {data.meals.length === 0 && (
-              <option>
-                {trans('frontend.homepage.no_results')}
-              </option>
-            )}
-          </select>
-        </label>
-      );
-    }}
-  </Query>
+          return (
+            // eslint-disable-next-line jsx-a11y/label-has-for
+            <label htmlFor={label}>
+              {trans('frontend.homepage.this_plate')}
+              <select
+                className="form-control"
+                onChange={(e) => {
+                  setProductId(Number(e.target.value), elementKey);
+                }}
+                defaultValue={value}
+              >
+                {data.mealsICanSee
+                  .map(product => (
+                    <option
+                      key={product.id}
+                      value={product.id}
+                    >
+                      {product.name}
+                    </option>
+                  ))}
+                {data.mealsICanSee.length === 0 && (
+                  <option>
+                    {trans('frontend.homepage.no_results')}
+                  </option>
+                )}
+              </select>
+            </label>
+          );
+        }}
+      </Query>
+    )}
+  </ConfigurationConsumer>
 );
 
 MealsDropdown.propTypes = {
