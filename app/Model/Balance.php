@@ -12,7 +12,7 @@ class Balance extends Model
     public const STATUS_DEBT = 'debt';
     public const STATUS_SPENT = 'spent';
 
-    protected $fillable = ['user_id', 'product_id', 'order_id', 'status'];
+    protected $fillable = ['user_id', 'product_id', 'order_id', 'status', 'invoice'];
 
     public function product(): BelongsTo
     {

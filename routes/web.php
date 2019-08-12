@@ -56,9 +56,9 @@ Route::name('restaurant.')->prefix('restaurant')->namespace('Restaurant')->middl
     Route::delete('/employee/delete/{id}', 'EmployeeController@destroy')->name('employee.delete');
 
     Route::get('/balance', 'BalanceController@index')->name('balance.index');
-    Route::get('/balance/create/{id}', 'BalanceController@create')->name('balance.create');
-    Route::post('/balance/store', 'BalanceController@store')->name('balance.store');
-    Route::get('/balance/log/{id}', 'BalanceController@log')->name('balance.log');
+    Route::get('/balance/create/{user}', 'BalanceController@create')->name('balance.create');
+    Route::post('/balance/store/{user}', 'BalanceController@store')->name('balance.store');
+    Route::get('/balance/log/{user}', 'BalanceController@log')->name('balance.log');
 
     Route::get('/my-account', 'AccountController@index')->name('account.index');
     Route::post('/my-account', 'AccountController@update')->name('account.update');
