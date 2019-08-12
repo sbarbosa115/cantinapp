@@ -7,6 +7,7 @@ use App\Model\Order;
 use App\Notifications\OrderReadyToPickUp;
 use App\Repository\OrderRepository;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\View\View;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
@@ -16,7 +17,8 @@ class OrdersController extends Controller
 {
     public function index(): View
     {
-        $orders = OrderRepository::getNewestOrders();
+        $employee = Auth::guard('employee')->user();
+        $orders = OrderRepository::getNewestOrdersICanSee($employee->restaurant);
 
         return view('restaurant.orders.index', ['orders' => $orders]);
     }

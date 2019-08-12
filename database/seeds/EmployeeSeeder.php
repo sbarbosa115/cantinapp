@@ -12,7 +12,7 @@ class EmployeeSeeder extends Seeder
      */
     public function run(): void
     {
-        $restaurant = Restaurant::where('domain', 'demo')->first();
+        $restaurant = Restaurant::where('domain', RestaurantSeeder::RESTAURANT_1)->first();
         if (! $restaurant instanceof Restaurant) {
             throw new InvalidArgumentException('Restaurant not was found');
         }
@@ -21,6 +21,19 @@ class EmployeeSeeder extends Seeder
             'name' => 'Frank Rodriguez',
             'email' => 'frank@example.com',
             'username' => 'frank',
+            'password' => '123456',
+            'restaurant_id' => $restaurant->id,
+        ]);
+
+        $restaurant = Restaurant::where('domain', RestaurantSeeder::RESTAURANT_2)->first();
+        if (! $restaurant instanceof Restaurant) {
+            throw new InvalidArgumentException('Restaurant not was found');
+        }
+
+        Employee::create([
+            'name' => 'Employee Company 2',
+            'email' => 'employee-2@example.com',
+            'username' => 'employee-2',
             'password' => '123456',
             'restaurant_id' => $restaurant->id,
         ]);

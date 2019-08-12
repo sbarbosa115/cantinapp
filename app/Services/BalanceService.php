@@ -34,8 +34,11 @@ class BalanceService
         }
     }
 
-    public function addUserBalance(User $user, int $quantity): void
-    {
+    public function addUserBalance(
+        User $user,
+        int $quantity,
+        string $invoice = null
+    ): void {
         $debtsBalances = BalanceRepository::getDebtsByUser($user);
         $cont = 0;
         foreach ($debtsBalances as $debtBalance) {
@@ -49,11 +52,11 @@ class BalanceService
             $this->createBalance([
                 'user_id' => $user->id,
                 'status' => Balance::STATUS_AVAILABLE,
+                'invoice' => $invoice,
             ]);
         }
 
         $this->updatePendingPaidOrder($user);
-
     }
 
     public function syncUserAndBalance(Product $product, Order $order): ?Balance

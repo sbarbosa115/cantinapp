@@ -11,6 +11,8 @@
     "/dist/restaurant/js/product/handler.js.map": "/dist/restaurant/js/product/handler.js.map",
     "/dist/restaurant/css/app.css.map": "/dist/restaurant/css/app.css.map",
     "/dist/frontend/css/app.css.map": "/dist/frontend/css/app.css.map",
+    "/dist/restaurant/js/balance/index.js": "/dist/restaurant/js/balance/index.js",
+    "/dist/restaurant/js/balance/index.js.map": "/dist/restaurant/js/balance/index.js.map",
     "/dist/frontend/js/auth/register.js": "/dist/frontend/js/auth/register.js",
     "/dist/frontend/js/auth/register.js.map": "/dist/frontend/js/auth/register.js.map"
 }

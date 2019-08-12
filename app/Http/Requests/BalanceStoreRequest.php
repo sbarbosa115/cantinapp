@@ -24,8 +24,9 @@ class BalanceStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required',
-            'quantity' => 'required',
+            'quantity' => 'required|integer|min:1',
+            'invoice' => 'nullable|min:1|max:55',
         ];
     }
 }
+

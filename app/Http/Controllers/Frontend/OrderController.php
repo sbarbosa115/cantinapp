@@ -19,7 +19,7 @@ class OrderController extends Controller
     public function index(): View
     {
         $user = Auth::user();
-        $orders = OrderRepository::getOrdersICanSee($user->restaurant);
+        $orders = OrderRepository::getOrdersICanSee($user);
         return view('frontend.order.index', ['orders' => $orders]);
     }
 

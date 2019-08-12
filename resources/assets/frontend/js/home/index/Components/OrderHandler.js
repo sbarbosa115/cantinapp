@@ -136,6 +136,7 @@ OrderHandler.propTypes = {
   imageSuccess: PropTypes.string.isRequired,
   imageError: PropTypes.string.isRequired,
   imageHeader: PropTypes.string.isRequired,
+  sourceProductsId: PropTypes.string.isRequired,
 };
 
 OrderHandler.defaultProps = {

@@ -6,6 +6,10 @@ use Illuminate\Database\Seeder;
 class RestaurantSeeder extends Seeder
 {
 
+    public const RESTAURANT_1 = 'demo';
+
+    public const RESTAURANT_2 = 'restaurant-1';
+
     /**
      * Run the database seeds.
      */
@@ -14,10 +18,17 @@ class RestaurantSeeder extends Seeder
         $faker = Faker\Factory::create();
 
         Restaurant::create([
-            'name' => 'Demo',
+            'name' => 'Restaurant 1',
             'phone' => $faker->phoneNumber,
             'address' => $faker->address,
-            'domain' => 'demo'
+            'domain' => self::RESTAURANT_1,
+        ]);
+
+        Restaurant::create([
+            'name' => 'Restaurant 2',
+            'phone' => $faker->phoneNumber,
+            'address' => $faker->address,
+            'domain' => self::RESTAURANT_2
         ]);
     }
 }

@@ -9,7 +9,7 @@ const container = document.getElementById('index-products');
 const signedId = JSON.parse(container.dataset.signedIn);
 const dataSource = container.dataset.dataProvider;
 const {
-  pathCreateOrder, pathLogin, imageError, imageSuccess, imageHeader,
+  pathCreateOrder, pathLogin, imageError, imageSuccess, imageHeader, sourceProductsId
 } = container.dataset;
 
 const client = new ApolloClient({ uri: dataSource });
@@ -23,6 +23,7 @@ ReactDOM.render(
       imageSuccess={imageSuccess}
       imageError={imageError}
       imageHeader={imageHeader}
+      sourceProductsId={sourceProductsId}
     />
   </ApolloProvider>, container,
 );

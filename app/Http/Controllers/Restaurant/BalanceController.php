@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Restaurant;
 use App\Facades\BalanceService;
 use App\Http\Requests\BalanceStoreRequest;
 use App\Model\Balance;
+use App\Repository\BalanceRepository;
 use App\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -18,29 +19,23 @@ class BalanceController extends Controller
         return view('restaurant.balance.index', ['items' => $items]);
     }
 
-    public function create($id): View
+    public function create(User $user): View
     {
-        $item = new Balance();
-        $user = User::findOrFail($id);
-
-        return view('restaurant.balance.create', ['item' => $item, 'user' => $user]);
+        return view('restaurant.balance.create', ['item' => new Balance(), 'user' => $user]);
     }
 
-    public function store(BalanceStoreRequest $request): RedirectResponse
+    public function store(BalanceStoreRequest $request, User $user): RedirectResponse
     {
-        $data = $request->validated();
-        $quantity = $data['quantity'];
-        $user = User::findOrFail($data['user_id']);
-        BalanceService::addUserBalance($user, $quantity);
+        $data = $request->validated();;
+        BalanceService::addUserBalance($user, $data['quantity'], $data['invoice']);
         $request->session()->flash('success', "The user {$user->name} now has a new account balance.");
 
-        return redirect()->route('restaurant.orders.index');
+        return redirect()->route('restaurant.balance.index');
     }
 
-    public function log($id): View
+    public function log(User $user): View
     {
-        $items = Balance::where('user_id', '=', $id)->where('status', '=', 'spent')->orderBy('id', 'asc')->get();
-        $user = User::find($id);
+        $items = BalanceRepository::getCustomerOrderLog($user);
 
         return view('restaurant.balance.log', ['items' => $items, 'user' => $user]);
     }

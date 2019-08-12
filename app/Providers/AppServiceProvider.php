@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Services\BalanceService;
 use App\Services\OrderService;
 use App\Services\ProductService;
+use App\Services\DomainHandler;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -34,6 +35,10 @@ class AppServiceProvider extends ServiceProvider
 
         App::bind('productService', static function () {
             return new ProductService();
+        });
+
+        App::bind('domainHandler', static function () {
+            return new DomainHandler();
         });
     }
 }
