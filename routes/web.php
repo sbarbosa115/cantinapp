@@ -82,7 +82,8 @@ Route::name('frontend.')->namespace('Frontend')->group(function () {
 
 Route::name('frontend.')->namespace('Frontend')->middleware('auth')->group(function () {
     Route::get('order', 'OrderController@index')->name('order.index');
-    Route::post('order', 'OrderController@store')->name('order.store');
+    Route::post('order/re-order/{order}', 'OrderController@reOrder')->name('order.re.order');
+    Route::post('re-order', 'OrderController@store')->name('order.store');
     Route::get('my-profile', 'HomeController@profile')->name('order.profile');
 });
 

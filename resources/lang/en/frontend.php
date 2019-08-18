@@ -76,6 +76,10 @@ return [
         'quantity' => 'Quantity',
         'status' => 'Status',
         'no_orders_added_yet' => 'No Orders Added Yet',
+        're_order' => 'Re Order',
+        'duplicate_order' => 'Re Order',
+        'pickup_time' => 'Pickup Time',
+        'create_order' => 'Create Order',
     ],
     'profile' => [
         'account_details' => 'ACCOUNT DETAILS',

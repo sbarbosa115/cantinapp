@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Facades\OrderService;
 use App\Http\Requests\CreateOrderRequest;
+use App\Http\Requests\ReOrderRequest;
 use App\Model\Order;
 use App\Notifications\OrderCreated;
 use App\Repository\OrderRepository;
@@ -34,6 +35,16 @@ class OrderController extends Controller
         $order = OrderService::createOrder($orderData);
         Notification::send($user, new OrderCreated($order, $user));
         return response()->json(['status' => 'ok', 'order' => $order]);
+    }
+
+    public function reOrder(ReOrderRequest $request, Order $order): JsonResponse
+    {
+        $user = Auth::user();
+        if (!$user->can('create', Order::class)) {
+            return response()->json(['status' => 'Forbidden'], Response::HTTP_FORBIDDEN);
+        }
+        $orderData = $request->validated();
+        dd($order);
     }
 
 }
