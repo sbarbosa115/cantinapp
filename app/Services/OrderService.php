@@ -101,4 +101,12 @@ class OrderService
         $order->save();
     }
 
+    public function duplicateOrder(Order $originalOrder, \DateTime $pickUpDate): Order
+    {
+        $order = $originalOrder->replicate();
+        $order->pickup_at = $pickUpDate->format('Y-m-d H:i:s');
+        $order->push();
+        return $order;
+    }
+
 }

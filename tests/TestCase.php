@@ -4,6 +4,7 @@ namespace Tests;
 
 use App\Model\Employee;
 use App\Model\Product;
+use App\Model\Restaurant;
 use App\Repositories\ProductRepository;
 use App\User;
 use Carbon\Carbon;
@@ -26,10 +27,8 @@ class TestCase extends BaseCase
         $app = require __DIR__.'/../bootstrap/test.php';
 
         $kernel = $app->make(Kernel::class);
-
         $kernel->call('migrate');
         $kernel->call('db:seed');
-
         $kernel->bootstrap();
 
         Hash::setRounds(4);
@@ -42,14 +41,15 @@ class TestCase extends BaseCase
         array $customData = [],
         int $dishesAmount = 1
     ): array {
-        $product = Product::find(1);
+        $product = Product\Side::all()->first();
+        $restaurant = Restaurant::where('domain', \RestaurantSeeder::RESTAURANT_1)->first();
 
         $products = [];
         for($count = 0; $count < $dishesAmount; $count++) {
             $products[] = [
                 'product_id' => $product->id,
-                'sides' => Product\Side::all()->pluck('id')->toArray(),
-                'beverages' => Product\Beverage::all()->pluck('id')->toArray(),
+                'sides' => Product\Side::where('restaurant_id', $restaurant->id)->get()->pluck('id')->toArray(),
+                'beverages' => Product\Beverage::where('restaurant_id', $restaurant->id)->get()->pluck('id')->toArray(),
                 'comment' => 'TEST-COMMENT-TO-THIS-ORDER',
             ];
         }

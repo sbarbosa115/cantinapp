@@ -8,6 +8,7 @@ use App\Http\Requests\ReOrderRequest;
 use App\Model\Order;
 use App\Notifications\OrderCreated;
 use App\Repository\OrderRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\View\View;
@@ -44,7 +45,10 @@ class OrderController extends Controller
             return response()->json(['status' => 'Forbidden'], Response::HTTP_FORBIDDEN);
         }
         $orderData = $request->validated();
-        dd($order);
+        $orderDate = Carbon::now()->setTimeFromTimeString($orderData['pickup_at']);
+        $order = OrderService::duplicateOrder($order, $orderDate);
+        Notification::send($user, new OrderCreated($order, $user));
+        return response()->json(['status' => 'ok', 'order' => $order]);
     }
 
 }
