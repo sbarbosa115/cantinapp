@@ -36,22 +36,32 @@ class TestCase extends BaseCase
         return $app;
     }
 
+    public function createOrderProduct(
+        Product $product
+    ): array {
+        $restaurant = $product->restaurant;
+
+        if (!$restaurant instanceof Restaurant) {
+            throw new \LogicException('Restaurant attached to this product was not found.');
+        }
+
+        return [
+            'product_id' => $product->id,
+            'sides' => Product\Side::where('restaurant_id', $restaurant->id)->get()->pluck('id')->toArray(),
+            'beverages' => Product\Beverage::where('restaurant_id', $restaurant->id)->get()->pluck('id')->toArray(),
+            'comment' => 'TEST-COMMENT-TO-THIS-ORDER',
+        ];
+    }
 
     public function createOrderData(
         array $customData = [],
         int $dishesAmount = 1
     ): array {
         $product = Product\Side::all()->first();
-        $restaurant = Restaurant::where('domain', \RestaurantSeeder::RESTAURANT_1)->first();
 
         $products = [];
         for($count = 0; $count < $dishesAmount; $count++) {
-            $products[] = [
-                'product_id' => $product->id,
-                'sides' => Product\Side::where('restaurant_id', $restaurant->id)->get()->pluck('id')->toArray(),
-                'beverages' => Product\Beverage::where('restaurant_id', $restaurant->id)->get()->pluck('id')->toArray(),
-                'comment' => 'TEST-COMMENT-TO-THIS-ORDER',
-            ];
+            $products[] = $this->createOrderProduct($product);
         }
 
         $orderPayload = [
@@ -59,7 +69,7 @@ class TestCase extends BaseCase
             'products' => $products
         ];
 
-        return array_diff($orderPayload, $customData);
+        return array_merge($orderPayload, $customData);
     }
 
     public function loginAsUser(string $email = 'user@example.com'): void
@@ -78,5 +88,11 @@ class TestCase extends BaseCase
         string $user = 'user@example.com'
     ): User {
         return User::where('email', $user)->first();
+    }
+
+    public function changeProductStatus(Product $product, string $status): void
+    {
+        $product->status = $status;
+        $product->save();
     }
 }

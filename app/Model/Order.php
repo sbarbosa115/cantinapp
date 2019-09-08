@@ -90,7 +90,11 @@ class Order extends Model
     public function getTotalQuantityOrder()
     {
         $result = $this->belongsToMany(Product::class)->withPivot('quantity')->pluck('quantity');
-
         return array_sum($result->toArray());
+    }
+
+    public function restaurant(): BelongsTo
+    {
+        return $this->belongsTo(Restaurant::class);
     }
 }

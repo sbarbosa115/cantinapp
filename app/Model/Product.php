@@ -8,6 +8,7 @@ use App\Model\Taxonomy\Tag;
 use App\Scopes\ProductByRestaurantScope;
 use App\Scopes\ProductEnabledScope;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
@@ -71,6 +72,11 @@ class Product extends Model
     public function taxonomies(): BelongsToMany
     {
         return $this->belongsToMany(Taxonomy::class);
+    }
+
+    public function restaurant(): BelongsTo
+    {
+        return $this->belongsTo(Restaurant::class);
     }
 
 }

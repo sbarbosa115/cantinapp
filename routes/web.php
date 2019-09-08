@@ -62,6 +62,7 @@ Route::name('restaurant.')->prefix('restaurant')->namespace('Restaurant')->middl
 
     Route::get('/my-account', 'AccountController@index')->name('account.index');
     Route::post('/my-account', 'AccountController@update')->name('account.update');
+    Route::post('/handle-allow-order', 'AccountController@handleAllowOrderStatus')->name('account.handle.allow.order');
 });
 
 Route::name('frontend.')->namespace('Frontend')->group(function () {

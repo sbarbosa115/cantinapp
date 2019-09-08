@@ -75,7 +75,7 @@ class User extends Authenticatable
 
     public function restaurant(): BelongsTo
     {
-        $this->belongsTo(Restaurant::class);
+        return $this->belongsTo(Restaurant::class);
     }
 
     public function allOrders(): HasMany

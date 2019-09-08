@@ -6,6 +6,7 @@ use App\Model\Balance;
 use App\Model\Order;
 use App\Model\OrderProduct;
 use App\Model\Product;
+use App\Model\Restaurant;
 use App\Model\Side;
 use App\User;
 use Carbon\Carbon;
@@ -35,6 +36,10 @@ class OrderService
 
             if (!$product instanceof Product) {
                 throw new InvalidArgumentException('This product was not found.');
+            }
+
+            if ($product->restaurant->allow_orders === false) {
+                throw new InvalidArgumentException('Orders are not allowed on this moment.');
             }
 
             $orderProduct = OrderProduct::create([
@@ -101,8 +106,20 @@ class OrderService
         $order->save();
     }
 
-    public function duplicateOrder(Order $originalOrder, \DateTime $pickUpDate): Order
-    {
+    public function duplicateOrder(
+        Order $originalOrder,
+        \DateTime $pickUpDate
+    ): Order {
+        // TODO Avoid repeat this code and add it as a model using the createOrder function.
+        $restaurant = $originalOrder->restaurant;
+        if (!$restaurant instanceof Restaurant) {
+            throw new InvalidArgumentException('Restaurant was not found.');
+        }
+
+        if ($restaurant->allow_orders !== 1) {
+            throw new InvalidArgumentException('Orders are not allowed on this moment.');
+        }
+
         $order = $originalOrder->replicate();
         $order->pickup_at = $pickUpDate->format('Y-m-d H:i:s');
         $order->push();
