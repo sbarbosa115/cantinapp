@@ -15,7 +15,9 @@
         data-image-success="{{ asset('images/cooking.jpg') }}"
         data-image-error="{{ asset('images/error.png') }}"
         data-image-header="{{ asset('images/header.jpg') }}"
-        data-source-products-id="{{ \App\Facades\DomainHandler::getCurrentRestaurantId() }}"
+        data-source-products-id="{{ $restaurant->id }}"
+        data-welcome-text="{{ $restaurant->welcome_text }}"
+        data-allow-orders="{{ $restaurant->allow_orders }}"
         @if(Auth::check())
             data-signed-in="true"
         @else

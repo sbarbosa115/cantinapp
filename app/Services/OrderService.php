@@ -29,6 +29,7 @@ class OrderService
             'pickup_at' => $orderDate->format('Y-m-d H:i:s'),
             'payment_method' => Order::PAYMENT_METHOD_CANTINA,
             'user_id' => $user->id,
+            'restaurant_id' => $user->restaurant->id,
         ]);
 
         foreach ($orderData['products'] as $productData) {
@@ -112,11 +113,12 @@ class OrderService
     ): Order {
         // TODO Avoid repeat this code and add it as a model using the createOrder function.
         $restaurant = $originalOrder->restaurant;
+
         if (!$restaurant instanceof Restaurant) {
             throw new InvalidArgumentException('Restaurant was not found.');
         }
 
-        if ($restaurant->allow_orders !== 1) {
+        if ($restaurant->allow_orders === false) {
             throw new InvalidArgumentException('Orders are not allowed on this moment.');
         }
 

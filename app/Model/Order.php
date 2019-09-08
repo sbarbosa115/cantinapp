@@ -38,19 +38,11 @@ class Order extends Model
     public const STATUS_ARCHIVED = 'archived';
 
 
-    protected $fillable = ['pickup_at', 'status', 'image_path', 'user_id', 'payment_method'];
+    protected $fillable = ['pickup_at', 'status', 'image_path', 'user_id', 'payment_method', 'restaurant_id'];
 
     protected $dates = [
         'pickup_at', 'created_at', 'updated_at ',
     ];
-
-    public static function boot(): void
-    {
-        parent::boot();
-        static::creating(static function ($item) {
-            $item->restaurant_id = session('restaurant_id');
-        });
-    }
 
     public function user(): BelongsTo
     {

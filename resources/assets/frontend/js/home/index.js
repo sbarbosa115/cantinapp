@@ -9,6 +9,7 @@ const signedId = JSON.parse(container.dataset.signedIn);
 const dataSource = container.dataset.dataProvider;
 const {
   pathCreateOrder, pathLogin, imageError, imageSuccess, imageHeader, sourceProductsId,
+  welcomeText, allowOrders
 } = container.dataset;
 
 const client = new ApolloClient({ uri: dataSource });
@@ -23,6 +24,8 @@ ReactDOM.render(
       imageError={imageError}
       imageHeader={imageHeader}
       sourceProductsId={sourceProductsId}
+      welcomeText={welcomeText}
+      allowOrders={allowOrders === '1'}
     />
   </ApolloProvider>, container,
 );

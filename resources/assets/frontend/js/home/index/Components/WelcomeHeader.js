@@ -3,16 +3,14 @@ import { ConfigurationConsumer } from '../Context/Configuration';
 
 const WelcomeHeader = () => (
   <ConfigurationConsumer>
-    {({ imageHeader }) => (
+    {({ imageHeader, welcomeText }) => (
       <section className="home-welcome-layout zoomIn animated" data-animate="zoomIn" data-delay="200">
         <div className="container">
           <div className="row">
             <div className="home-welcome-inner">
               <div className="home-welcome-content text-center">
                 <span className="welcome-caption">
-                  {trans('frontend.homepage.header_message')}
-                  <br />
-                  {trans('frontend.homepage.header_message_copy')}
+                  {welcomeText}
                   <br />
                   <a href="#start-order" className="btn btn-danger">
                     {trans('frontend.homepage.click_to_action')}

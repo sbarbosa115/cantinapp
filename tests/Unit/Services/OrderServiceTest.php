@@ -17,7 +17,7 @@ class OrderServiceTest extends TestCase
         $user = $this->getUser();
         $this->loginAsUser($user->email);
         BalanceService::addUserBalance($user, 5, 'INVOICE-ID-TEST');
-        $order = $this->createOrderData([], 1, true);
+        $order = $this->createOrderData([], 1);
         $firstOrder = OrderService::createOrder($order);
         $this->assertEquals($order['pickup_at'], $firstOrder->pickup_at->format('H:i'));
 
