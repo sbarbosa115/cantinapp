@@ -82,6 +82,7 @@ return [
         'duplicate_order' => 'Re Order',
         'pickup_time' => 'Pickup Time',
         'create_order' => 'Create Order',
+        'order_created' => 'Your order was created, it would be ready at ',
     ],
     'profile' => [
         'account_details' => 'ACCOUNT DETAILS',

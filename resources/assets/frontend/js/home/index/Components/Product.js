@@ -11,7 +11,7 @@ momentLocalizer();
 
 const Product = ({ product, modalAddProductHandlerToOrder }) => (
   <ConfigurationConsumer>
-    {({ signedIn, pathLogin }) => (
+    {({ signedIn, pathLogin, allowOrders }) => (
       <div className="content_product col-sm-3 fadeInUp animated" data-animate="fadeInUp" data-delay="100">
         <div className="row-container product list-unstyled clearfix product-circle">
           <div className="row-left">
@@ -19,7 +19,7 @@ const Product = ({ product, modalAddProductHandlerToOrder }) => (
               <img src={product.image_path} className="img-responsive front" alt={product.name} />
               <div className="mask" />
             </div>
-            <div className="hover-mask">
+            <div>
               <div className="group-mask">
                 <div className="inner-mask">
                   <form action="#" method="post">
@@ -31,11 +31,12 @@ const Product = ({ product, modalAddProductHandlerToOrder }) => (
                           data-parent=".parent-fly"
                           onClick={() => modalAddProductHandlerToOrder(product)}
                           title={trans('frontend.homepage.add_to_order')}
+                          disabled={!allowOrders}
                         >
                           {trans('frontend.homepage.add_to_order')}
                         </button>
                       )}
-                      { !signedIn && (
+                      { (allowOrders && !signedIn) && (
                         <a
                           href={pathLogin}
                           className="_btn add-to-cart"

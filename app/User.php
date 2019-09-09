@@ -68,6 +68,18 @@ class User extends Authenticatable
         return $this->hasMany(Order::class)->where('payment_status', $paymentStatus);
     }
 
+    public function activeOrders(): HasMany
+    {
+        return $this->hasMany(Order::class)->whereIn('status', [
+            Order::STATUS_CREATED, Order::STATUS_COOKED, Order::STATUS_COOKING
+        ]);
+    }
+
+    public function canUserCreateOrders(): bool
+    {
+        return $this->activeOrders()->get()->count() === 0;
+    }
+
     public function sendPasswordResetNotification($token): void
     {
         $this->notify(new PasswordReset($this, $token));

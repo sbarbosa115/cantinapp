@@ -5,12 +5,13 @@ import OrderList from './Index/Components/OrderList';
 
 const container = document.getElementById('order-list');
 const {
-  orders,
+  orders, allowOrders
 } = container.dataset;
 
 ReactDOM.render(
   <OrderList
     orders={JSON.parse(orders)}
+    allowOrders={allowOrders === '1'}
   />, container,
 );
 

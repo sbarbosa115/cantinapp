@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Model\Employee;
+use App\Model\Order;
 use App\Model\Product;
 use App\Model\Restaurant;
 use App\Repositories\ProductRepository;
@@ -94,5 +95,20 @@ class TestCase extends BaseCase
     {
         $product->status = $status;
         $product->save();
+    }
+
+    public function setOrderStatus(
+        Order $order, string $status = Order::STATUS_DELIVERED
+    ): void {
+        $order->status = $status;
+        $order->save();
+    }
+
+    public function deliverAllOrdersByUser(User $user): void
+    {
+        $orders = $user->activeOrders()->get();
+        foreach ($orders as $order) {
+            $this->setOrderStatus($order);
+        }
     }
 }

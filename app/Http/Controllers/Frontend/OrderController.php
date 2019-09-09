@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\DataModels\OrderDataModel;
 use App\Facades\OrderService;
 use App\Http\Requests\CreateOrderRequest;
 use App\Http\Requests\ReOrderRequest;
@@ -22,7 +23,10 @@ class OrderController extends Controller
     {
         $user = Auth::user();
         $orders = OrderRepository::getOrdersICanSee($user);
-        return view('frontend.order.index', ['orders' => $orders]);
+        return view('frontend.order.index', [
+            'orders' => $orders,
+            'restaurant' => $user->restaurant,
+        ]);
     }
 
     public function store(CreateOrderRequest $request): JsonResponse
@@ -33,7 +37,7 @@ class OrderController extends Controller
         }
 
         $orderData = $request->validated();
-        $order = OrderService::createOrder($orderData);
+        $order = OrderService::createOrder(OrderDataModel::createFromRequest($orderData));
         Notification::send($user, new OrderCreated($order, $user));
         return response()->json(['status' => 'ok', 'order' => $order]);
     }
@@ -46,8 +50,14 @@ class OrderController extends Controller
         }
         $orderData = $request->validated();
         $orderDate = Carbon::now()->setTimeFromTimeString($orderData['pickup_at']);
-        $order = OrderService::duplicateOrder($order, $orderDate);
+
+        $order = OrderService::duplicateOrder(
+            OrderDataModel::createFromModel($order),
+            $orderDate
+        );
         Notification::send($user, new OrderCreated($order, $user));
+
+        $request->session()->flash('info', trans('frontend.orders.order_created') . ' ' . $orderData['pickup_at']);
         return response()->json(['status' => 'ok', 'order' => $order]);
     }
 

@@ -13,7 +13,7 @@ class OrderRepository
     public static function getOrdersICanSee(User $user): Collection
     {
         return Order::where('user_id', $user->id)
-            ->orderBy('created_at', 'ASC')
+            ->orderBy('created_at', 'DESC')
             ->get()
             ->map(static function(Order $order) {
                 $order->name = implode(',', $order->products()->pluck('name')->toArray());

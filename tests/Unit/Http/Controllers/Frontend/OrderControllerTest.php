@@ -65,14 +65,17 @@ class OrderControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_OK)->assertJson(['status' => 'ok']);
 
         $orderPayload = $this->createOrderData([], 2);
+        $this->deliverAllOrdersByUser($user);
         $response = $this->json('POST', route('frontend.order.store'), $orderPayload);
         $response->assertStatus(Response::HTTP_OK)->assertJson(['status' => 'ok']);
 
         $orderPayload = $this->createOrderData([], 2);
+        $this->deliverAllOrdersByUser($user);
         $response = $this->json('POST', route('frontend.order.store'), $orderPayload);
         $response->assertStatus(Response::HTTP_OK)->assertJson(['status' => 'ok']);
 
         $orderCreated = json_decode($response->getContent(), true);
+        $this->deliverAllOrdersByUser($user);
         $balances = Balance::where('status', Balance::STATUS_DEBT)->where('user_id', $user->id)->get();
         $this->assertEquals(1, $balances->count());
 
@@ -133,7 +136,6 @@ class OrderControllerTest extends TestCase
 
         $orderPayload = $this->createOrderData();
         $response = $this->json('POST', route('frontend.order.store'), $orderPayload);
-
         $response->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
 
         $restaurant->allow_orders = true;

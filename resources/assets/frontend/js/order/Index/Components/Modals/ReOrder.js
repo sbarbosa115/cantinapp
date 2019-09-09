@@ -9,6 +9,7 @@ import OrderProtoType from '../../Model/Order';
 const ReOrder = ({ closeReOrderModal, order }) => {
   const [pickUpTime, setPickUpTime] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   return (
     <Modal
       show
@@ -22,24 +23,28 @@ const ReOrder = ({ closeReOrderModal, order }) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div className="form-group">
-          { trans('frontend.orders.pickup_time') }
-          <DateTimePicker
-            min={moment().minute(roundedUp).second(0).toDate()}
-            date={false}
-            step={15}
-            onChange={(value) => {
-              setPickUpTime(moment(value).format('HH:mm'));
-            }}
-            defaultValue={pickUpTime}
-          />
-        </div>
+        {!error && (
+          <div className="form-group">
+            { trans('frontend.orders.pickup_time') }
+            <DateTimePicker
+              min={moment().minute(roundedUp).second(0).toDate()}
+              date={false}
+              step={15}
+              onChange={(value) => {
+                setPickUpTime(moment(value).format('HH:mm'));
+              }}
+              defaultValue={pickUpTime}
+            />
+          </div>
+        )}
+        {error && <h1>{error}</h1>}
         <div className="form-group">
           <button
             type="button"
             className="btn btn-success btn-lg btn-block"
             onClick={() => {
               const token = window.document.head.querySelector('meta[name="csrf-token"]');
+              setLoading(true);
               fetch(order.actions.duplicate_order, {
                 headers: {
                   'Content-Type': 'application/json',
@@ -52,11 +57,15 @@ const ReOrder = ({ closeReOrderModal, order }) => {
                   pickup_at: pickUpTime,
                 }),
               }).then(response => response.json())
-                .then(() => {
-                  setLoading(false);
+                .then((body) => {
+                  if (body.exception) {
+                    setError(body.message);
+                  } else {
+                    window.location.reload();
+                  }
                 });
             }}
-            disabled={pickUpTime === null}
+            disabled={pickUpTime === null || error}
           >
             {loading && <i className="fa fa-spinner fa-spin" />}
             &nbsp;

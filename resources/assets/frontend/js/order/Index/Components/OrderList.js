@@ -8,9 +8,9 @@ import OrderProtoType from '../Model/Order';
 moment.locale('en');
 momentLocalizer();
 
-const CREATED_ORDER = 'created';
+const ORDER_DELIVERED = 'delivered';
 
-const OrderList = ({ orders }) => {
+const OrderList = ({ orders, allowOrders }) => {
   const [showReOrderModal, setShowReOrderModal] = useState(false);
   const [orderSelected, setOrderSelected] = useState({});
   return (
@@ -35,35 +35,37 @@ const OrderList = ({ orders }) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {orders.map((order, orderIndex) => (
-                          <tr className={orderIndex % 2 === 0 ? 'odd' : 'even'} key={order.id}>
-                            <td className="td-product">
-                              {order.name}
-                            </td>
-                            <td className="sku note">
-                              {order.created_date}
-                            </td>
-                            <td className="money text-center">
-                              {order.total_products}
-                            </td>
-                            <td className="money">
-                              {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-                              {' '}
-                              {order.status === CREATED_ORDER && (
-                                <button
-                                  type="button"
-                                  className="btn btn-danger"
-                                  onClick={() => {
-                                    setShowReOrderModal(true);
-                                    setOrderSelected(order);
-                                  }}
-                                >
-                                  {trans('frontend.orders.re_order')}
-                                </button>
-                              )}
-                            </td>
-                          </tr>
-                        ))}
+                        {orders.filter(product => product.total_products !== 0)
+                          .map((order, orderIndex) => (
+                            <tr className={orderIndex % 2 === 0 ? 'odd' : 'even'} key={order.id}>
+                              <td className="td-product">
+                                {order.name}
+                              </td>
+                              <td className="sku note">
+                                {order.created_date}
+                              </td>
+                              <td className="money text-center">
+                                {order.total_products}
+                              </td>
+                              <td className="money text-center">
+                                {order.status !== ORDER_DELIVERED
+                                  && order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                                {' '}
+                                {(order.status === ORDER_DELIVERED && allowOrders) && (
+                                  <button
+                                    type="button"
+                                    className="btn btn-danger"
+                                    onClick={() => {
+                                      setShowReOrderModal(true);
+                                      setOrderSelected(order);
+                                    }}
+                                  >
+                                    {trans('frontend.orders.re_order')}
+                                  </button>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
                       </tbody>
                     </table>
                   </div>
@@ -88,6 +90,7 @@ const OrderList = ({ orders }) => {
 
 OrderList.propTypes = {
   orders: PropTypes.arrayOf(PropTypes.shape(OrderProtoType)),
+  allowOrders: PropTypes.bool.isRequired,
 };
 
 OrderList.defaultProps = {
