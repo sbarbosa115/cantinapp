@@ -14,6 +14,7 @@ import OrderCreated from './Modals/OrderCreated';
 import OrderFailed from './Modals/OrderFailed';
 import { SHOW_MODAL_CREATE_ORDER } from '../Actions/modal';
 import OrderForbidden from './Modals/OrderForbbiden';
+import CreateOrdersNotAllowed from './Modals/CreateOrdersNotAllowed';
 
 const store = createStore(initReducers);
 
@@ -46,6 +47,7 @@ class OrderHandler extends Component {
     const { clickedProduct } = this.state;
     let { querySearch } = this.state;
     const { modals } = store.getState();
+    const { allowOrders } = this.props;
     return (
       <ConfigurationProvider value={this.props}>
         <Provider store={store}>
@@ -121,6 +123,11 @@ class OrderHandler extends Component {
               forceUpdate={() => this.forceUpdate()}
             />
           )}
+          {!allowOrders && (
+            <CreateOrdersNotAllowed
+              forceUpdate={() => this.forceUpdate()}
+            />
+          )}
         </Provider>
       </ConfigurationProvider>
     );
@@ -137,6 +144,8 @@ OrderHandler.propTypes = {
   imageError: PropTypes.string.isRequired,
   imageHeader: PropTypes.string.isRequired,
   sourceProductsId: PropTypes.string.isRequired,
+  welcomeText: PropTypes.string.isRequired,
+  allowOrders: PropTypes.bool.isRequired,
 };
 
 OrderHandler.defaultProps = {

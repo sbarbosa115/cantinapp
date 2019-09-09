@@ -13,8 +13,19 @@ class OrderRepository
     public static function getOrdersICanSee(User $user): Collection
     {
         return Order::where('user_id', $user->id)
-            ->orderBy('created_at', 'ASC')
-            ->get();
+            ->orderBy('created_at', 'DESC')
+            ->get()
+            ->map(static function(Order $order) {
+                $order->name = implode(',', $order->products()->pluck('name')->toArray());
+                $order->created_date = $order->created_at->diffForHumans();
+                $order->total_products = $order->products()->count();
+                $order->actions = [
+                    'duplicate_order' => route('frontend.order.re.order', [
+                        'order' => $order->id
+                    ]),
+                ];
+                return $order;
+            });
     }
 
     public static function getNewestOrdersICanSee(Restaurant $restaurant): Collection

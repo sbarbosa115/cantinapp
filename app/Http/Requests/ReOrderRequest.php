@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\GreaterThanNow;
+use App\Rules\MaxOrderDate;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RestaurantStoreRequest extends FormRequest
+class ReOrderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +26,9 @@ class RestaurantStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'phone' => 'required',
-            'address' => 'required',
-            'welcome_text' => 'required',
+            'pickup_at' => [
+                'required', 'date_format:H:i', new GreaterThanNow(), new MaxOrderDate(),
+            ],
         ];
     }
 }

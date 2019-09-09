@@ -5,7 +5,7 @@
     <title>Cantinapp - The new way to get your Cantina!!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="shortcut icon" href="images/favicon.ico">
-    <link rel="stylesheet" href="{{ asset('dist/restaurant/css/app.css') }}">
+    <link rel="stylesheet" href="{{ mix('dist/restaurant/css/app.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
@@ -20,8 +20,18 @@
     </button>
 
     <!-- Navbar Search -->
-    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+    <form
+            class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0"
+            method="POST"
+            action="{{ route('restaurant.account.handle.allow.order') }}"
+    >
+        @csrf
 
+        @if(\Illuminate\Support\Facades\Auth::guard('employee')->user()->restaurant->allow_orders === true)
+            <button type="submit" class="btn btn-success">Click to Disable</button>
+        @else
+            <button type="submit" class="btn btn-danger">Click to Enable</button>
+        @endif
     </form>
 
     <!-- Navbar -->
@@ -35,7 +45,6 @@
             </div>
         </li>
     </ul>
-
 </nav>
 
 
@@ -94,7 +103,7 @@
         <i class="fa fa-angle-up"></i>
     </a>
 
-    <script src="{{ asset('dist/restaurant/js/app.js') }}"></script>
+    <script src="{{ mix('dist/restaurant/js/app.js') }}"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-136825704-1"></script>

@@ -4,7 +4,7 @@ namespace Tests\Unit\Http\Controllers\Frontend;
 
 use App\Model\Balance;
 use App\Model\Order;
-use App\User;
+use App\Model\Product;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
@@ -42,7 +42,7 @@ class OrderControllerTest extends TestCase
 
     public function testCreateOrderNoComments(): void
     {
-        $orderPayload = $this->createOrderData([], 1, true);
+        $orderPayload = $this->createOrderData([], 1);
         $this->actingAs($this->getUser());
         $response = $this->json('POST', route('frontend.order.store'), $orderPayload);
         $response->assertStatus(Response::HTTP_OK)->assertJson(['status' => 'ok']);
@@ -65,14 +65,17 @@ class OrderControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_OK)->assertJson(['status' => 'ok']);
 
         $orderPayload = $this->createOrderData([], 2);
+        $this->deliverAllOrdersByUser($user);
         $response = $this->json('POST', route('frontend.order.store'), $orderPayload);
         $response->assertStatus(Response::HTTP_OK)->assertJson(['status' => 'ok']);
 
         $orderPayload = $this->createOrderData([], 2);
+        $this->deliverAllOrdersByUser($user);
         $response = $this->json('POST', route('frontend.order.store'), $orderPayload);
         $response->assertStatus(Response::HTTP_OK)->assertJson(['status' => 'ok']);
 
         $orderCreated = json_decode($response->getContent(), true);
+        $this->deliverAllOrdersByUser($user);
         $balances = Balance::where('status', Balance::STATUS_DEBT)->where('user_id', $user->id)->get();
         $this->assertEquals(1, $balances->count());
 
@@ -84,10 +87,61 @@ class OrderControllerTest extends TestCase
     {
         $this->actingAs($this->getUser('user-2@example.com'));
 
-        $orderPayload = $this->createOrderData([], 1, true);
+        $orderPayload = $this->createOrderData([], 1);
         $response = $this->json('POST', route('frontend.order.store'), $orderPayload);
 
         $response->assertForbidden();
     }
 
+    public function testFailingToCreateAnOrderExceedingTheAllowedNumber(): void
+    {
+        $this->actingAs($this->getUser());
+        $exceededNumber = (int) config('cantinapp.LIMIT_DISHES_BY_ORDER');
+        $orderPayload = $this->createOrderData([], ++$exceededNumber);
+
+        $response = $this->json('POST', route('frontend.order.store'), $orderPayload);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+    public function testDisableProductAndAddItToAnOrder(): void
+    {
+        $user = $this->getUser();
+        $this->actingAs($user);
+        $product = Product::where('restaurant_id', $user->restaurant_id)->first();
+
+        if(!$product instanceof Product) {
+            throw new \LogicException('No product was found with this restaurant ID.');
+        }
+        $this->changeProductStatus($product, Product::STATUS_DISABLED);
+
+        $orderPayload = $this->createOrderData([
+            'products' => [$this->createOrderProduct($product)]
+        ]);
+
+        $response = $this->json('POST', route('frontend.order.store'), $orderPayload);
+        $response->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
+
+        $this->changeProductStatus($product, Product::STATUS_ENABLED);
+    }
+
+    public function testDisableRestaurantOrdersAndGetErrorTryingToAddANewOrder(): void
+    {
+        $user = $this->getUser();
+        $this->actingAs($user);
+        $product =  Product::where('restaurant_id', $user->restaurant_id)->first();
+        $restaurant = $product->restaurant;
+
+        $restaurant->allow_orders = false;
+        $restaurant->save();
+
+        $orderPayload = $this->createOrderData();
+        $response = $this->json('POST', route('frontend.order.store'), $orderPayload);
+        $response->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
+
+        $restaurant->allow_orders = true;
+        $restaurant->save();
+
+        $response = $this->json('POST', route('frontend.order.store'), $orderPayload);
+        $response->assertStatus(Response::HTTP_OK);
+    }
 }

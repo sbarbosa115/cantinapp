@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\DailyLimitOrder;
 use App\Rules\GreaterThanNow;
 use App\Rules\MaxOrderDate;
+use App\Rules\ProductExist;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateOrderRequest extends FormRequest
@@ -31,9 +32,11 @@ class CreateOrderRequest extends FormRequest
                 'required', 'date_format:H:i', new GreaterThanNow(), new MaxOrderDate(),
             ],
             'products' => [
-                'required', 'between:1,3', new DailyLimitOrder()
+                'required',
+                sprintf('between:1,%s', config('cantinapp.LIMIT_DISHES_BY_ORDER')),
+                new DailyLimitOrder()
             ],
-            'products.*.product_id' => 'required|numeric',
+            'products.*.product_id' => 'required|numeric', new ProductExist(),
             'products.*.sides' => 'required|array',
             'products.*.sides.*' => 'integer',
             'products.*.beverages' => 'required|array',

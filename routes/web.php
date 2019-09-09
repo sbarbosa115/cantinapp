@@ -62,6 +62,7 @@ Route::name('restaurant.')->prefix('restaurant')->namespace('Restaurant')->middl
 
     Route::get('/my-account', 'AccountController@index')->name('account.index');
     Route::post('/my-account', 'AccountController@update')->name('account.update');
+    Route::post('/handle-allow-order', 'AccountController@handleAllowOrderStatus')->name('account.handle.allow.order');
 });
 
 Route::name('frontend.')->namespace('Frontend')->group(function () {
@@ -82,7 +83,8 @@ Route::name('frontend.')->namespace('Frontend')->group(function () {
 
 Route::name('frontend.')->namespace('Frontend')->middleware('auth')->group(function () {
     Route::get('order', 'OrderController@index')->name('order.index');
-    Route::post('order', 'OrderController@store')->name('order.store');
+    Route::post('order/re-order/{order}', 'OrderController@reOrder')->name('order.re.order');
+    Route::post('re-order', 'OrderController@store')->name('order.store');
     Route::get('my-profile', 'HomeController@profile')->name('order.profile');
 });
 

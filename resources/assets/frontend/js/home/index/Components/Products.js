@@ -13,8 +13,6 @@ const Products = ({ querySearch, modalAddProductHandlerToOrder }) => (
   </React.Fragment>
 );
 
-export default Products;
-
 Products.propTypes = {
   querySearch: PropTypes.string,
   modalAddProductHandlerToOrder: PropTypes.func.isRequired,
@@ -23,3 +21,5 @@ Products.propTypes = {
 Products.defaultProps = {
   querySearch: null,
 };
+
+export default Products;

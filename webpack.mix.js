@@ -18,6 +18,7 @@ mix.react('resources/assets/restaurant/js/app.js', 'public/dist/restaurant/js/ap
 
 mix.react('resources/assets/frontend/js/app.js', 'public/dist/frontend/js/app.js')
   .react('resources/assets/frontend/js/home/index.js', 'public/dist/frontend/js/home/index.js')
+  .react('resources/assets/frontend/js/order/index.js', 'public/dist/frontend/js/order/index.js')
   .js('resources/assets/frontend/js/auth/register.js', 'public/dist/frontend/js/auth/register.js')
   .sass('resources/assets/frontend/sass/app.scss', 'public/dist/frontend/css/app.css');
 

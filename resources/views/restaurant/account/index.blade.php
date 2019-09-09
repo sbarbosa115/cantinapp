@@ -26,6 +26,10 @@
                             <input type="text" name="address" class="form-control" value="{{ $restaurant->address }}" placeholder="Address" required="required">
                         </div>
                         <div class="form-group">
+                            <label for="address" class="form-control-label">Welcome Text</label>
+                            <textarea class="form-control" name="welcome_text">{{ $restaurant->welcome_text }}</textarea>
+                        </div>
+                        <div class="form-group">
                             {{ csrf_field() }}
                             <button class="btn btn-primary btn-block">Save</button>
                         </div>

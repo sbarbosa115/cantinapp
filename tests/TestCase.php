@@ -3,7 +3,9 @@
 namespace Tests;
 
 use App\Model\Employee;
+use App\Model\Order;
 use App\Model\Product;
+use App\Model\Restaurant;
 use App\Repositories\ProductRepository;
 use App\User;
 use Carbon\Carbon;
@@ -26,10 +28,8 @@ class TestCase extends BaseCase
         $app = require __DIR__.'/../bootstrap/test.php';
 
         $kernel = $app->make(Kernel::class);
-
         $kernel->call('migrate');
         $kernel->call('db:seed');
-
         $kernel->bootstrap();
 
         Hash::setRounds(4);
@@ -37,21 +37,32 @@ class TestCase extends BaseCase
         return $app;
     }
 
+    public function createOrderProduct(
+        Product $product
+    ): array {
+        $restaurant = $product->restaurant;
+
+        if (!$restaurant instanceof Restaurant) {
+            throw new \LogicException('Restaurant attached to this product was not found.');
+        }
+
+        return [
+            'product_id' => $product->id,
+            'sides' => Product\Side::where('restaurant_id', $restaurant->id)->get()->pluck('id')->toArray(),
+            'beverages' => Product\Beverage::where('restaurant_id', $restaurant->id)->get()->pluck('id')->toArray(),
+            'comment' => 'TEST-COMMENT-TO-THIS-ORDER',
+        ];
+    }
 
     public function createOrderData(
         array $customData = [],
         int $dishesAmount = 1
     ): array {
-        $product = Product::find(1);
+        $product = Product\Side::all()->first();
 
         $products = [];
         for($count = 0; $count < $dishesAmount; $count++) {
-            $products[] = [
-                'product_id' => $product->id,
-                'sides' => Product\Side::all()->pluck('id')->toArray(),
-                'beverages' => Product\Beverage::all()->pluck('id')->toArray(),
-                'comment' => 'TEST-COMMENT-TO-THIS-ORDER',
-            ];
+            $products[] = $this->createOrderProduct($product);
         }
 
         $orderPayload = [
@@ -59,7 +70,7 @@ class TestCase extends BaseCase
             'products' => $products
         ];
 
-        return array_diff($orderPayload, $customData);
+        return array_merge($orderPayload, $customData);
     }
 
     public function loginAsUser(string $email = 'user@example.com'): void
@@ -78,5 +89,26 @@ class TestCase extends BaseCase
         string $user = 'user@example.com'
     ): User {
         return User::where('email', $user)->first();
+    }
+
+    public function changeProductStatus(Product $product, string $status): void
+    {
+        $product->status = $status;
+        $product->save();
+    }
+
+    public function setOrderStatus(
+        Order $order, string $status = Order::STATUS_DELIVERED
+    ): void {
+        $order->status = $status;
+        $order->save();
+    }
+
+    public function deliverAllOrdersByUser(User $user): void
+    {
+        $orders = $user->activeOrders()->get();
+        foreach ($orders as $order) {
+            $this->setOrderStatus($order);
+        }
     }
 }

@@ -58,6 +58,8 @@ return [
         'order_not_created' => 'Error, the order was not created.',
         'order_not_created_copy' => 'Opps! we had a problem trying to create your order. please try again.',
         'order_not_forbidden_copy' => 'Opps! You are a new user, you must prepay your Cantina before ordering, visit us or call us [(561) 667-6583] to take your payment.',
+        'orders_disabled_title' => 'Orders disabled',
+        'orders_disabled_content' => 'Currently the order creation is not available. Please try later.',
         'form_errors' => [
             'label' => 'There are some errors in this request, please review them below'
         ],
@@ -76,6 +78,11 @@ return [
         'quantity' => 'Quantity',
         'status' => 'Status',
         'no_orders_added_yet' => 'No Orders Added Yet',
+        're_order' => 'Re Order',
+        'duplicate_order' => 'Re Order',
+        'pickup_time' => 'Pickup Time',
+        'create_order' => 'Create Order',
+        'order_created' => 'Your order was created, it would be ready at ',
     ],
     'profile' => [
         'account_details' => 'ACCOUNT DETAILS',
