@@ -1,6 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,6 @@ $factory->define(App\Model\Employee::class, function (Faker $faker) {
         'password' => bcrypt('123456'),
         'birth_date' => '1990-09-15',
         'username' => rand(9000, 9999),
-        'remember_token' => str_random(10),
+        'remember_token' => Str::random(10),
     ];
 });

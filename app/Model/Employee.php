@@ -5,6 +5,7 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 /**
  * @method static create(array $data)
@@ -41,7 +42,7 @@ class Employee extends Authenticatable
     public function setPasswordAttribute($password): void
     {
         $this->attributes['password'] = bcrypt($password);
-        $this->attributes['remember_token'] = str_random(128);
+        $this->attributes['remember_token'] = Str::random(128);
     }
 
     public function restaurant(): BelongsTo

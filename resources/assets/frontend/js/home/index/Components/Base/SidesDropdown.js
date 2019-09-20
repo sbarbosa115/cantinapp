@@ -39,7 +39,7 @@ const SidesDropdown = ({
           return (
             // eslint-disable-next-line jsx-a11y/label-has-for
             <label htmlFor={label}>
-              {!value && <i className="fa fa-arrow-right animated rotateIn" aria-hidden="true" />}
+              {!value && <i className="fas fa-arrow-right animated rotateIn" aria-hidden="true" />}
               {`${trans('frontend.homepage.side')} (${sideIndex + 1})`}
               <select
                 className="form-control"

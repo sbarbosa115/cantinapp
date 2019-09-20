@@ -3,6 +3,7 @@
 return [
     'password_reset_email' => 'We sent you an email with a link to reset your password',
     'cancel' => 'Cancel',
+    'close' => 'Close',
     'logout' => 'Logout',
     'or' => 'Or',
     'menu' => [
@@ -47,6 +48,7 @@ return [
         'select_side' => 'Select Side',
         'select_beverage' => 'Select Beverage',
         'add_to_order' => 'Add to Order',
+        'more_info' => 'More Info',
         'special_dish_requirements' => 'Do you have a special requirement on this Dish?',
         'this_plate' => 'This plate',
         'header_message' => 'From now on you will be able to order your favorite meals in advance and pick them up at the time that suits you best.',

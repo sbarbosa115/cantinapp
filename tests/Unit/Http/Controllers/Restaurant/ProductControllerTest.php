@@ -79,7 +79,7 @@ class ProductControllerTest extends TestCase
         $this->disablingEnablingProduct($product);
 
         //Deleting Product
-        $response = $this->json('DELETE', route('restaurant.product.delete', ['product' => $product->id]));
+        $response = $this->json('DELETE', route('restaurant.product.delete', ['id' => $product->id]));
         $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());
         $product = Product::where('name', '=', $payload['name'])->first();
         $this->assertNull($product);
@@ -126,7 +126,7 @@ class ProductControllerTest extends TestCase
         $this->assertEquals($payload['price'], $product->price);
 
         //Deleting Product
-        $response = $this->json('DELETE', route('restaurant.product.delete', ['product' => $product->id]));
+        $response = $this->json('DELETE', route('restaurant.product.delete', ['id' => $product->id]));
         $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());
         $product = Product::where('name', '=', $payload['name'])->first();
         $this->assertNull($product);
@@ -173,7 +173,7 @@ class ProductControllerTest extends TestCase
         $this->assertEquals($payload['price'], $product->price);
 
         //Deleting Product
-        $response = $this->json('DELETE', route('restaurant.product.delete', ['product' => $product->id]));
+        $response = $this->json('DELETE', route('restaurant.product.delete', ['id' => $product->id]));
         $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());
         $product = Product::where('name', '=', $payload['name'])->first();
         $this->assertNull($product);

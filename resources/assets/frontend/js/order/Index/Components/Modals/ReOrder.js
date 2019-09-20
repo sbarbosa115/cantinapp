@@ -67,7 +67,7 @@ const ReOrder = ({ closeReOrderModal, order }) => {
             }}
             disabled={pickUpTime === null || error}
           >
-            {loading && <i className="fa fa-spinner fa-spin" />}
+            {loading && <i className="fas fa-spinner fa-spin" />}
             &nbsp;
             {trans('frontend.orders.create_order')}
           </button>

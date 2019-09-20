@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import '@fortawesome/fontawesome-free/js/all';
 
 window.$ = window.jQuery = require('jquery');
 window.trans = string => _.get(window.i18n, string);

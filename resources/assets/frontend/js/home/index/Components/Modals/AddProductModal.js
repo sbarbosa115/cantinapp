@@ -98,7 +98,7 @@ const AddProductModal = ({
                 )}
 
                 <div className="form-group col-md-6">
-                  {!order.pickup_at && <i className="fa fa-arrow-right animated rotateIn" aria-hidden="true" />}
+                  {!order.pickup_at && <i className="fas fa-arrow-right animated rotateIn" aria-hidden="true" />}
                   { trans('frontend.homepage.pickup_time') }
                   <DateTimePicker
                     min={moment().minute(roundedUp).second(0).toDate()}
@@ -185,7 +185,7 @@ const AddProductModal = ({
                       !isOrderValid({ order, sidesNumber, beveragesNumber }) || loading
                     }
                   >
-                    {loading && <i className="fa fa-spinner fa-spin" />}
+                    {loading && <i className="fas fa-spinner fa-spin" />}
                     &nbsp;
                     {trans('frontend.homepage.create_order')}
                   </button>
