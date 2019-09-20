@@ -62,8 +62,7 @@
         ],
         "deploy-application": [
             "git pull",
-            "composer create-storage-folders",
-            "composer upgrade",
+            "composer install",
             "composer dump-autoload",
             "php artisan migrate --force",
             "php artisan cache:clear",
