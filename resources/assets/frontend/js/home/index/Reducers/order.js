@@ -1,6 +1,6 @@
 import {
   ADD_PRODUCT, CREATE_EMPTY_PRODUCTS, HANDLE_PRODUCT_COMMENT, SET_DEFAULT_TAB, SET_PICK_UP_TIME,
-  SET_PRODUCT_ID, ADD_SIDE_TO_PRODUCT, ADD_BEVERAGE_TO_PRODUCT, RESET_ORDER_STATE
+  SET_PRODUCT_ID, ADD_SIDE_TO_PRODUCT, ADD_BEVERAGE_TO_PRODUCT, RESET_ORDER_STATE,
 } from '../Actions/order';
 
 const initialState = {
@@ -48,10 +48,11 @@ export default function order(state = initialState, action) {
           return product;
         }),
       });
-    case SET_PICK_UP_TIME:
-      return Object.assign({}, state, {
-        pickup_at: action.pickUpTime,
-      });
+    case SET_PICK_UP_TIME: {
+      const stateCopy = state;
+      stateCopy.pickup_at = action.pickUpTime;
+      return state;
+    }
     case SET_PRODUCT_ID:
       return Object.assign({}, state, {
         products: state.products.map((product) => {
