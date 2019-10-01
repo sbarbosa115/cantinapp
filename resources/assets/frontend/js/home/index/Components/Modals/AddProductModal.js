@@ -72,6 +72,7 @@ const AddProductModal = ({
       {({ sidesNumber, beveragesNumber, pathCreateOrder }) => (
         <Modal
           show
+          keyboard={false}
           onHide={() => {
             toggleCreateOrderModal(false);
             resetOrderState();
