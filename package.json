@@ -42,7 +42,7 @@
     "graphql": "^14.4.1",
     "graphql-tag": "^2.10.1",
     "icon.font": "^1.1.0",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "prop-types": "^15.7.2",
